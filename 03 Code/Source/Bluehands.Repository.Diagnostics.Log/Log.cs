@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+using NLog;
 
 namespace Bluehands.Diagnostics.Log
 {
@@ -13,10 +16,7 @@ namespace Bluehands.Diagnostics.Log
         {
 
         }
-        public Log(LogContextInfo contextInfo)
-            : base(typeof(T), contextInfo)
-        {
-        }
+
     }
     public class Log
     {
@@ -97,12 +97,12 @@ namespace Bluehands.Diagnostics.Log
             var nLogLevel = GetNLogLevel(level);
             return m_NLog.IsEnabled(nLogLevel);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Fatal(string message)
         {
             WriteLog(LogLevel.Fatal, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Fatal(string message, params object[] args)
         {
             WriteLog(LogLevel.Fatal, null, 2, null, message, args);
@@ -112,17 +112,17 @@ namespace Bluehands.Diagnostics.Log
         {
             WriteLog(LogLevel.Fatal, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Fatal(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Fatal, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Error(string message)
         {
             WriteLog(LogLevel.Error, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Error(string message, params object[] args)
         {
             WriteLog(LogLevel.Error, null, 2, null, message, args);
@@ -132,17 +132,17 @@ namespace Bluehands.Diagnostics.Log
         {
             WriteLog(LogLevel.Error, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Error(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Error, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Warning(string message)
         {
             WriteLog(LogLevel.Warning, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Warning(string message, params object[] args)
         {
             WriteLog(LogLevel.Warning, null, 2, null, message, args);
@@ -152,17 +152,17 @@ namespace Bluehands.Diagnostics.Log
         {
             WriteLog(LogLevel.Warning, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Warning(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Warning, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Info(string message)
         {
             WriteLog(LogLevel.Info, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Info(string message, params object[] args)
         {
             WriteLog(LogLevel.Info, null, 2, null, message, args);
@@ -172,37 +172,33 @@ namespace Bluehands.Diagnostics.Log
         {
             WriteLog(LogLevel.Info, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Info(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Info, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
-        public void Debug(string message)
+        //[StringFormatMethod("message")]
+        public void Debug([CallerMemberName] string methodName = null, string message = "")
         {
             WriteLog(LogLevel.Debug, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Debug(string message, params object[] args)
         {
             WriteLog(LogLevel.Debug, null, 2, null, message, args);
         }
-        [Obsolete("Use overload with exception in first place")]
-        public void Debug(string message, Exception ex, params object[] args)
-        {
-            WriteLog(LogLevel.Debug, null, 2, ex, message, args);
-        }
-        [StringFormatMethod("message")]
+        
+        //[StringFormatMethod("message")]
         public void Debug(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Debug, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Trace(string message)
         {
             WriteLog(LogLevel.Trace, null, 2, null, message, null);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Trace(string message, params object[] args)
         {
             WriteLog(LogLevel.Trace, null, 2, null, message, args);
@@ -212,7 +208,7 @@ namespace Bluehands.Diagnostics.Log
         {
             WriteLog(LogLevel.Trace, null, 2, ex, message, args);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         public void Trace(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Trace, null, 2, ex, message, args);
@@ -227,7 +223,7 @@ namespace Bluehands.Diagnostics.Log
             s_CurrentIndent--;
             WriteLog(LogLevel.Trace, stackTrace, 3, null, "{0} [Leave {1} ms]", message, elapsed.TotalMilliseconds);
         }
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         internal void LogExceptionAspectError(Exception ex, string message, params object[] args)
         {
             WriteLog(LogLevel.Error, null, 3, ex, message, args);
@@ -268,7 +264,7 @@ namespace Bluehands.Diagnostics.Log
             return m_NLog != null ? m_NLog.Name : "invalid";
         }
 
-        [StringFormatMethod("message")]
+        //[StringFormatMethod("message")]
         private void WriteLog(LogLevel logLevel, StackTrace stackTrace, int stackFrameNumber, Exception ex, string message, params object[] args)
         {
             try
@@ -287,10 +283,11 @@ namespace Bluehands.Diagnostics.Log
                     stackTrace = new StackTrace();
                 }
                 var stackFrame = stackTrace.GetFrame(stackFrameNumber);
-                logEventInfo.SetStackTrace(stackTrace, stackFrameNumber);
+                //logEventInfo.SetStackTrace(stackTrace, stackFrameNumber);
                 Enrich(logEventInfo, stackFrame);
                 logEventInfo.Exception = ex;
                 m_NLog.Log(logEventInfo);
+
             }
             catch (Exception exx)
             {
@@ -321,20 +318,20 @@ namespace Bluehands.Diagnostics.Log
         private void Enrich(LogEventInfo logEventInfo, StackFrame stackFrame)
         {
             IDictionary<object, object> properties = logEventInfo.Properties;
-            string methodName = stackFrame.GetMethod().Name;
-            properties.Add("Method", methodName);
+            //string methodName = stackFrame.GetMethod().Name;
+            //properties.Add("Method", methodName);
             properties.Add("Class", m_TypeName);
             properties.Add("Namespace", m_Namespace);
             properties.Add("Indent", GetIndent());
 
-            properties.Add("SessionToken", m_ObfuscatedSessionToken);
-            properties.Add("ApplicationContextKey", m_ApplicationContextId);
-            properties.Add("ApplicationName", m_ApplicationName);
-            properties.Add("UserGuid", m_UserGuid);
-            properties.Add("UserId", m_UserId);
-            properties.Add("DatabaseGuid", m_DatabaseGuid);
-            properties.Add("DatabaseId", m_DatabaseId);
-            properties.Add("DatabaseUserContextKey", m_DatabaseUserContextId);
+            //properties.Add("SessionToken", m_ObfuscatedSessionToken);
+            //properties.Add("ApplicationContextKey", m_ApplicationContextId);
+            //properties.Add("ApplicationName", m_ApplicationName);
+            //properties.Add("UserGuid", m_UserGuid);
+            //properties.Add("UserId", m_UserId);
+            //properties.Add("DatabaseGuid", m_DatabaseGuid);
+            //properties.Add("DatabaseId", m_DatabaseId);
+            //properties.Add("DatabaseUserContextKey", m_DatabaseUserContextId);
         }
 
         private static string GetIndent()
@@ -364,7 +361,7 @@ namespace Bluehands.Diagnostics.Log
         {
             m_FullName = type.FullName;
             m_Namespace = type.Namespace ?? string.Empty;
-            if (type.IsGenericType)
+            if (type.GetTypeInfo().IsGenericType)
             {
                 var sb = new StringBuilder();
                 BuildGenericTypeName(type, sb);
@@ -387,8 +384,13 @@ namespace Bluehands.Diagnostics.Log
 
             sb.Append(name);
             sb.Append("<");
-            AppendGenericParameters(type.GetGenericArguments(), sb);
+            //AppendGenericParameters(type.GetGenericArguments(), sb);      //nicht mehr in .NETCore vorhanden, noch kein Äquivalent gefunden
             sb.Append(">");
+        }
+
+        private void AppendGenericParameters(object p, StringBuilder sb)
+        {
+            throw new NotImplementedException();
         }
 
         void AppendGenericParameters(Type[] genericArguments, StringBuilder sb)
@@ -396,7 +398,7 @@ namespace Bluehands.Diagnostics.Log
             for (var i = 0; i < genericArguments.Length; i++)
             {
                 var type = genericArguments[i];
-                if (type.IsGenericType)
+                if (type.GetTypeInfo().IsGenericType)               //IsGenericType ist nicht mehr teil des .NetCore, deshalb Umweg über GetTypeOf()
                 {
                     var buider = new StringBuilder();
                     BuildGenericTypeName(type, buider);
@@ -413,4 +415,9 @@ namespace Bluehands.Diagnostics.Log
             }
         }
     }
+
+
+
+
+   
 }

@@ -4,15 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bluehands.Diagnostics.Log;
+using NLog;
 
 namespace Sandbox
 {
     class Program
     {
+        private static readonly Logger logger = LogManager.GetLogger("MyClass");
+
         static void Main(string[] args)
         {
-            var log = new Log<Program>();
-            log.Error("Das sollte nicht passieren");
+
+            //Logger logger = LogManager.GetLogger("foo");
+
+            logger.Fatal("Geht dieser?");
+
+
+            var x = string.Format("Benutzer {0} hat sich angemeldet", "Aydin");
+
+
+            //var log = new Log<Program>();
+            //log.Debug("Das sollte nicht passieren");
+            //log.Warning("Bitte anzeigen");
+            //log.Fatal("Bitte anzeigen");
         }
     }
 }

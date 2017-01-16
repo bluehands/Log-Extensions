@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Bluehands.Repository.Diagnostics.Log")]
+[assembly: AssemblyProduct("Sandbox.Core")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("919fda5b-a3d7-4514-bd55-275b2e4b0782")]
+[assembly: Guid("f39ab553-6fd3-4b36-9edf-5c48b4bc3f4c")]

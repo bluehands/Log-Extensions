@@ -178,7 +178,7 @@ namespace Bluehands.Diagnostics.Log
             WriteLog(LogLevel.Info, null, 2, ex, message, args);
         }
         //[StringFormatMethod("message")]
-        public void Debug([CallerMemberName] string methodName = null, string message = "")
+        public void Debug(string methodName = null, string message = "")
         {
             WriteLog(LogLevel.Debug, null, 2, null, message, null);
         }
@@ -280,9 +280,13 @@ namespace Bluehands.Diagnostics.Log
                 var logEventInfo = new LogEventInfo(GetNLogLevel(logLevel), m_FullName, CultureInfo.InvariantCulture, message, args);
                 if (stackTrace == null)
                 {
+#if NETSTANDARD
+                    stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
+#else
                     stackTrace = new StackTrace();
+#endif
                 }
-                var stackFrame = stackTrace.GetFrame(stackFrameNumber);
+                var stackFrame = stackTrace.GetFrames()[stackFrameNumber];
                 //logEventInfo.SetStackTrace(stackTrace, stackFrameNumber);
                 Enrich(logEventInfo, stackFrame);
                 logEventInfo.Exception = ex;

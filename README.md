@@ -1,4 +1,4 @@
-#Introduction
+#Willkommen beim bluehands Logging Projekt
 Das bluehands Logging dient der generierung von Log-Nachrichten ohne explicite Kopplung von Projekten an ein bestehendes Logging-Framework.
 Das Framework verwendet NLog und dessen Konfigurationssystem.
 

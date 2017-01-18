@@ -13,8 +13,8 @@ namespace Sandbox.Core
 
         public static void Main(string[] args)
         {
-            
-            var caller = new Caller();
+                
+                var caller = new Caller();
             caller.DoIt();
             var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
 

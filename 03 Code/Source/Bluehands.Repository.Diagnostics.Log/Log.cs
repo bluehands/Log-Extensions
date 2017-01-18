@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using NLog;
+using LogLevel = Bluehands.Diagnostics.Log.LogLevel;
 
-namespace Bluehands.Diagnostics.Log
+namespace Bluehands.Repository.Diagnostics.Log
 {
     public class Log<T> : Log
     {
@@ -16,8 +16,15 @@ namespace Bluehands.Diagnostics.Log
         {
 
         }
+       
 
+        public static void Init<U>()
+        {
+            var x = typeof (T);
+            var z = typeof (U);
+        }
     }
+
     public class Log
     {
         private class AutoTraceHandler : IDisposable
@@ -32,7 +39,8 @@ namespace Bluehands.Diagnostics.Log
             {
                 m_Log = log;
                 m_Message = message;
-                m_StackTrace = new StackTrace();
+                //m_StackTrace = new StackTrace();
+                m_StackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
                 m_StackFrameNumber = stackFrameNumber;
                 m_StopWatch = Stopwatch.StartNew();
                 log.WriteLog(LogLevel.Trace, m_StackTrace, m_StackFrameNumber, null, "{0} [Enter]", message);
@@ -365,16 +373,16 @@ namespace Bluehands.Diagnostics.Log
         {
             m_FullName = type.FullName;
             m_Namespace = type.Namespace ?? string.Empty;
-            if (type.GetTypeInfo().IsGenericType)
-            {
-                var sb = new StringBuilder();
-                BuildGenericTypeName(type, sb);
-                m_TypeName = sb.ToString();
-            }
-            else
-            {
-                m_TypeName = type.Name;
-            }
+            //if (type.GetTypeInfo().IsGenericType)
+            //{
+            //    var sb = new StringBuilder();
+            //    BuildGenericTypeName(type, sb);
+            //    m_TypeName = sb.ToString();
+            //}
+            //else
+            //{
+            //    m_TypeName = type.Name;
+            //}
         }
 
         void BuildGenericTypeName(Type type, StringBuilder sb)
@@ -402,16 +410,16 @@ namespace Bluehands.Diagnostics.Log
             for (var i = 0; i < genericArguments.Length; i++)
             {
                 var type = genericArguments[i];
-                if (type.GetTypeInfo().IsGenericType)               //IsGenericType ist nicht mehr teil des .NetCore, deshalb Umweg über GetTypeOf()
-                {
-                    var buider = new StringBuilder();
-                    BuildGenericTypeName(type, buider);
-                    sb.Append(buider);
-                }
-                else
-                {
-                    sb.Append(type.Name);
-                }
+                //if (type.GetTypeInfo().IsGenericType)               //IsGenericType ist nicht mehr teil des .NetCore, deshalb Umweg über GetTypeOf()
+                //{
+                //    var buider = new StringBuilder();
+                //    BuildGenericTypeName(type, buider);
+                //    sb.Append(buider);
+                //}
+                //else
+                //{
+                //    sb.Append(type.Name);
+                //}
                 if (i < genericArguments.Length - 1)
                 {
                     sb.Append(",");

@@ -5,22 +5,27 @@
   },
 
   "dependencies": {
-    "Bluehands.Repository.Diagnostics.Log": "1.0.0-*",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    },
-    "System.Collections.Immutable": "1.3.0",
-    "System.Diagnostics.StackTrace": "4.3.0",
-    "System.Interactive.Async": "3.0.0",
-    "System.Linq": "4.3.0",
-    "System.Linq.Parallel": "4.0.1",
-    "System.Linq.Queryable": "4.0.1"
+    "Bluehands.Repository.Diagnostics.Log": "1.0.0-*"
   },
 
   "frameworks": {
     "netcoreapp1.0": {
-      "imports": "dnxcore50"
+      "imports": "dnxcore50",
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.1"
+        },
+        "System.Collections.Immutable": "1.3.0",
+        "System.Diagnostics.StackTrace": "4.3.0"
+        //"System.Interactive.Async": "3.0.0",
+        //"System.Linq": "4.3.0",
+        //"System.Linq.Parallel": "4.0.1",
+        //"System.Linq.Queryable": "4.0.1"
+      }
     }
+    //"net452" : {
+      
+    //} 
   }
 }

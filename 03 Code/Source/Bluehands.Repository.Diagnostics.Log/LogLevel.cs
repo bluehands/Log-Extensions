@@ -1,4 +1,4 @@
-﻿namespace Bluehands.Diagnostics.Log
+﻿namespace Bluehands.Repository.Diagnostics.Log
 {
     public enum LogLevel
     {

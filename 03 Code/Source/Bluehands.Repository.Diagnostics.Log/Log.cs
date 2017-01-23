@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using System.Text;
-using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
@@ -24,9 +22,9 @@ namespace Bluehands.Repository.Diagnostics.Log
         private string m_FullTypeName;
         private readonly bool m_IsValid;
         private Type m_caller;
-        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();        
+        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();
 
-        public Log(Type caller)        //Type caller
+        public Log(Type caller)
         {
             m_caller = caller;
         }
@@ -34,12 +32,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         //[StringFormatMethod("message")]
         public void Fatal(string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_caller);
+            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, m_caller);
         }
 
         public void Fatal(Exception ex, string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_caller, ex);
+            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, m_caller, ex);
         }
 
         //public void Fatal(Func<string> message)

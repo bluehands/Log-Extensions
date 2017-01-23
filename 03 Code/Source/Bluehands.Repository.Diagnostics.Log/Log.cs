@@ -16,87 +16,30 @@ namespace Bluehands.Repository.Diagnostics.Log
 
     public class Log
     {
-        //private class AutoTraceHandler : IDisposable
-        //{
-        //    private readonly Log m_Log;
-        //    private readonly string m_Message;
-        //    private readonly Stopwatch m_StopWatch;
-        //    private readonly StackTrace m_StackTrace;
-        //    private readonly int m_StackFrameNumber;
-
-        //    public LogMessageWriter logMessageWriter = new LogMessageWriter();
-
-        //    public AutoTraceHandler(Log log, string message, int stackFrameNumber)
-        //    {
-        //        m_Log = log;
-        //        m_Message = message;
-        //        //m_StackTrace = new StackTrace();
-        //        m_StackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
-        //        m_StackFrameNumber = stackFrameNumber;
-        //        m_StopWatch = Stopwatch.StartNew();
-        //        logMessageWriter.WriteLog(LogLevel.Trace, m_StackTrace, m_StackFrameNumber, null, "{0} [Enter]", message);
-        //        s_CurrentIndent++;
-        //    }
-
-        //}
-
         [ThreadStatic]
         private static int s_CurrentIndent;
-        private readonly Logger m_NLog;
 
         private string m_TypeName;
         private string m_Namespace;
-        private string m_FullName;
+        private string m_FullTypeName;
         private readonly bool m_IsValid;
+        private Type m_caller;
+        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();        
 
-
-        public Log(Type caller)
+        public Log(Type caller)        //Type caller
         {
-            try
-            {
-                if (caller != null)
-                {
-                    GetTypeInfo(caller);
-                    m_NLog = LogManager.GetLogger(m_FullName);
-                    m_IsValid = true;
-                }
-                else
-                {
-                    m_IsValid = false;
-                }
-            }
-            catch (Exception)
-            {
-                m_IsValid = false;
-            }
+            m_caller = caller;
         }
-
-        //public bool IsValid { get { return m_IsValid; } }
-        //public bool IsFatal { get { return IsEnabled(LogLevel.Fatal); } }
-        //public bool IsError { get { return IsEnabled(LogLevel.Error); } }
-        //public bool IsWarning { get { return IsEnabled(LogLevel.Warning); } }
-        //public bool IsInfo { get { return IsEnabled(LogLevel.Info); } }
-        //public bool IsDebug { get { return IsEnabled(LogLevel.Debug); } }
-        //public bool IsTrace { get { return IsEnabled(LogLevel.Trace); } }
-        //public bool IsEnabled(LogLevel level)
-        //{
-        //    var nLogLevel = LogMessageWriter.GetNLogLevel(level);
-        //    return m_NLog.IsEnabled(nLogLevel);
-        //}
-
-            
-
-        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();
 
         //[StringFormatMethod("message")]
         public void Fatal(string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_FullName, m_TypeName);
+            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_caller);
         }
 
         public void Fatal(Exception ex, string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_FullName, m_TypeName, ex);
+            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, OriginCaller.grandGrandGrandParent, m_caller, ex);
         }
 
         //public void Fatal(Func<string> message)
@@ -291,8 +234,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private void GetTypeInfo(Type type)
         {
-            m_FullName = type.FullName;
-            m_Namespace = type.Namespace ?? string.Empty;
+            m_FullTypeName = type.FullName;
 #if NETSTANDARD
             if (type.GetTypeInfo().IsGenericType)
             {

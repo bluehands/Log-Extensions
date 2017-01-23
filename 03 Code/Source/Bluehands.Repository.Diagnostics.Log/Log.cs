@@ -24,9 +24,9 @@ namespace Bluehands.Repository.Diagnostics.Log
         private string m_FullTypeName;
         private readonly bool m_IsValid;
         private Type m_caller;
-        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();        
+        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();
 
-        public Log(Type caller)        //Type caller
+        public Log(Type caller)
         {
             m_caller = caller;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
@@ -21,7 +20,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter = new LogMessageWriter(caller);
         }
 
-        //[StringFormatMethod("message")]
+
         public void Fatal(string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message);
@@ -31,6 +30,57 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message, ex);
         }
+
+        public void Error(string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message);
+        }
+
+        public void Error(Exception ex, string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message, ex);
+        }
+
+        public void Warning(string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, message);
+        }
+
+        public void Warning(Exception ex, string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, message, ex);
+        }
+
+        public void Info(Exception ex, string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message, ex);
+        }
+
+        public void Info(string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message);
+        }
+
+        public void Debug(string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message);
+        }
+
+       public void Debug(Exception ex, string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message, ex);
+        }
+
+        public void Trace(string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message);
+        }
+
+        public void Trace(Exception ex, string message)
+        {
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message, ex);
+        }
+
 
         //public void Fatal(Func<string> message)
         //{

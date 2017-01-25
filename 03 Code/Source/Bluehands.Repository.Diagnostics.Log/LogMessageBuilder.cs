@@ -30,7 +30,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 
             var bothCallers = fullTypeName + "." + m_MessageNameOfCallerOfTheCaller + "->" + m_MessageNameOfCaller;
 
-
             var logLevelNLog = GetNLogLevel(logLevel);
             var logEventInfo = new LogEventInfo(logLevelNLog, bothCallers, message);
             if (ex != null)

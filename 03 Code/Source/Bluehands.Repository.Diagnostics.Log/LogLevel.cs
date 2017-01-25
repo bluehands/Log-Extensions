@@ -8,6 +8,5 @@
         Info,
         Debug,
         Trace,
-
     }
 }

@@ -14,8 +14,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_Caller = caller;
         }
 
-        
-        private static bool s_IsValid;
+
         private string m_MessageNameOfCaller;
         private string m_MessageNameOfCallerOfTheCaller;
 
@@ -49,16 +48,11 @@ namespace Bluehands.Repository.Diagnostics.Log
                 if (m_Caller != null)
                 {
                     fullTypeName = m_Caller.FullName;
-                    s_IsValid = true;
-                }
-                else
-                {
-                    s_IsValid = false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex )
             {
-                s_IsValid = false;
+                Console.WriteLine(ex);
             }
             return fullTypeName;
         }

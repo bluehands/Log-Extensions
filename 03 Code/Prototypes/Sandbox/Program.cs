@@ -3,11 +3,12 @@ using Bluehands.Repository.Diagnostics.Log;
 
 namespace Sandbox
 {
-    public class Program
+    class Program
     {
+
         private static readonly Log log = new Log(typeof(Program));
 
-        public static void Main(string[] args)
+        static void Main()
         {
             Test();
         }
@@ -20,6 +21,5 @@ namespace Sandbox
 
             log.Fatal(exeption, "Log von Sandbox.Core.Test");
         }
-
     }
 }

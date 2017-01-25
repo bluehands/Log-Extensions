@@ -14,30 +14,22 @@ namespace Bluehands.Repository.Diagnostics.Log
 
     public class Log
     {
-        [ThreadStatic]
-        private static int s_CurrentIndent;
-
-        private string m_TypeName;
-        private string m_Namespace;
-        private string m_FullTypeName;
-        private readonly bool m_IsValid;
-        private Type m_caller;
-        private readonly LogMessageWriter _logMessageWriter = new LogMessageWriter();
+        private readonly LogMessageWriter m_LogMessageWriter;
 
         public Log(Type caller)
         {
-            m_caller = caller;
+            m_LogMessageWriter = new LogMessageWriter(caller);
         }
 
         //[StringFormatMethod("message")]
         public void Fatal(string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, m_caller);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message);
         }
 
         public void Fatal(Exception ex, string message)
         {
-            _logMessageWriter.WriteLogEntry(LogLevel.Fatal, message, m_caller, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message, ex);
         }
 
         //public void Fatal(Func<string> message)
@@ -229,38 +221,6 @@ namespace Bluehands.Repository.Diagnostics.Log
         //            return new StringBuilder().Append(' ', s_CurrentIndent).ToString();
         //    }
         //}
-
-        private void GetTypeInfo(Type type)
-        {
-            m_FullTypeName = type.FullName;
-#if NETSTANDARD
-            if (type.GetTypeInfo().IsGenericType)
-            {
-                var sb = new StringBuilder();
-                BuildGenericTypeName(type, sb);
-                m_TypeName = sb.ToString();
-            }
-            else
-            {
-                m_TypeName = type.Name;
-            }
-#endif
-        }
-
-        void BuildGenericTypeName(Type type, StringBuilder sb)
-        {
-            var name = type.Name;
-            var pos = name.IndexOf('`');
-            if (pos > 0)
-            {
-                name = name.Substring(0, pos);
-            }
-
-            sb.Append(name);
-            sb.Append("<");
-            //AppendGenericParameters(type.GetGenericArguments(), sb);      //nicht mehr in .NETCore vorhanden, noch kein Äquivalent gefunden
-            sb.Append(">");
-        }
 
         //void AppendGenericParameters(Type[] genericArguments, StringBuilder sb)
         //{

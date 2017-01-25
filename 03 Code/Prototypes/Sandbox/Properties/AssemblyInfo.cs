@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Bluehands.Repository.Diagnostics.Log")]
+[assembly: AssemblyTitle("Sandbox")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Bluehands.Repository.Diagnostics.Log")]
+[assembly: AssemblyProduct("Sandbox")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("239b2ff4-010e-4e09-9ea5-18a5adbd0d9c")]
+[assembly: Guid("8b59ad40-be80-4144-905a-01f871552db8")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -17,11 +17,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             var logEventInfo = BuildLogEventInfo(logLevel, message, ex);
 
-            IDictionary<string, string> callerDictionary = m_MethodNameExtracter.ExtractCallerInfosFromStackTrace();
-            foreach (var caller in callerDictionary)
-            {
-                logEventInfo.Properties[caller.Key] = caller.Value;
-            }
+            CallerInfos callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            
+            logEventInfo.Properties["namespace"] = callerInfo.NamespaceOfCallerOfLog;
+            logEventInfo.Properties["class"] = callerInfo.ClassNameOfLog;
+            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfLog;
+            
             return logEventInfo;
         }
 
@@ -31,8 +32,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
             logEventInfo.Level = GetNLogLevel(logLevel);
             logEventInfo.Message = message;
-
-            logEventInfo.Properties["test"] = "hallotest";
+            
             if (ex != null)
             {
                 logEventInfo.Exception = ex;

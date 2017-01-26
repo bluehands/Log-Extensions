@@ -3,7 +3,7 @@ using Bluehands.Repository.Diagnostics.Log;
 
 namespace Sandbox
 {
-    internal class Program
+    class Program
     {
         private static readonly Log log = new Log(typeof(Program));
 

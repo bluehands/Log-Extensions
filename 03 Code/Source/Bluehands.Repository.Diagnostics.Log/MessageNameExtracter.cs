@@ -7,7 +7,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public class MethodNameExtracter
     {
-        private const int takeTheUnknowmCaller = 1;
+        private const int frameCount = 1;
 
         private readonly Type m_SearchedCallerOfLogMessageWriter;
 
@@ -16,7 +16,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_SearchedCallerOfLogMessageWriter = searchedCallerOfLogMessageWriter;
         }
 
-        public Dictionary<string, string> ExtractCallerInfosFromStackTrace()
+        public CallerInfos ExtractCallerInfoFromStackTrace()
         {
             var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
 
@@ -30,20 +30,17 @@ namespace Bluehands.Repository.Diagnostics.Log
                 var declaringType = method.DeclaringType;
                 if (m_SearchedCallerOfLogMessageWriter == declaringType)
                 {
-                    if (i + takeTheUnknowmCaller < frames.Length)
+                    if (i + frameCount < frames.Length)
                     {
-                        var namespaceOfCallerOfLog = frames[i + takeTheUnknowmCaller].GetMethod().DeclaringType?.FullName;
-                        var methodNameOfCallerOfLog = frames[i + takeTheUnknowmCaller].GetMethod().Name;
+                        var methodInfo = frames[i + frameCount].GetMethod();
+                        var namespaceOfCallerOfLog = methodInfo.DeclaringType?.FullName;
+                        var classNameOfLog = methodInfo.DeclaringType?.Name;
+                        var methodNameOfCallerOfLog = methodInfo.Name;
 
-                        var namespaceLog = frame.GetMethod().DeclaringType?.FullName;
-                        var methodNameLog = frame.GetMethod().Name;
+                        var callerInfos = new CallerInfos(namespaceOfCallerOfLog, classNameOfLog,
+                            methodNameOfCallerOfLog);
 
-                        var caller = new Dictionary<string, string>();
-                        caller.Add(methodNameOfCallerOfLog, namespaceOfCallerOfLog);
-                        caller.Add(methodNameLog, namespaceLog);
-
-
-                        return caller;
+                        return callerInfos;
                     }
                 }
             }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallerInfos.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="NLogMessageBuilder.cs" />

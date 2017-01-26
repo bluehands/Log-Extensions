@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Log.cs" />
     <Compile Include="LogLevel.cs" />
-    <Compile Include="LogMessageBuilder.cs" />
+    <Compile Include="NLogMessageBuilder.cs" />
     <Compile Include="LogMessageWriter.cs" />
     <Compile Include="MessageNameExtracter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

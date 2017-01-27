@@ -13,7 +13,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         public LogMessageWriter(Type callerOfLog, Type callerOfLogMessageWriter)
         {
             m_NLogMessageBuilder = new NLogMessageBuilder(callerOfLogMessageWriter);
-            m_NLogLog = LogManager.GetLogger(callerOfLog.FullName);
+            m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
             m_CallerOfLog = callerOfLog;
         }
 
@@ -24,8 +24,15 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)
         {
-            var logEventInfo = m_NLogMessageBuilder.GetLogEventInfo(logLevel, message, m_CallerOfLog, ex);
-            m_NLogLog.Log(logEventInfo);
+            try
+            {
+                var logEventInfo = m_NLogMessageBuilder.GetLogEventInfo(logLevel, message, m_CallerOfLog, ex);
+                m_NLogLog.Log(logEventInfo);
+            }
+            catch (Exception exx)
+            {
+                Console.WriteLine(exx);
+            }
         }
     }
 }

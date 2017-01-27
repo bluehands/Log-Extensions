@@ -5,11 +5,11 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public sealed class NLogMessageBuilder
     {
-        private static MethodNameExtracter s_MethodNameExtracter;
+        private readonly MethodNameExtracter m_MethodNameExtracter;
 
         public NLogMessageBuilder(Type callerOfLogMessageWriter)
         {
-            s_MethodNameExtracter = new MethodNameExtracter(callerOfLogMessageWriter);
+            m_MethodNameExtracter = new MethodNameExtracter(callerOfLogMessageWriter);
         }
 
         public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
@@ -18,7 +18,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private static LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
+        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
         {
             var logEventInfo = new LogEventInfo
             {
@@ -35,9 +35,9 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private static void SetNLogProperties(LogEventInfo logEventInfo)
+        private void SetNLogProperties(LogEventInfo logEventInfo)
         {
-            var callerInfo = s_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
             logEventInfo.Properties["namespace"] = callerInfo.NamespaceOfCallerOfLog;
             logEventInfo.Properties["class"] = callerInfo.ClassNameOfLog;
             logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfLog;

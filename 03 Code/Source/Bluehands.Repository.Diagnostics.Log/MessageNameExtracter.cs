@@ -17,38 +17,29 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public CallerInfo ExtractCallerInfoFromStackTrace()
         {
-            var callerInfo = new CallerInfo();
             var frames = GetStackTraceFrames();
-
-            if (frames == null) return null;
-            callerInfo = SearchFrameForCallerInfo(callerInfo, frames);
+            var callerInfo = SearchFrameForCallerInfo(frames);
             return callerInfo;
         }
 
-        private CallerInfo SearchFrameForCallerInfo(CallerInfo callerInfo, StackFrame[] frames)
+        private CallerInfo SearchFrameForCallerInfo(StackFrame[] frames)
         {
             for (var i = frames.Length - 1; i > 0; i--)
             {
-                var declaringType = GetDeclaringType(frames, i);
-                var isSearchedType = CheckType(frames, i, declaringType);
+                var declaringType = GetDeclaringTypeOfCurrentFrame(frames, i);
+                var isSearchedType = CheckIsSearchedType(frames, i, declaringType);
 
                 if (isSearchedType)
                 {
-                    callerInfo = GetCallerInfos(frames, i);
+                    return GetCallerInfos(frames, i);
                 }
             }
 
-            return callerInfo;
+            //ToDo: Throw exception
+            return new CallerInfo();
         }
 
-        private static StackFrame[] GetStackTraceFrames()
-        {
-            var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
-            var frames = stackTrace.GetFrames();
-            return frames;
-        }
-
-        private bool CheckType(StackFrame[] frames, int i, Type declaringType)
+        private bool CheckIsSearchedType(StackFrame[] frames, int i, Type declaringType)
         {
             if (m_CallerTypeOfLogMessageWriter == declaringType)
             {
@@ -61,7 +52,14 @@ namespace Bluehands.Repository.Diagnostics.Log
             return false;
         }
 
-        private static Type GetDeclaringType(StackFrame[] frames, int i)
+        private static StackFrame[] GetStackTraceFrames()
+        {
+            var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
+            var frames = stackTrace.GetFrames();
+            return frames;
+        }
+
+        private static Type GetDeclaringTypeOfCurrentFrame(StackFrame[] frames, int i)
         {
             var frame = frames[i];
             var method = frame.GetMethod();

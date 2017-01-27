@@ -8,7 +8,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         private readonly Logger m_NLogLog;
         //private static Logger nLogLog = LogManager.GetCurrentClassLogger();
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        private Type m_CallerOfLog;
+        private readonly Type m_CallerOfLog;
 
         public LogMessageWriter(Type callerOfLog, Type callerOfLogMessageWriter)
         {
@@ -19,7 +19,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public void WriteLogEntry(LogLevel logLevel, string message)
         {
-            WriteLogEntry(logLevel, message,null);
+            WriteLogEntry(logLevel, message, null);
         }
 
         public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)

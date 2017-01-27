@@ -3,7 +3,7 @@ using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class NLogMessageBuilder
+    public sealed class NLogMessageBuilder
     {
         private static MethodNameExtracter s_MethodNameExtracter;
 
@@ -23,10 +23,10 @@ namespace Bluehands.Repository.Diagnostics.Log
             var logEventInfo = new LogEventInfo
             {
                 Message = message,
-                Level = GetNLogLevel(logLevel)
+                Level = GetNLogLevel(logLevel),
+                LoggerName = callerOfLog.FullName
             };
             SetNLogProperties(logEventInfo);
-            logEventInfo.LoggerName = callerOfLog.FullName;
 
             if (ex != null)
             {

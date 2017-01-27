@@ -21,16 +21,23 @@ namespace Bluehands.Repository.Diagnostics.Log
             var frames = GetStackTraceFrames();
 
             if (frames == null) return null;
+            callerInfo = SearchFrameForCallerInfo(callerInfo, frames);
+            return callerInfo;
+        }
+
+        private CallerInfo SearchFrameForCallerInfo(CallerInfo callerInfo, StackFrame[] frames)
+        {
             for (var i = frames.Length - 1; i > 0; i--)
             {
-                var frame = frames[i];
-                var isSearchedFrame = CheckThisFrame(i, frames, frame);
+                var declaringType = GetDeclaringType(frames, i);
+                var isSearchedType = CheckType(frames, i, declaringType);
 
-                if (isSearchedFrame)
+                if (isSearchedType)
                 {
-                    callerInfo = GetInfosOfNeededMethod(frames, i);
+                    callerInfo = GetCallerInfos(frames, i);
                 }
             }
+
             return callerInfo;
         }
 
@@ -41,21 +48,28 @@ namespace Bluehands.Repository.Diagnostics.Log
             return frames;
         }
 
-        private bool CheckThisFrame(int i, StackFrame[] frames, StackFrame frame)
+        private bool CheckType(StackFrame[] frames, int i, Type declaringType)
         {
-            var method = frame.GetMethod();
-            var declaringType = method.DeclaringType;
             if (m_CallerTypeOfLogMessageWriter == declaringType)
             {
                 if (i + frameCount < frames.Length)
                 {
                     return true;
                 }
+                return false;
             }
             return false;
         }
 
-        private static CallerInfo GetInfosOfNeededMethod(StackFrame[] frames, int i)
+        private static Type GetDeclaringType(StackFrame[] frames, int i)
+        {
+            var frame = frames[i];
+            var method = frame.GetMethod();
+            var declaringType = method.DeclaringType;
+            return declaringType;
+        }
+
+        private static CallerInfo GetCallerInfos(StackFrame[] frames, int i)
         {
             var loggedMethod = frames[i + frameCount].GetMethod();
 

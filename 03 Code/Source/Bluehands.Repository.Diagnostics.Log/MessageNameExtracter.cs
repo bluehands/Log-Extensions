@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 
@@ -9,42 +8,64 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private const int frameCount = 1;
 
-        private readonly Type m_SearchedCallerOfLogMessageWriter;
+        private readonly Type m_CallerTypeOfLogMessageWriter;
 
-        public MethodNameExtracter(Type searchedCallerOfLogMessageWriter)
+        public MethodNameExtracter(Type callerTypeOfLogMessageWriter)
         {
-            m_SearchedCallerOfLogMessageWriter = searchedCallerOfLogMessageWriter;
+            m_CallerTypeOfLogMessageWriter = callerTypeOfLogMessageWriter;
         }
 
-        public CallerInfos ExtractCallerInfoFromStackTrace()
+        public CallerInfo ExtractCallerInfoFromStackTrace()
         {
-            var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
-
-            var frames = stackTrace.GetFrames();
+            var callerInfo = new CallerInfo();
+            var frames = GetStackTraceFrames();
 
             if (frames == null) return null;
             for (var i = frames.Length - 1; i > 0; i--)
             {
                 var frame = frames[i];
-                var method = frame.GetMethod();
-                var declaringType = method.DeclaringType;
-                if (m_SearchedCallerOfLogMessageWriter == declaringType)
+                var isSearchedFrame = CheckThisFrame(i, frames, frame);
+
+                if (isSearchedFrame)
                 {
-                    if (i + frameCount < frames.Length)
-                    {
-                        var methodInfo = frames[i + frameCount].GetMethod();
-                        var namespaceOfCallerOfLog = methodInfo.DeclaringType?.FullName;
-                        var classNameOfLog = methodInfo.DeclaringType?.Name;
-                        var methodNameOfCallerOfLog = methodInfo.Name;
-
-                        var callerInfos = new CallerInfos(namespaceOfCallerOfLog, classNameOfLog,
-                            methodNameOfCallerOfLog);
-
-                        return callerInfos;
-                    }
+                    callerInfo = GetInfosOfNeededMethod(frames, i);
                 }
             }
-            return null;
+            return callerInfo;
+        }
+
+        private static StackFrame[] GetStackTraceFrames()
+        {
+            var stackTrace = (StackTrace)Activator.CreateInstance(typeof(StackTrace), new object[] { });
+            var frames = stackTrace.GetFrames();
+            return frames;
+        }
+
+        private bool CheckThisFrame(int i, StackFrame[] frames, StackFrame frame)
+        {
+            var method = frame.GetMethod();
+            var declaringType = method.DeclaringType;
+            if (m_CallerTypeOfLogMessageWriter == declaringType)
+            {
+                if (i + frameCount < frames.Length)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static CallerInfo GetInfosOfNeededMethod(StackFrame[] frames, int i)
+        {
+            var loggedMethod = frames[i + frameCount].GetMethod();
+
+            var fullNameOfCallerOfLog = loggedMethod.DeclaringType?.FullName;
+            var classNameOfCallerOfLog = loggedMethod.DeclaringType?.Name;
+            var methodNameOfCallerOfLog = loggedMethod.Name;
+
+            var callerInfo = new CallerInfo(fullNameOfCallerOfLog, classNameOfCallerOfLog,
+                methodNameOfCallerOfLog);
+            return callerInfo;
         }
     }
 }

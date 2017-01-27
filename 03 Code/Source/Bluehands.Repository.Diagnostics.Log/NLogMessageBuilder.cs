@@ -1,43 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
 using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
     public class NLogMessageBuilder
     {
-        private readonly MethodNameExtracter m_MethodNameExtracter;
+        private static MethodNameExtracter s_MethodNameExtracter;
 
         public NLogMessageBuilder(Type callerOfLogMessageWriter)
         {
-            m_MethodNameExtracter = new MethodNameExtracter(callerOfLogMessageWriter);
+            s_MethodNameExtracter = new MethodNameExtracter(callerOfLogMessageWriter);
         }
 
-        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Exception ex)
+        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
         {
-            var logEventInfo = BuildLogEventInfo(logLevel, message, ex);
-
-            CallerInfos callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
-            
-            logEventInfo.Properties["namespace"] = callerInfo.NamespaceOfCallerOfLog;
-            logEventInfo.Properties["class"] = callerInfo.ClassNameOfLog;
-            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfLog;
-            
+            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfLog, ex);
             return logEventInfo;
         }
 
-        private static LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex)
+        private static LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
         {
-            var logEventInfo = new LogEventInfo();
+            var logEventInfo = new LogEventInfo
+            {
+                Message = message,
+                Level = GetNLogLevel(logLevel)
+            };
+            SetNLogProperties(logEventInfo);
+            logEventInfo.LoggerName = callerOfLog.FullName;
 
-            logEventInfo.Level = GetNLogLevel(logLevel);
-            logEventInfo.Message = message;
-            
             if (ex != null)
             {
                 logEventInfo.Exception = ex;
             }
             return logEventInfo;
+        }
+
+        private static void SetNLogProperties(LogEventInfo logEventInfo)
+        {
+            var callerInfo = s_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            logEventInfo.Properties["namespace"] = callerInfo.NamespaceOfCallerOfLog;
+            logEventInfo.Properties["class"] = callerInfo.ClassNameOfLog;
+            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfLog;
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

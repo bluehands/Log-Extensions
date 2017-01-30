@@ -8,13 +8,13 @@ namespace Bluehands.Repository.Diagnostics.Log
         private readonly Logger m_NLogLog;
         //private static Logger nLogLog = LogManager.GetCurrentClassLogger();
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        private readonly Type m_CallerOfLog;
+        private readonly Type m_CallerOfGround;
 
-        public LogMessageWriter(Type callerOfLog, Type callerOfLogMessageWriter)
+        public LogMessageWriter(Type callerOfGround, Type ground)
         {
-            m_NLogMessageBuilder = new NLogMessageBuilder(callerOfLogMessageWriter);
+            m_NLogMessageBuilder = new NLogMessageBuilder(ground);
             m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
-            m_CallerOfLog = callerOfLog;
+            m_CallerOfGround = callerOfGround;
         }
 
         public void WriteLogEntry(LogLevel logLevel, string message)
@@ -26,7 +26,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             try
             {
-                var logEventInfo = m_NLogMessageBuilder.GetLogEventInfo(logLevel, message, m_CallerOfLog, ex);
+                var logEventInfo = m_NLogMessageBuilder.GetLogEventInfo(logLevel, message, m_CallerOfGround, ex);
                 m_NLogLog.Log(logEventInfo);
             }
             catch (Exception exx)

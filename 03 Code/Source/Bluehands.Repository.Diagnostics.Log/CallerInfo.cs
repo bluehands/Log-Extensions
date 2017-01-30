@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Bluehands.Repository.Diagnostics.Log
+﻿namespace Bluehands.Repository.Diagnostics.Log
 {
     public class CallerInfo
     {
-        public readonly string NamespaceOfCallerOfLog;
-        public readonly string ClassNameOfLog;
-        public readonly string MethodNameOfCallerOfLog;
-
-        public CallerInfo()
+        public string TypeOfCallerOfGround { get; private set; }
+        public string ClassNameOfGround { get; private set; }
+        public string MethodNameOfCallerOfGround { get; private set; }
+        
+        public CallerInfo(string typeOfCallerOfGround, string classNameOfGround, string methodNameOfCallerOfGround)
         {
-
-        }
-
-        public CallerInfo(string namespaceOfCallerOfLog, string classNameOfLog, string methodNameOfCallerOfLog)
-        {
-            NamespaceOfCallerOfLog = namespaceOfCallerOfLog;
-            ClassNameOfLog = classNameOfLog;
-            MethodNameOfCallerOfLog = methodNameOfCallerOfLog;
+            TypeOfCallerOfGround = typeOfCallerOfGround;
+            ClassNameOfGround = classNameOfGround;
+            MethodNameOfCallerOfGround = methodNameOfCallerOfGround;
         }
     }
 }

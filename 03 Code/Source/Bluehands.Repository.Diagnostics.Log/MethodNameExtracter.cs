@@ -8,11 +8,15 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private const int frameCount = 1;
 
-        private readonly Type m_CallerTypeOfLogMessageWriter;
+        private readonly Type m_GroundType;
 
-        public MethodNameExtracter(Type callerTypeOfLogMessageWriter)
+        public MethodNameExtracter(Type groundType)
         {
-            m_CallerTypeOfLogMessageWriter = callerTypeOfLogMessageWriter;
+            if (groundType == null)
+            {
+                throw new ArgumentNullException(nameof(groundType));
+            }
+            m_GroundType = groundType;
         }
 
         public CallerInfo ExtractCallerInfoFromStackTrace()
@@ -34,20 +38,14 @@ namespace Bluehands.Repository.Diagnostics.Log
                     return GetCallerInfos(frames, i);
                 }
             }
-
-            //ToDo: Throw exception
-            return new CallerInfo();
+            throw new NotImplementedException();
         }
 
         private bool CheckIsSearchedType(StackFrame[] frames, int i, Type declaringType)
         {
-            if (m_CallerTypeOfLogMessageWriter == declaringType)
+            if (m_GroundType == declaringType)
             {
-                if (i + frameCount < frames.Length)
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
             return false;
         }
@@ -69,14 +67,14 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private static CallerInfo GetCallerInfos(StackFrame[] frames, int i)
         {
-            var loggedMethod = frames[i + frameCount].GetMethod();
+            var callerOfGroundMethod = frames[i + frameCount].GetMethod();
 
-            var fullNameOfCallerOfLog = loggedMethod.DeclaringType?.FullName;
-            var classNameOfCallerOfLog = loggedMethod.DeclaringType?.Name;
-            var methodNameOfCallerOfLog = loggedMethod.Name;
+            var fullNameOfCallerOfGround = callerOfGroundMethod.DeclaringType?.FullName;
+            var classNameOfCallerOfGround = callerOfGroundMethod.DeclaringType?.Name;
+            var methodNameOfCallerOfGround = callerOfGroundMethod.Name;
 
-            var callerInfo = new CallerInfo(fullNameOfCallerOfLog, classNameOfCallerOfLog,
-                methodNameOfCallerOfLog);
+            var callerInfo = new CallerInfo(fullNameOfCallerOfGround, classNameOfCallerOfGround,
+                methodNameOfCallerOfGround);
             return callerInfo;
         }
     }

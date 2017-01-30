@@ -15,9 +15,9 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private readonly LogMessageWriter m_LogMessageWriter;
 
-        public Log(Type callerOfLog)
+        public Log(Type callerOfGround)
         {
-            m_LogMessageWriter = new LogMessageWriter(callerOfLog, typeof(Log));
+            m_LogMessageWriter = new LogMessageWriter(callerOfGround, typeof(Log));
         }
 
 
@@ -66,7 +66,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message);
         }
 
-       public void Debug(Exception ex, string message)
+        public void Debug(Exception ex, string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message, ex);
         }
@@ -79,6 +79,6 @@ namespace Bluehands.Repository.Diagnostics.Log
         public void Trace(Exception ex, string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message, ex);
-        }       
+        }
     }
 }

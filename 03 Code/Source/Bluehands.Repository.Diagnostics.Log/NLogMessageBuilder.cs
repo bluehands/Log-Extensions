@@ -7,24 +7,24 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private readonly MethodNameExtracter m_MethodNameExtracter;
 
-        public NLogMessageBuilder(Type callerOfLogMessageWriter)
+        public NLogMessageBuilder(Type ground)
         {
-            m_MethodNameExtracter = new MethodNameExtracter(callerOfLogMessageWriter);
+            m_MethodNameExtracter = new MethodNameExtracter(ground);
         }
 
-        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
+        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfGround, Exception ex)
         {
-            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfLog, ex);
+            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfGround, ex);
             return logEventInfo;
         }
 
-        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfLog, Exception ex)
+        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfGround, Exception ex)
         {
             var logEventInfo = new LogEventInfo
             {
                 Message = message,
                 Level = GetNLogLevel(logLevel),
-                LoggerName = callerOfLog.FullName
+                LoggerName = callerOfGround.FullName
             };
             SetNLogProperties(logEventInfo);
 
@@ -38,9 +38,9 @@ namespace Bluehands.Repository.Diagnostics.Log
         private void SetNLogProperties(LogEventInfo logEventInfo)
         {
             var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
-            logEventInfo.Properties["namespace"] = callerInfo.NamespaceOfCallerOfLog;
-            logEventInfo.Properties["class"] = callerInfo.ClassNameOfLog;
-            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfLog;
+            logEventInfo.Properties["namespace"] = callerInfo.TypeOfCallerOfGround;
+            logEventInfo.Properties["class"] = callerInfo.ClassNameOfGround;
+            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfGround;
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

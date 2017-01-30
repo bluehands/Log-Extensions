@@ -7,9 +7,13 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private readonly MethodNameExtracter m_MethodNameExtracter;
 
-        public NLogMessageBuilder(Type ground)
+        public NLogMessageBuilder(Type groundType)
         {
-            m_MethodNameExtracter = new MethodNameExtracter(ground);
+            if (groundType == null)
+            {
+                throw new ArgumentNullException(nameof(groundType));
+            }
+            m_MethodNameExtracter = new MethodNameExtracter(groundType);
         }
 
         public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfGround, Exception ex)

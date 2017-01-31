@@ -1,9 +1,27 @@
 ﻿using System;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NLog;
+using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
 namespace UnitTest
 {
+    public class SampelCallerForNLogMessageBuilderTest
+    {
+        private NLogMessageBuilder m_NLogMessageBuilder;
+
+        public SampelCallerForNLogMessageBuilderTest()
+        {
+            m_NLogMessageBuilder = new NLogMessageBuilder(typeof(SampelCallerForNLogMessageBuilderTest));
+        }
+
+        public LogEventInfo DoIt( LogLevel level, string message, Type callerOfGround, Exception exception)
+        {
+            var  logEnventInfo =  m_NLogMessageBuilder.GetLogEventInfo(level, message, callerOfGround, exception);
+            return logEnventInfo;
+        }
+    }
+
     [TestClass]
     public class NLogMessageBuilderTest
     {
@@ -11,11 +29,12 @@ namespace UnitTest
         public void GetLogEventInfosTestWithoutExeption()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
+
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal.ToString(), logEventInfo.Level.ToString());

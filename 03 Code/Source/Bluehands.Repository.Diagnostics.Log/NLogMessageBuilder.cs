@@ -16,19 +16,19 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_MethodNameExtracter = new MethodNameExtracter(groundType);
         }
 
-        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfGround, Exception ex)
+        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfGroundAsLoggerName, Exception ex)
         {
-            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfGround, ex);
+            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfGroundAsLoggerName, ex);
             return logEventInfo;
         }
 
-        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfGround, Exception ex)
+        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfGroundAsLoggerName, Exception ex)
         {
             var logEventInfo = new LogEventInfo
             {
                 Message = message,
                 Level = GetNLogLevel(logLevel),
-                LoggerName = callerOfGround.FullName
+                LoggerName = callerOfGroundAsLoggerName.FullName
             };
             SetNLogProperties(logEventInfo);
 

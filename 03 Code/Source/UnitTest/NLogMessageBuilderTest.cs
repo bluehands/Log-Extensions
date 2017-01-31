@@ -8,16 +8,16 @@ namespace UnitTest
 {
     public class SampelCallerForNLogMessageBuilderTest
     {
-        private NLogMessageBuilder m_NLogMessageBuilder;
+        private readonly NLogMessageBuilder m_NLogMessageBuilder;
 
         public SampelCallerForNLogMessageBuilderTest()
         {
             m_NLogMessageBuilder = new NLogMessageBuilder(typeof(SampelCallerForNLogMessageBuilderTest));
         }
 
-        public LogEventInfo DoIt( LogLevel level, string message, Type callerOfGround, Exception exception)
+        public LogEventInfo DoIt(LogLevel level, string message, Type callerOfGround, Exception exception)
         {
-            var  logEnventInfo =  m_NLogMessageBuilder.GetLogEventInfo(level, message, callerOfGround, exception);
+            var logEnventInfo = m_NLogMessageBuilder.GetLogEventInfo(level, message, callerOfGround, exception);
             return logEnventInfo;
         }
     }
@@ -46,12 +46,12 @@ namespace UnitTest
         public void GetLogEventInfosTestWithExeption()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
             var exeption = new NotImplementedException();
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, exeption);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, exeption);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal.ToString(), logEventInfo.Level.ToString());
@@ -64,11 +64,11 @@ namespace UnitTest
         public void CheckLogEventInfoForNull()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.IsNotNull(logEventInfo);
@@ -87,21 +87,21 @@ namespace UnitTest
         public void CheckParams()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
 
             //Act
-            nLogMessageBuilder.GetLogEventInfo(LogLevel.Debug, null, null, null);
+            sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Debug, null, null, null);
         }
 
         [TestMethod]
         public void CheckLogLevelFatal()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Fatal, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal.ToString(), logEventInfo.Level.ToString());
@@ -111,11 +111,11 @@ namespace UnitTest
         public void CheckLogLevelError()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Error, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Error, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Error.ToString(), logEventInfo.Level.ToString());
@@ -125,11 +125,11 @@ namespace UnitTest
         public void CheckLogLevelWarning()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Warning, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Warning, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Warn.ToString(), logEventInfo.Level.ToString());
@@ -139,11 +139,11 @@ namespace UnitTest
         public void CheckLogLevelInfo()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Info, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Info, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Info.ToString(), logEventInfo.Level.ToString());
@@ -153,11 +153,11 @@ namespace UnitTest
         public void CheckLogLevelDebug()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Debug, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Debug, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Debug.ToString(), logEventInfo.Level.ToString());
@@ -167,11 +167,11 @@ namespace UnitTest
         public void CheckLogLevelTrace()
         {
             //Arrage
-            var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+            var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
             var callerOfGround = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = nLogMessageBuilder.GetLogEventInfo(LogLevel.Trace, "Log: bla bla bla", callerOfGround, null);
+            var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(LogLevel.Trace, "Log: bla bla bla", callerOfGround, null);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Trace.ToString(), logEventInfo.Level.ToString());
@@ -181,7 +181,7 @@ namespace UnitTest
         //public void CheckLogLevel()
         //{
         //    //Arrage
-        //    var nLogMessageBuilder = new NLogMessageBuilder(typeof(NLogMessageBuilderTest));
+        //var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
         //    var callerOfGround = typeof(NLogMessageBuilderTest);
 
         //    //Act
@@ -189,7 +189,7 @@ namespace UnitTest
         //    foreach (var level in Enum.GetValues(typeof(LogLevel)))
         //    {
         //        LogLevel foo = (LogLevel)level;
-        //        var logEventInfo = nLogMessageBuilder.GetLogEventInfo(foo, "Log: bla bla bla", callerOfGround, null);
+        //        var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(foo, "Log: bla bla bla", callerOfGround, null);
         //    }
         //}
     }

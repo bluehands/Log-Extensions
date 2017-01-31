@@ -49,7 +49,7 @@ namespace UnitTest
         public void CheckFrameIsNotInStackTrace()
         {
             //Arrange
-            var sut = new MethodNameExtracter(typeof(NotUsedClass));
+            var sut = new MethodNameExtracter(typeof(NotUsedClass));        //systemOnTest
             var sample = new SampleCallerOfGroundForExtractor(sut);
             //Act
             sample.DoIt();

@@ -11,7 +11,7 @@ namespace UnitTest
         {
             private LogMessageWriter m_LogMessageWriter;
 
-            public SampleGroundForLogMessageWriterTest()       //Log.cs
+            public SampleGroundForLogMessageWriterTest()
             {
                 m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest),
                     typeof(SampleGroundForLogMessageWriterTest));
@@ -34,8 +34,27 @@ namespace UnitTest
             //Act
             sampleGroundForLogMessageWriterTest.DoItSampleGround(LogLevel.Fatal, "TestLog");
 
-            //Assert
+            //Assert TODO
             //Assert.AreEqual(LogLevel.Fatal, )
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CheckCtor()
+        {
+            //Arrange
+            var logMessageWriter = new LogMessageWriter(null,null);
+        }
+
+        //[TestMethod]
+        //[ExpectedException(typeof(NotImplementedException))]
+        //public void OnlyLogLevel()
+        //{
+        //    //Arrange
+        //    var sampleGroundForLogMessageWriterTest = new SampleGroundForLogMessageWriterTest();
+
+        //    //Act
+        //    sampleGroundForLogMessageWriterTest.DoItSampleGround(LogLevel.Fatal, null);
+        //}
     }
 }

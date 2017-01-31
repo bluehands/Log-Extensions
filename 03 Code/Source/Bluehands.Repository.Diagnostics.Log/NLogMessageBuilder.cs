@@ -5,32 +5,30 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public sealed class NLogMessageBuilder
     {
-        private readonly MethodNameExtracter m_MethodNameExtracter;
-
-        public NLogMessageBuilder(Type groundType)
+        //private readonly MethodNameExtracter m_MethodNameExtracter;
+        private readonly string m_LoggerName;
+        
+        public NLogMessageBuilder(string loggerName)
         {
-            if (groundType == null)
+            if (loggerName != null)
             {
-                throw new ArgumentNullException(nameof(groundType));
+                m_LoggerName = loggerName;
             }
-            m_MethodNameExtracter = new MethodNameExtracter(groundType);
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
-        public LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Type callerOfGroundAsLoggerName, Exception ex)
-        {
-            var logEventInfo = BuildNLogEventInfo(logLevel, message, callerOfGroundAsLoggerName, ex);
-            return logEventInfo;
-        }
-
-        private LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Type callerOfGroundAsLoggerName, Exception ex)
+        public LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo)
         {
             var logEventInfo = new LogEventInfo
             {
                 Message = message,
                 Level = GetNLogLevel(logLevel),
-                LoggerName = callerOfGroundAsLoggerName.FullName
+                LoggerName = m_LoggerName
             };
-            SetNLogProperties(logEventInfo);
+            SetNLogProperties(logEventInfo, callerInfo);
 
             if (ex != null)
             {
@@ -39,9 +37,8 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private void SetNLogProperties(LogEventInfo logEventInfo)
+        private void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
-            var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
             logEventInfo.Properties["namespace"] = callerInfo.TypeOfCallerOfGround;
             logEventInfo.Properties["class"] = callerInfo.ClassNameOfGround;
             logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfGround;

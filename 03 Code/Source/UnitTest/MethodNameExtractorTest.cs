@@ -49,10 +49,24 @@ namespace UnitTest
         public void CheckFrameIsNotInStackTrace()
         {
             //Arrange
-            var sut = new MethodNameExtracter(typeof(NotUsedClass));        //systemOnTest
+            var sut = new MethodNameExtracter(typeof(NotUsedClass));        //systemUnderTest
             var sample = new SampleCallerOfGroundForExtractor(sut);
             //Act
             sample.DoIt();
         }
+
+        //[TestMethod]
+        //public void CheckCallHierarchyInStackTrace()
+        //{
+        //    //Arrange
+        //    var sut = new Log(typeof(MethodNameExtractorTest));
+        //    sut.Fatal("Test MethodNameExtractor");
+            
+        //    //Act
+        //    var methodNameExtracter = new MethodNameExtracter(sut.GetType());
+        //    var foo = methodNameExtracter.ExtractCallerInfoFromStackTrace();
+        //    var bar = foo.ClassNameOfGround;
+        //    //TODO fertig --> woher wissen das tatsächlich durch die Methoden und nicht durch die ctor gegangen wird
+        //}
     }
 }

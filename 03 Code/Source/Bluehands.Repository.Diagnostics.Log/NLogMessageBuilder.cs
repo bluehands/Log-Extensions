@@ -39,9 +39,9 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
-            logEventInfo.Properties["namespace"] = callerInfo.TypeOfCallerOfGround;
-            logEventInfo.Properties["class"] = callerInfo.ClassNameOfGround;
-            logEventInfo.Properties["method"] = callerInfo.MethodNameOfCallerOfGround;
+            logEventInfo.Properties["typeOfCallerOfGround"] = callerInfo.TypeOfCallerOfGround;
+            logEventInfo.Properties["classOfCallerOfGround"] = callerInfo.ClassNameOfGround;
+            logEventInfo.Properties["methodOfCallerOfGround"] = callerInfo.MethodNameOfCallerOfGround;
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

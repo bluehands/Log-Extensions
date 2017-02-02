@@ -22,9 +22,9 @@ namespace UnitTest
             Assert.AreEqual(NLog.LogLevel.Fatal, logEventInfo.Level);
             Assert.AreEqual("Log: bla bla bla", logEventInfo.Message);
             Assert.IsNull(logEventInfo.Exception);
-            Assert.AreEqual("Aydin", logEventInfo.Properties["namespace"]);
-            Assert.AreEqual("Laura", logEventInfo.Properties["class"]);
-            Assert.AreEqual("Liwen", logEventInfo.Properties["method"]);
+            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfCallerOfGround"]);
+            Assert.AreEqual("Laura", logEventInfo.Properties["classOfCallerOfGround"]);
+            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfCallerOfGround"]);
             Assert.AreEqual("Marcel", logEventInfo.LoggerName);
         }
 
@@ -42,9 +42,9 @@ namespace UnitTest
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal, logEventInfo.Level);
             Assert.AreEqual("Log: bla bla bla", logEventInfo.Message);
-            Assert.AreEqual("Aydin", logEventInfo.Properties["namespace"]);
-            Assert.AreEqual("Laura", logEventInfo.Properties["class"]);
-            Assert.AreEqual("Liwen", logEventInfo.Properties["method"]);
+            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfCallerOfGround"]);
+            Assert.AreEqual("Laura", logEventInfo.Properties["classOfCallerOfGround"]);
+            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfCallerOfGround"]);
             Assert.AreEqual("Marcel", logEventInfo.LoggerName);
             Assert.AreEqual(exeption, logEventInfo.Exception);
         }

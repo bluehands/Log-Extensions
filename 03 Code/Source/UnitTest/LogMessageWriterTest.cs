@@ -1,12 +1,16 @@
 ﻿using System;
+using System.IO;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NLog;
+using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
 namespace UnitTest
 {
     [TestClass]
     public class LogMessageWriterTest
     {
+
         private class SampleGroundForLogMessageWriterTest
         {
             private LogMessageWriter m_LogMessageWriter;
@@ -17,25 +21,43 @@ namespace UnitTest
                     typeof(SampleGroundForLogMessageWriterTest));
             }
 
-            public void DoItSampleGround(LogLevel level, string message)
+            public void WriteLogEntryWithoutException(LogLevel level, string message)
+            {
+                m_LogMessageWriter.WriteLogEntry(level, message);
+            }
+            public void WriteLogEntryWithException(LogLevel level, string message)
             {
                 var exception = new NotImplementedException();
-                m_LogMessageWriter.WriteLogEntry(level, message);
                 m_LogMessageWriter.WriteLogEntry(level, message, exception);
             }
         }
 
+        private static SampleGroundForLogMessageWriterTest s_Sut = new SampleGroundForLogMessageWriterTest();
+
         [TestMethod]
-        public void PossitivTestWriteLogEntry()
+        public void PossitivTestWriteLogEntryWithoutException()
         {
             //Arange
-            var sampleGroundForLogMessageWriterTest = new SampleGroundForLogMessageWriterTest();
+            File.Delete("logTest.txt");
+            //s_Sut = new SampleGroundForLogMessageWriterTest();
+
+            s_Sut.WriteLogEntryWithoutException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithoutException");
 
             //Act
-            sampleGroundForLogMessageWriterTest.DoItSampleGround(LogLevel.Fatal, "TestLog");
+            var completeLogText = File.ReadAllText("logTest.txt");
+
+            string[] stringSeparator = { "," };
+            var splitedLogTextArray = completeLogText.Split(stringSeparator, StringSplitOptions.None);
+
 
             //Assert TODO
-            //Assert.AreEqual(LogLevel.Fatal, )
+            Assert.AreEqual(LogLevel.Fatal.ToString(), splitedLogTextArray[0]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[1]);
+            Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
+            Assert.AreEqual("PossitivTestWriteLogEntryWithoutException", splitedLogTextArray[3]);
+            Assert.AreEqual("", splitedLogTextArray[4]);
+            Assert.AreEqual("logg emol ebbes anres uewer WriteLogEntryWithoutException", splitedLogTextArray[5]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
         }
 
         [TestMethod]
@@ -43,7 +65,7 @@ namespace UnitTest
         public void CheckCtor()
         {
             //Arrange
-            var logMessageWriter = new LogMessageWriter(null,null);
+            var logMessageWriter = new LogMessageWriter(null, null);
         }
 
         //[TestMethod]

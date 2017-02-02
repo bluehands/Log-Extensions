@@ -31,7 +31,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             for (var i = frames.Length - 1; i > 0; i--)
             {
                 var declaringType = GetDeclaringTypeOfCurrentFrame(frames, i);
-                var isSearchedType = CheckIsSearchedType(frames, i, declaringType);
+                var isSearchedType = CheckIsSearchedType(declaringType);
 
                 if (isSearchedType)
                 {
@@ -41,7 +41,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             throw new NotImplementedException();
         }
 
-        private bool CheckIsSearchedType(StackFrame[] frames, int i, Type declaringType)
+        private bool CheckIsSearchedType(Type declaringType)
         {
             if (m_GroundType == declaringType)
             {

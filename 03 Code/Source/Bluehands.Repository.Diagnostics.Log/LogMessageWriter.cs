@@ -8,6 +8,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
+        private CallerInfo m_CallerInfo;
 
         public LogMessageWriter(Type callerOfGround, Type ground)
         {
@@ -40,10 +41,9 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Exception ex)
         {
-            
-            var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            m_CallerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
 
-            var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, callerInfo);
+            var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, m_CallerInfo);
             return logEventInfo;
         }
     }

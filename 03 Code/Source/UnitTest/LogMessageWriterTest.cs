@@ -39,8 +39,6 @@ namespace UnitTest
         {
             //Arange
             File.Delete("logTest.txt");
-            //s_Sut = new SampleGroundForLogMessageWriterTest();
-
             s_Sut.WriteLogEntryWithoutException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithoutException");
 
             //Act
@@ -57,6 +55,30 @@ namespace UnitTest
             Assert.AreEqual("PossitivTestWriteLogEntryWithoutException", splitedLogTextArray[3]);
             Assert.AreEqual("", splitedLogTextArray[4]);
             Assert.AreEqual("logg emol ebbes anres uewer WriteLogEntryWithoutException", splitedLogTextArray[5]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
+        }
+
+        [TestMethod]
+        public void PossitivTestWriteLogEntryWithException()
+        {
+            //Arange
+            File.Delete("logTest.txt");
+            s_Sut.WriteLogEntryWithException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithException");
+
+            //Act
+            var completeLogText = File.ReadAllText("logTest.txt");
+
+            string[] stringSeparator = { "," };
+            var splitedLogTextArray = completeLogText.Split(stringSeparator, StringSplitOptions.None);
+
+
+            //Assert TODO
+            Assert.AreEqual(LogLevel.Fatal.ToString(), splitedLogTextArray[0]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[1]);
+            Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
+            Assert.AreEqual("PossitivTestWriteLogEntryWithException", splitedLogTextArray[3]);
+            Assert.AreEqual("Die Methode oder der Vorgang ist nicht implementiert.", splitedLogTextArray[4]);
+            Assert.AreEqual("logg emol ebbes anres uewer WriteLogEntryWithException", splitedLogTextArray[5]);
             Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
         }
 

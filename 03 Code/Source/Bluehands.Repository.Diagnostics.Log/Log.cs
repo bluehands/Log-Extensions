@@ -15,11 +15,15 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private readonly LogMessageWriter m_LogMessageWriter;
 
-        public Log(Type callerOfGround)
+        public Log(Type messageCreator)
         {
-            m_LogMessageWriter = new LogMessageWriter(callerOfGround, typeof(Log));
+            m_LogMessageWriter = new LogMessageWriter(messageCreator, typeof(Log));
         }
 
+        public static Log For(Type type)
+        {
+            return new Log(type);
+        }
 
         public void Fatal(string message)
         {

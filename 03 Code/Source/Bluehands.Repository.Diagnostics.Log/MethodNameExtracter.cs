@@ -67,14 +67,14 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private static CallerInfo GetCallerInfos(StackFrame[] frames, int i)
         {
-            var callerOfGroundMethod = frames[i + frameCount].GetMethod();
+            var messageCreatorMethod = frames[i + frameCount].GetMethod();
 
-            var fullNameOfCallerOfGround = callerOfGroundMethod.DeclaringType?.FullName;
-            var classNameOfCallerOfGround = callerOfGroundMethod.DeclaringType?.Name;
-            var methodNameOfCallerOfGround = callerOfGroundMethod.Name;
+            var fullNameOfMessageCreator = messageCreatorMethod.DeclaringType?.FullName;
+            var classNameOfMessageCreator = messageCreatorMethod.DeclaringType?.Name;
+            var methodNameOfMessageCreator = messageCreatorMethod.Name;
 
-            var callerInfo = new CallerInfo(fullNameOfCallerOfGround, classNameOfCallerOfGround,
-                methodNameOfCallerOfGround);
+            var callerInfo = new CallerInfo(fullNameOfMessageCreator, classNameOfMessageCreator,
+                methodNameOfMessageCreator);
             return callerInfo;
         }
     }

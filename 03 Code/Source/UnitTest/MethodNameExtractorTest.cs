@@ -4,11 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
 {
-    public class SampleCallerOfGroundForExtractor
+    public class SampleMessageCreatorForExtractor
     {
         private readonly MethodNameExtracter m_Extractor;
 
-        public SampleCallerOfGroundForExtractor(MethodNameExtracter extractor)
+        public SampleMessageCreatorForExtractor(MethodNameExtracter extractor)
         {
             m_Extractor = extractor;
         }
@@ -25,15 +25,15 @@ namespace UnitTest
         public void ExtractWithSampleCall()
         {
             //Arrange
-            var sut = new MethodNameExtracter(typeof(SampleCallerOfGroundForExtractor));
-            var sample = new SampleCallerOfGroundForExtractor(sut);
+            var sut = new MethodNameExtracter(typeof(SampleMessageCreatorForExtractor));
+            var sample = new SampleMessageCreatorForExtractor(sut);
             //Act
             var callerInfo = sample.DoIt();
             //Assert
             Assert.IsNotNull(callerInfo);
             Assert.AreEqual(nameof(MethodNameExtractorTest), callerInfo.ClassNameOfGround);
-            Assert.AreEqual(nameof(ExtractWithSampleCall), callerInfo.MethodNameOfCallerOfGround);
-            Assert.AreEqual(typeof(MethodNameExtractorTest).ToString(), callerInfo.TypeOfCallerOfGround);
+            Assert.AreEqual(nameof(ExtractWithSampleCall), callerInfo.MethodNameOfMessageCreator);
+            Assert.AreEqual(typeof(MethodNameExtractorTest).ToString(), callerInfo.TypeOfMessageCreator);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace UnitTest
         {
             //Arrange
             var sut = new MethodNameExtracter(typeof(NotUsedClass));        //systemUnderTest
-            var sample = new SampleCallerOfGroundForExtractor(sut);
+            var sample = new SampleMessageCreatorForExtractor(sut);
             //Act
             sample.DoIt();
         }

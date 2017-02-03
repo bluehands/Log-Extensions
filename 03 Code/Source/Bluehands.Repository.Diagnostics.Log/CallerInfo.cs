@@ -2,15 +2,15 @@
 {
     public class CallerInfo
     {
-        public string TypeOfCallerOfGround { get; private set; }
+        public string TypeOfMessageCreator { get; private set; }
         public string ClassNameOfGround { get; private set; }
-        public string MethodNameOfCallerOfGround { get; private set; }
+        public string MethodNameOfMessageCreator { get; private set; }
         
-        public CallerInfo(string typeOfCallerOfGround, string classNameOfGround, string methodNameOfCallerOfGround)
+        public CallerInfo(string typeOfMessageCreator, string classNameOfGround, string methodNameOfMessageCreator)
         {
-            TypeOfCallerOfGround = typeOfCallerOfGround;
+            TypeOfMessageCreator = typeOfMessageCreator;
             ClassNameOfGround = classNameOfGround;
-            MethodNameOfCallerOfGround = methodNameOfCallerOfGround;
+            MethodNameOfMessageCreator = methodNameOfMessageCreator;
         }
     }
 }

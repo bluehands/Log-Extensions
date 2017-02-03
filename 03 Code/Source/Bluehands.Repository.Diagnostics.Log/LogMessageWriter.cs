@@ -8,13 +8,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        private CallerInfo m_CallerInfo;
-
-        public LogMessageWriter(Type callerOfGround, Type ground)
+        
+        public LogMessageWriter(Type messageCreator, Type ground)
         {
             m_MethodNameExtracter = new MethodNameExtracter(ground);
-            m_NLogMessageBuilder = new NLogMessageBuilder(callerOfGround.FullName);
-            m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString(), callerOfGround);
+            m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
+            m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString(), messageCreator);
         }
 
         public void WriteLogEntry(LogLevel logLevel, string message)
@@ -29,7 +28,7 @@ namespace Bluehands.Repository.Diagnostics.Log
                 if (message != null)
                 {
                     var logEventInfo = GetLogEventInfo(logLevel, message, ex);
-                    
+
                     m_NLogLog.Log(logEventInfo);
                 }
             }
@@ -41,9 +40,9 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, Exception ex)
         {
-            m_CallerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
 
-            var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, m_CallerInfo);
+            var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, callerInfo);
             return logEventInfo;
         }
     }

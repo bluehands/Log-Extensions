@@ -16,15 +16,15 @@ namespace UnitTest
             var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
             var sut = new NLogMessageBuilder("Marcel");
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, MessageCreator*/, null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal, logEventInfo.Level);
             Assert.AreEqual("Log: bla bla bla", logEventInfo.Message);
             Assert.IsNull(logEventInfo.Exception);
-            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfCallerOfGround"]);
-            Assert.AreEqual("Laura", logEventInfo.Properties["classOfCallerOfGround"]);
-            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfCallerOfGround"]);
+            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfMessageCreator"]);
+            Assert.AreEqual("Laura", logEventInfo.Properties["classOfMessageCreator"]);
+            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfMessageCreator"]);
             Assert.AreEqual("Marcel", logEventInfo.LoggerName);
         }
 
@@ -37,14 +37,14 @@ namespace UnitTest
             var exeption = new NotImplementedException();
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, callerOfGround*/, exeption, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, MessageCreator*/, exeption, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal, logEventInfo.Level);
             Assert.AreEqual("Log: bla bla bla", logEventInfo.Message);
-            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfCallerOfGround"]);
-            Assert.AreEqual("Laura", logEventInfo.Properties["classOfCallerOfGround"]);
-            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfCallerOfGround"]);
+            Assert.AreEqual("Aydin", logEventInfo.Properties["typeOfMessageCreator"]);
+            Assert.AreEqual("Laura", logEventInfo.Properties["classOfMessageCreator"]);
+            Assert.AreEqual("Liwen", logEventInfo.Properties["methodOfMessageCreator"]);
             Assert.AreEqual("Marcel", logEventInfo.LoggerName);
             Assert.AreEqual(exeption, logEventInfo.Exception);
         }
@@ -55,10 +55,10 @@ namespace UnitTest
             //Arrage
             var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
             var sut = new NLogMessageBuilder("Marcel");
-            //var callerOfGround = typeof(NLogMessageBuilderTest);
+            //var MessageCreator = typeof(NLogMessageBuilderTest);
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla"/*, MessageCreator*/, null, callerInfo);
 
             //Assert
             Assert.IsNotNull(logEventInfo);
@@ -80,7 +80,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla" /*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla" /*, MessageCreator*/, null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Fatal.ToString(), logEventInfo.Level.ToString());
@@ -94,7 +94,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Error, "Log: bla bla bla", /*callerOfGround,*/ null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Error, "Log: bla bla bla", /*MessageCreator,*/ null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Error.ToString(), logEventInfo.Level.ToString());
@@ -108,7 +108,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Warning, "Log: bla bla bla", /*callerOfGround,*/ null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Warning, "Log: bla bla bla", /*messageCreator,*/ null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Warn.ToString(), logEventInfo.Level.ToString());
@@ -122,7 +122,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Info, "Log: bla bla bla"/*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Info, "Log: bla bla bla"/*, messageCreator*/, null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Info.ToString(), logEventInfo.Level.ToString());
@@ -136,7 +136,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Debug, "Log: bla bla bla"/*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Debug, "Log: bla bla bla"/*, messageCreator*/, null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Debug.ToString(), logEventInfo.Level.ToString());
@@ -150,7 +150,7 @@ namespace UnitTest
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
-            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Trace, "Log: bla bla bla"/*, callerOfGround*/, null, callerInfo);
+            var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Trace, "Log: bla bla bla"/*, messageCreator*/, null, callerInfo);
 
             //Assert
             Assert.AreEqual(NLog.LogLevel.Trace.ToString(), logEventInfo.Level.ToString());
@@ -176,14 +176,14 @@ namespace UnitTest
         //{
         //    //Arrage
         //var sampelCallerForNLogMessageBuilderTest = new SampelCallerForNLogMessageBuilderTest();
-        //    var callerOfGround = typeof(NLogMessageBuilderTest);
+        //    var messageCreator = typeof(NLogMessageBuilderTest);
 
         //    //Act
 
         //    foreach (var level in Enum.GetValues(typeof(LogLevel)))
         //    {
         //        LogLevel foo = (LogLevel)level;
-        //        var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(foo, "Log: bla bla bla", callerOfGround, null);
+        //        var logEventInfo = sampelCallerForNLogMessageBuilderTest.DoIt(foo, "Log: bla bla bla", messageCreator, null);
         //    }
         //}
     }

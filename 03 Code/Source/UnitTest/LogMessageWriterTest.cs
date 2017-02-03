@@ -2,7 +2,6 @@
 using System.IO;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NLog;
 using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
 namespace UnitTest
@@ -13,12 +12,11 @@ namespace UnitTest
 
         private class SampleGroundForLogMessageWriterTest
         {
-            private LogMessageWriter m_LogMessageWriter;
+            private readonly LogMessageWriter m_LogMessageWriter;
 
             public SampleGroundForLogMessageWriterTest()
             {
-                m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest),
-                    typeof(SampleGroundForLogMessageWriterTest));
+                m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
             }
 
             public void WriteLogEntryWithoutException(LogLevel level, string message)
@@ -32,14 +30,14 @@ namespace UnitTest
             }
         }
 
-        private static SampleGroundForLogMessageWriterTest s_Sut = new SampleGroundForLogMessageWriterTest();
+        private readonly SampleGroundForLogMessageWriterTest m_Sut = new SampleGroundForLogMessageWriterTest();
 
         [TestMethod]
         public void PossitivTestWriteLogEntryWithoutException()
         {
             //Arange
             File.Delete("logTest.txt");
-            s_Sut.WriteLogEntryWithoutException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithoutException");
+            m_Sut.WriteLogEntryWithoutException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithoutException");
 
             //Act
             var completeLogText = File.ReadAllText("logTest.txt");
@@ -48,7 +46,7 @@ namespace UnitTest
             var splitedLogTextArray = completeLogText.Split(stringSeparator, StringSplitOptions.None);
 
 
-            //Assert TODO
+            //Assert
             Assert.AreEqual(LogLevel.Fatal.ToString(), splitedLogTextArray[0]);
             Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[1]);
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
@@ -63,7 +61,7 @@ namespace UnitTest
         {
             //Arange
             File.Delete("logTest.txt");
-            s_Sut.WriteLogEntryWithException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithException");
+            m_Sut.WriteLogEntryWithException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithException");
 
             //Act
             var completeLogText = File.ReadAllText("logTest.txt");
@@ -71,8 +69,7 @@ namespace UnitTest
             string[] stringSeparator = { "," };
             var splitedLogTextArray = completeLogText.Split(stringSeparator, StringSplitOptions.None);
 
-
-            //Assert TODO
+            //Assert
             Assert.AreEqual(LogLevel.Fatal.ToString(), splitedLogTextArray[0]);
             Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[1]);
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
@@ -87,18 +84,19 @@ namespace UnitTest
         public void CheckCtor()
         {
             //Arrange
-            var logMessageWriter = new LogMessageWriter(null, null);
+            var logMessageWriter = new LogMessageWriter(null);
         }
 
         //[TestMethod]
         //[ExpectedException(typeof(NotImplementedException))]
-        //public void OnlyLogLevel()
+        //public void CkeckMessageExist()
         //{
         //    //Arrange
-        //    var sampleGroundForLogMessageWriterTest = new SampleGroundForLogMessageWriterTest();
+        //    var logMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest),
+        //            typeof(SampleGroundForLogMessageWriterTest));
 
         //    //Act
-        //    sampleGroundForLogMessageWriterTest.DoItSampleGround(LogLevel.Fatal, null);
+        //    logMessageWriter.WriteLogEntry((LogLevel)7, null);
         //}
     }
 }

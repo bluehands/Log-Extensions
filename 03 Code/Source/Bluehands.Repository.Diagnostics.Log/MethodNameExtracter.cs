@@ -8,15 +8,15 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private const int frameCount = 1;
 
-        private readonly Type m_GroundType;
+        private readonly Type m_MessageCreator;
 
-        public MethodNameExtracter(Type groundType)
+        public MethodNameExtracter(Type messageCreator)
         {
-            if (groundType == null)
+            if (messageCreator == null)
             {
-                throw new ArgumentNullException(nameof(groundType));
+                throw new ArgumentNullException(nameof(messageCreator));
             }
-            m_GroundType = groundType;
+            m_MessageCreator = messageCreator;
         }
 
         public CallerInfo ExtractCallerInfoFromStackTrace()
@@ -28,7 +28,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private CallerInfo SearchFrameForCallerInfo(StackFrame[] frames)
         {
-            for (var i = frames.Length - 1; i > 0; i--)
+            for (var i = 0; i < frames.Length; i++)
             {
                 var declaringType = GetDeclaringTypeOfCurrentFrame(frames, i);
                 var isSearchedType = CheckIsSearchedType(declaringType);
@@ -43,7 +43,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private bool CheckIsSearchedType(Type declaringType)
         {
-            if (m_GroundType == declaringType)
+            if (m_MessageCreator == declaringType)
             {
                 return true;
             }
@@ -67,14 +67,14 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private static CallerInfo GetCallerInfos(StackFrame[] frames, int i)
         {
-            var messageCreatorMethod = frames[i + frameCount].GetMethod();
+            var methodNameOfMessageCreator = frames[i].GetMethod();
 
-            var fullNameOfMessageCreator = messageCreatorMethod.DeclaringType?.FullName;
-            var classNameOfMessageCreator = messageCreatorMethod.DeclaringType?.Name;
-            var methodNameOfMessageCreator = messageCreatorMethod.Name;
-
+            var fullNameOfMessageCreator = methodNameOfMessageCreator.DeclaringType?.FullName;
+            var classNameOfMessageCreator = methodNameOfMessageCreator.DeclaringType?.Name;
+            
             var callerInfo = new CallerInfo(fullNameOfMessageCreator, classNameOfMessageCreator,
-                methodNameOfMessageCreator);
+                methodNameOfMessageCreator.ToString());
+
             return callerInfo;
         }
     }

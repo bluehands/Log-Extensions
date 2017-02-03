@@ -1,7 +1,6 @@
 ﻿using System;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NLog;
 using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
 namespace UnitTest

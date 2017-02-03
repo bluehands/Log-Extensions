@@ -6,8 +6,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public class MethodNameExtracter
     {
-        private const int frameCount = 1;
-
         private readonly Type m_MessageCreator;
 
         public MethodNameExtracter(Type messageCreator)

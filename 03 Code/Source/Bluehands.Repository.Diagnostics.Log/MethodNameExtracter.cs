@@ -65,13 +65,15 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private static CallerInfo GetCallerInfos(StackFrame[] frames, int i)
         {
-            var methodNameOfMessageCreator = frames[i].GetMethod();
+            var method = frames[i].GetMethod();
 
-            var fullNameOfMessageCreator = methodNameOfMessageCreator.DeclaringType?.FullName;
-            var classNameOfMessageCreator = methodNameOfMessageCreator.DeclaringType?.Name;
+            var typeOfMessageCreator = method.DeclaringType?.FullName;
+            var classNameOfMessageCreator = method.DeclaringType?.Name;
+
+            var methodNameOfMessageCreator = method.Name;
             
-            var callerInfo = new CallerInfo(fullNameOfMessageCreator, classNameOfMessageCreator,
-                methodNameOfMessageCreator.ToString());
+            var callerInfo = new CallerInfo(typeOfMessageCreator, classNameOfMessageCreator,
+                methodNameOfMessageCreator);
 
             return callerInfo;
         }

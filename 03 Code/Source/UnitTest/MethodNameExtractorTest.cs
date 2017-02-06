@@ -31,9 +31,9 @@ namespace UnitTest
             var callerInfo = sample.DoIt();
             //Assert
             Assert.IsNotNull(callerInfo);
-            Assert.AreEqual(nameof(MethodNameExtractorTest), callerInfo.ClassNameOfGround);
-            Assert.AreEqual(nameof(ExtractWithSampleCall), callerInfo.MethodNameOfMessageCreator);
-            Assert.AreEqual(typeof(MethodNameExtractorTest).ToString(), callerInfo.TypeOfMessageCreator);
+            Assert.AreEqual(nameof(SampleMessageCreatorForExtractor), callerInfo.ClassOfMessageCreator);
+            Assert.AreEqual("DoIt", callerInfo.MethodNameOfMessageCreator);
+            Assert.AreEqual(typeof(SampleMessageCreatorForExtractor).ToString(), callerInfo.TypeOfMessageCreator);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace UnitTest
         //    //Act
         //    var methodNameExtracter = new MethodNameExtracter(sut.GetType());
         //    var foo = methodNameExtracter.ExtractCallerInfoFromStackTrace();
-        //    var bar = foo.ClassNameOfGround;
+        //    var bar = foo.classOfMessageCreator;
         //    //TODO fertig --> woher wissen das tatsächlich durch die Methoden und nicht durch die ctor gegangen wird
         //}
     }

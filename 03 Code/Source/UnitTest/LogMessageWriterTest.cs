@@ -9,35 +9,15 @@ namespace UnitTest
     [TestClass]
     public class LogMessageWriterTest
     {
-
-        private class SampleGroundForLogMessageWriterTest
-        {
-            private readonly LogMessageWriter m_LogMessageWriter;
-
-            public SampleGroundForLogMessageWriterTest()
-            {
-                m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
-            }
-
-            public void WriteLogEntryWithoutException(LogLevel level, string message)
-            {
-                m_LogMessageWriter.WriteLogEntry(level, message);
-            }
-            public void WriteLogEntryWithException(LogLevel level, string message)
-            {
-                var exception = new NotImplementedException();
-                m_LogMessageWriter.WriteLogEntry(level, message, exception);
-            }
-        }
-
-        private readonly SampleGroundForLogMessageWriterTest m_Sut = new SampleGroundForLogMessageWriterTest();
+        private readonly LogMessageWriter m_Sut = new LogMessageWriter(typeof(LogMessageWriterTest));
 
         [TestMethod]
         public void PossitivTestWriteLogEntryWithoutException()
         {
             //Arange
             File.Delete("logTest.txt");
-            m_Sut.WriteLogEntryWithoutException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithoutException");
+            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres");
+
 
             //Act
             var completeLogText = File.ReadAllText("logTest.txt");
@@ -52,7 +32,7 @@ namespace UnitTest
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
             Assert.AreEqual("PossitivTestWriteLogEntryWithoutException", splitedLogTextArray[3]);
             Assert.AreEqual("", splitedLogTextArray[4]);
-            Assert.AreEqual("logg emol ebbes anres uewer WriteLogEntryWithoutException", splitedLogTextArray[5]);
+            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[5]);
             Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
         }
 
@@ -61,13 +41,19 @@ namespace UnitTest
         {
             //Arange
             File.Delete("logTest.txt");
-            m_Sut.WriteLogEntryWithException(LogLevel.Fatal, "logg emol ebbes anres uewer WriteLogEntryWithException");
+            var exception = new NotImplementedException();
+            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres", exception);
 
             //Act
-            var completeLogText = File.ReadAllText("logTest.txt");
+            var completLogText = File.ReadAllText("logTest.txt");
 
             string[] stringSeparator = { "," };
-            var splitedLogTextArray = completeLogText.Split(stringSeparator, StringSplitOptions.None);
+            var splitedLogTextArray = completLogText.Split(stringSeparator, StringSplitOptions.None);
+
+            foreach (var textPart in splitedLogTextArray)
+            {
+                Console.WriteLine(textPart);
+            }
 
             //Assert
             Assert.AreEqual(LogLevel.Fatal.ToString(), splitedLogTextArray[0]);
@@ -75,7 +61,7 @@ namespace UnitTest
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
             Assert.AreEqual("PossitivTestWriteLogEntryWithException", splitedLogTextArray[3]);
             Assert.AreEqual("Die Methode oder der Vorgang ist nicht implementiert.", splitedLogTextArray[4]);
-            Assert.AreEqual("logg emol ebbes anres uewer WriteLogEntryWithException", splitedLogTextArray[5]);
+            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[5]);
             Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
         }
 
@@ -86,17 +72,5 @@ namespace UnitTest
             //Arrange
             var logMessageWriter = new LogMessageWriter(null);
         }
-
-        //[TestMethod]
-        //[ExpectedException(typeof(NotImplementedException))]
-        //public void CkeckMessageExist()
-        //{
-        //    //Arrange
-        //    var logMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest),
-        //            typeof(SampleGroundForLogMessageWriterTest));
-
-        //    //Act
-        //    logMessageWriter.WriteLogEntry((LogLevel)7, null);
-        //}
     }
 }

@@ -3,13 +3,13 @@
     public class CallerInfo
     {
         public string TypeOfMessageCreator { get; private set; }
-        public string ClassNameOfGround { get; private set; }
+        public string ClassOfMessageCreator { get; private set; }
         public string MethodNameOfMessageCreator { get; private set; }
         
-        public CallerInfo(string typeOfMessageCreator, string classNameOfGround, string methodNameOfMessageCreator)
+        public CallerInfo(string typeOfMessageCreator, string classOfMessageCreator, string methodNameOfMessageCreator)
         {
             TypeOfMessageCreator = typeOfMessageCreator;
-            ClassNameOfGround = classNameOfGround;
+            ClassOfMessageCreator = classOfMessageCreator;
             MethodNameOfMessageCreator = methodNameOfMessageCreator;
         }
     }

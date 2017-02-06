@@ -8,12 +8,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        
+
         public LogMessageWriter(Type messageCreator)
         {
             m_MethodNameExtracter = new MethodNameExtracter(messageCreator);
             m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
-            m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString(), messageCreator);
+            m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
         }
 
         public void WriteLogEntry(LogLevel logLevel, string message)

@@ -40,7 +40,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         private void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
             logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
-            logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassNameOfGround;
+            logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
             logEventInfo.Properties["methodOfMessageCreator"] = callerInfo.MethodNameOfMessageCreator;
         }
 

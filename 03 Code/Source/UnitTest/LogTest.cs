@@ -3,7 +3,7 @@ using System.IO;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static NLog.LogLevel;
+using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
 namespace UnitTest
 {
@@ -32,7 +32,7 @@ namespace UnitTest
             var splitLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitLogTextArray, Fatal, exceptionString);
+            Assert(splitLogTextArray, LogLevel.Fatal, exceptionString);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Fatal, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Fatal, exceptionString);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Error, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Error, exceptionString);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Error, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Error, exceptionString);
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Warn, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Warning, exceptionString);
         }
 
         [TestMethod]
@@ -114,7 +114,7 @@ namespace UnitTest
 
             //Assert
             var splitedLogTextArray = GetSplitLogTextArray();
-            Assert(splitedLogTextArray, Warn, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Warning, exceptionString);
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Info, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Info, exceptionString);
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Info, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Info, exceptionString);
         }
 
         [TestMethod]
@@ -164,7 +164,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Debug, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Debug, exceptionString);
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Debug, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Debug, exceptionString);
         }
 
         [TestMethod]
@@ -197,7 +197,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Trace, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Trace, exceptionString);
         }
 
         [TestMethod]
@@ -213,7 +213,7 @@ namespace UnitTest
             var splitedLogTextArray = GetSplitLogTextArray();
 
             //Assert
-            Assert(splitedLogTextArray, Trace, exceptionString);
+            Assert(splitedLogTextArray, LogLevel.Trace, exceptionString);
         }
 
         private void Arrange()
@@ -231,9 +231,11 @@ namespace UnitTest
             return splitedLogTextArray;
         }
 
-        private static void Assert(string[] splitedLogTextArray, NLog.LogLevel logLevel, string exception)
+        private static void Assert(string[] splitedLogTextArray, LogLevel logLevel, string exception)
         {
-            AreEqual(logLevel.ToString(), splitedLogTextArray[0]);
+            var nLogLevel = GetNLogLevel(logLevel);
+
+            AreEqual(nLogLevel.ToString(), splitedLogTextArray[0]);
             AreEqual("UnitTest.LogTest", splitedLogTextArray[1]);
             AreEqual("LogTest", splitedLogTextArray[2]);
             AreEqual(exception, splitedLogTextArray[4]);
@@ -241,5 +243,27 @@ namespace UnitTest
             AreEqual("UnitTest.LogTest", splitedLogTextArray[6]);
             AreEqual(splitedLogTextArray[1], splitedLogTextArray[6]);
         }
+
+        private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)
+        {
+            switch (logLevel)
+            {
+                case LogLevel.Fatal:
+                    return NLog.LogLevel.Fatal;
+                case LogLevel.Error:
+                    return NLog.LogLevel.Error;
+                case LogLevel.Warning:
+                    return NLog.LogLevel.Warn;
+                case LogLevel.Info:
+                    return NLog.LogLevel.Info;
+                case LogLevel.Debug:
+                    return NLog.LogLevel.Debug;
+                case LogLevel.Trace:
+                    return NLog.LogLevel.Trace;
+                default:
+                    return NLog.LogLevel.Trace;
+            }
+        }
+
     }
 }

@@ -20,7 +20,6 @@ namespace Sandbox
                 //Hier kommen jetzt Methoden
                 log.Debug("Log von Main über AutoTrace");
             }
-            Console.ReadKey();
         }
 
         private static void Test()

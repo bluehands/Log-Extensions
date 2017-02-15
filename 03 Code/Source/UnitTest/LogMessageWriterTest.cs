@@ -10,13 +10,15 @@ namespace UnitTest
     public class LogMessageWriterTest
     {
         private readonly LogMessageWriter m_Sut = new LogMessageWriter(typeof(LogMessageWriterTest));
-
+        
         [TestMethod]
         public void PossitivTestWriteLogEntryWithoutException()
         {
             //Arange
+            var autoTrace = new AutoTrace(m_Sut, "");
+            var indent = autoTrace.Indent;
             File.Delete("logTest.txt");
-            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres");
+            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres", indent);
 
 
             //Act
@@ -40,9 +42,12 @@ namespace UnitTest
         public void PossitivTestWriteLogEntryWithException()
         {
             //Arange
+            var autoTrace = new AutoTrace(m_Sut, "");
+            var indent = autoTrace.Indent;
+
             File.Delete("logTest.txt");
             var exception = new NotImplementedException();
-            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres", exception);
+            m_Sut.WriteLogEntry(LogLevel.Fatal, "logg emol ebbes anres", indent, exception);
 
             //Act
             var completLogText = File.ReadAllText("logTest.txt");

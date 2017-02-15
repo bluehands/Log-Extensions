@@ -34,15 +34,16 @@ namespace UnitTest
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
             Assert.AreEqual("PossitivTestWriteLogEntryWithoutException", splitedLogTextArray[3]);
             Assert.AreEqual("", splitedLogTextArray[4]);
-            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[5]);
-            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
+            Assert.AreEqual(" ", splitedLogTextArray[5]);
+            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[6]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[7]);
         }
 
         [TestMethod]
         public void PossitivTestWriteLogEntryWithException()
         {
             //Arange
-            var autoTrace = new AutoTrace(m_Sut, "");
+            var autoTrace = new AutoTrace(m_Sut, "AutoTrace von PossitivTestWriteLogEntryWithException");
             var indent = autoTrace.Indent;
 
             File.Delete("logTest.txt");
@@ -66,8 +67,9 @@ namespace UnitTest
             Assert.AreEqual("LogMessageWriterTest", splitedLogTextArray[2]);
             Assert.AreEqual("PossitivTestWriteLogEntryWithException", splitedLogTextArray[3]);
             Assert.AreEqual("Die Methode oder der Vorgang ist nicht implementiert.", splitedLogTextArray[4]);
-            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[5]);
-            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[6]);
+            Assert.AreEqual(" ", splitedLogTextArray[5]);
+            Assert.AreEqual("logg emol ebbes anres", splitedLogTextArray[6]);
+            Assert.AreEqual("UnitTest.LogMessageWriterTest", splitedLogTextArray[7]);
         }
 
         [TestMethod]

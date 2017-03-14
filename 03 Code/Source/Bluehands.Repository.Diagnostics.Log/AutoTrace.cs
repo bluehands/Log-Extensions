@@ -6,20 +6,21 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public class AutoTrace : IDisposable
     {
-        private readonly LogMessageWriter m_LogMessageWriter;
+        private readonly Log m_Log;
         private readonly string m_Message;
 
         private static readonly Stopwatch stopWatch = Stopwatch.StartNew();
         private readonly TimeSpan m_StopWatchStarted;
         public int Indent { get; private set; }
 
-        public AutoTrace(LogMessageWriter logMessageWriter, string message)
+        public AutoTrace(Log logger, string message)
         {
-            m_LogMessageWriter = logMessageWriter;
+            m_Log = logger;
             m_Message = message;
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message + " Enter", Indent);
+			Indent++;
+			m_Log.Trace(m_Message + " Enter");
             m_StopWatchStarted = stopWatch.Elapsed;
-            Indent++;
+            
         }
 
         public void Dispose()
@@ -27,7 +28,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             Indent--;
             var formatedMiliseconds = GetFormatedMillisecondsString();
 
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, m_Message + $" Leave {formatedMiliseconds} ms", Indent);
+            m_Log.Trace(m_Message + $" Leave {formatedMiliseconds} ms");
         }
 
         private string GetFormatedMillisecondsString()

@@ -31,7 +31,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public AutoTrace AutoTrace(string message)
         {
-            var autoTrace = new AutoTrace(m_LogMessageWriter, message);
+            var autoTrace = new AutoTrace(this, message);
             m_Indent = autoTrace.Indent;
 
             return autoTrace;

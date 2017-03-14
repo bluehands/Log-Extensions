@@ -16,7 +16,14 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
         }
 
-        public void WriteLogEntry(LogLevel logLevel, string message, int indent)
+	    public bool IsFatalEnabled { get { return m_NLogLog.IsFatalEnabled; } }
+		public bool IsErrorEnabled { get { return m_NLogLog.IsErrorEnabled; } }
+		public bool IsWarningEnabled { get { return m_NLogLog.IsWarnEnabled; } }
+		public bool IsInfoEnabled { get { return m_NLogLog.IsInfoEnabled; } }
+		public bool IsTraceEnabled { get { return m_NLogLog.IsTraceEnabled; } }
+		public bool IsDebugEnabled { get { return m_NLogLog.IsDebugEnabled; } }
+
+	    public void WriteLogEntry(LogLevel logLevel, string message, int indent)
         {
             WriteLogEntry(logLevel, message, indent, null);
         }

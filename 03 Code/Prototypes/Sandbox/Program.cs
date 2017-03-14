@@ -5,10 +5,11 @@ namespace Sandbox
 {
     class Program
     {
-        private static readonly Log log = new Log(typeof(Program));
+        private static readonly Log<Program> log = new Log<Program>();
 
         private static void Main()
         {
+
             using (log.AutoTrace("Nachricht von AutoTrace"))
             {
                 //Hier kommen jetzt Methoden

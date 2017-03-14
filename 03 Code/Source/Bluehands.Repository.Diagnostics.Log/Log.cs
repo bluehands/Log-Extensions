@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
@@ -27,6 +28,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             return new Log(type);
         }
 
+
         public AutoTrace AutoTrace(string message)
         {
             var autoTrace = new AutoTrace(m_LogMessageWriter, message);
@@ -34,6 +36,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 
             return autoTrace;
         }
+
+
 
 
         public void Fatal(string message)
@@ -46,6 +50,8 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message, m_Indent, ex);
         }
 
+		public bool IsFatalEnabled { get { return m_LogMessageWriter.IsFatalEnabled; } }
+
         public void Error(string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message, m_Indent);
@@ -55,6 +61,8 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message, m_Indent, ex);
         }
+
+		public bool IsErrorEnabled { get { return m_LogMessageWriter.IsErrorEnabled; } }
 
         public void Warning(string message)
         {
@@ -66,6 +74,8 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, message, m_Indent, ex);
         }
 
+		public bool IsWarningEnabled { get { return m_LogMessageWriter.IsWarningEnabled; } }
+
         public void Info(Exception ex, string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message, m_Indent, ex);
@@ -75,6 +85,8 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message, m_Indent);
         }
+
+		public bool IsInfoEnabled { get { return m_LogMessageWriter.IsInfoEnabled; } }
 
         public void Debug(string message)
         {
@@ -86,6 +98,8 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message, m_Indent, ex);
         }
 
+		public bool IsDebugEnabled { get { return m_LogMessageWriter.IsDebugEnabled; } }
+
         public void Trace(string message)
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message, m_Indent);
@@ -95,5 +109,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message, m_Indent, ex);
         }
+
+		public bool IsTraceEnabled { get { return m_LogMessageWriter.IsTraceEnabled; } }
     }
 }

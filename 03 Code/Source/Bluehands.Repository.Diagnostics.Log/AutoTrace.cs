@@ -4,40 +4,31 @@ using System.Diagnostics;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class AutoTrace : IDisposable
+    public class AutoTrace : AutoTraceBase, IDisposable
     {
-        private readonly Log m_Log;
-        private readonly string m_Message;
+		private static readonly Stopwatch StopWatch = Stopwatch.StartNew();
+		private readonly TimeSpan m_StopWatchStarted;
 
-        private static readonly Stopwatch stopWatch = Stopwatch.StartNew();
-        private readonly TimeSpan m_StopWatchStarted;
-        public int Indent { get; private set; }
-
-        public AutoTrace(Log logger, string message)
+		public AutoTrace(Log logger, string message) : base(logger, message)
         {
-            m_Log = logger;
-            m_Message = message;
-			
-			m_Log.Trace(m_Message + " Enter");
-            m_StopWatchStarted = stopWatch.Elapsed;
-            Log.Indent++;
-        }
+			Log.Trace(Message + " Enter");
+			Log.Indent++;
+			m_StopWatchStarted = StopWatch.Elapsed;
+		}
 
-        public void Dispose()
-        {
-            Log.Indent--;
-            var formatedMiliseconds = GetFormatedMillisecondsString();
+		public void Dispose()
+		{
+			Log.Indent--;
+			Log.Trace(Message + $" Took {GetFormatedMillisecondsString()}ms. Leave");
+		}
 
-            m_Log.Trace(m_Message + $" Took {formatedMiliseconds}ms. Leave");
-        }
+		private string GetFormatedMillisecondsString()
+		{
+			var end = StopWatch.Elapsed - m_StopWatchStarted;
+			var miliseconds = end.TotalMilliseconds;
 
-        private string GetFormatedMillisecondsString()
-        {
-            var end = stopWatch.Elapsed - m_StopWatchStarted;
-            var miliseconds = end.TotalMilliseconds;
+			return $"{miliseconds:0.000}";
+		}
 
-            var formatedMiliseconds = $"{miliseconds:0.000}";
-            return formatedMiliseconds;
-        }
-    }
+	}
 }

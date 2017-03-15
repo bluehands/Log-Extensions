@@ -4,18 +4,18 @@ using System.Runtime.CompilerServices;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class Log<T> : Log
-    {
-        public Log()
-            : base(typeof(T))
-        {
+	public class Log<T> : Log
+	{
+		public Log()
+			: base(typeof(T))
+		{
 
-        }
-    }
+		}
+	}
 
-    public class Log
+	public class Log : ILog
     {
-        private readonly LogMessageWriter m_LogMessageWriter;
+        private readonly ILogMessageWriter m_LogMessageWriter;
 
 	    [ThreadStatic] public static int Indent;
 
@@ -30,16 +30,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         }
 
 
+
+
         public AutoTrace AutoTrace(string message)
         {
-            var autoTrace = new AutoTrace(this, message);
-            //Indent = autoTrace.Indent;
-
-            return autoTrace;
+            return new AutoTrace(this, message);
         }
-
-
-
 
         public void Fatal(string message)
         {

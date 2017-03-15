@@ -3,7 +3,7 @@ using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public sealed class NLogMessageBuilder
+    internal sealed class NLogMessageBuilder
     {
         //private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly string m_LoggerName;

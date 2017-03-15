@@ -49,6 +49,9 @@
   <ItemGroup>
     <Compile Include="CallerInfo.cs" />
     <Compile Include="AutoTrace.cs" />
+    <Compile Include="AutoTraceBase.cs" />
+    <Compile Include="ILog.cs" />
+    <Compile Include="ILogMessageWriter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="NLogMessageBuilder.cs" />

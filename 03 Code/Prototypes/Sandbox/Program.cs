@@ -6,7 +6,7 @@ namespace Sandbox
 {
     class Program
     {
-        private static readonly ILog Log = new Log<Program>();
+        private static readonly Log Log = new Log<Program>();
 
         private static void Main()
         {

@@ -6,12 +6,12 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
 	public abstract class AutoTraceBase
 	{
-		protected readonly Log Log;
+		protected readonly LogMessageWriter LogWriter;
 		protected readonly string Message;
 
-		protected AutoTraceBase(Log logger, string message)
+		protected AutoTraceBase(LogMessageWriter logWriter, string message)
 		{
-			Log = logger;
+			LogWriter = logWriter;
 			Message = message;
 		}
 	}

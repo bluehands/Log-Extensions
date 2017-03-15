@@ -3,13 +3,15 @@ using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    internal class NLogMessageWriter : ILogMessageWriter
+    public class LogMessageWriter
     {
         private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        
-        public NLogMessageWriter(Type messageCreator)
+
+		[ThreadStatic] public static int Indent;
+
+		public LogMessageWriter(Type messageCreator)
         {
             m_MethodNameExtracter = new MethodNameExtracter(messageCreator);
             m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
@@ -23,18 +25,18 @@ namespace Bluehands.Repository.Diagnostics.Log
 		public bool IsTraceEnabled { get { return m_NLogLog.IsTraceEnabled; } }
 		public bool IsDebugEnabled { get { return m_NLogLog.IsDebugEnabled; } }
 
-	    public void WriteLogEntry(LogLevel logLevel, string message, int indent)
-        {
-            WriteLogEntry(logLevel, message, indent, null);
-        }
+	    public void WriteLogEntry(LogLevel logLevel, string message)
+	    {
+			WriteLogEntry(logLevel, message, null);
+		}
 
-        public void WriteLogEntry(LogLevel logLevel, string message, int indent, Exception ex)
+        public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)
         {
             try
             {
 	            if (message != null && IsLogLevelEnabled(logLevel))
 	            {
-					var logEventInfo = GetLogEventInfo(logLevel, message, indent, ex);
+					var logEventInfo = GetLogEventInfo(logLevel, message, Indent, ex);
 
 					m_NLogLog.Log(logEventInfo);
 	            }

@@ -9,17 +9,17 @@ namespace Bluehands.Repository.Diagnostics.Log
 		private static readonly Stopwatch StopWatch = Stopwatch.StartNew();
 		private readonly TimeSpan m_StopWatchStarted;
 
-		public AutoTrace(Log logger, string message) : base(logger, message)
+		public AutoTrace(LogMessageWriter logWriter, string message) : base(logWriter, message)
         {
-			Log.Trace(Message + " Enter");
-			Log.Indent++;
+			LogWriter.WriteLogEntry(LogLevel.Trace, Message + " Enter");
+			LogMessageWriter.Indent++;
 			m_StopWatchStarted = StopWatch.Elapsed;
 		}
 
 		public void Dispose()
 		{
-			Log.Indent--;
-			Log.Trace(Message + $" Took {GetFormatedMillisecondsString()}ms. Leave");
+			LogMessageWriter.Indent--;
+			LogWriter.WriteLogEntry(LogLevel.Trace, Message + $" Took {GetFormatedMillisecondsString()}ms. Leave");
 		}
 
 		private string GetFormatedMillisecondsString()

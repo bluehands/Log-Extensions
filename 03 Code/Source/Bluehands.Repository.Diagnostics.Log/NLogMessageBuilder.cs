@@ -5,7 +5,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     internal sealed class NLogMessageBuilder
     {
-        //private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly string m_LoggerName;
 
         public NLogMessageBuilder(string loggerName)

@@ -3,13 +3,13 @@ using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    internal class LogMessageWriter : ILogMessageWriter
+    internal class NLogMessageWriter : ILogMessageWriter
     {
         private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
         
-        public LogMessageWriter(Type messageCreator)
+        public NLogMessageWriter(Type messageCreator)
         {
             m_MethodNameExtracter = new MethodNameExtracter(messageCreator);
             m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
@@ -32,18 +32,40 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             try
             {
-                if (message != null)
-                {
-                    var logEventInfo = GetLogEventInfo(logLevel, message, indent, ex);
+	            if (message != null && IsLogLevelEnabled(logLevel))
+	            {
+					var logEventInfo = GetLogEventInfo(logLevel, message, indent, ex);
 
-                    m_NLogLog.Log(logEventInfo);
-                }
+					m_NLogLog.Log(logEventInfo);
+	            }
             }
             catch (Exception exx)
             {
                 Console.WriteLine(exx);
             }
         }
+
+	    private bool IsLogLevelEnabled(LogLevel logLevel)
+	    {
+		    switch (logLevel)
+		    {
+				case LogLevel.Fatal:
+					return m_NLogLog.IsFatalEnabled;
+				case LogLevel.Error:
+					return m_NLogLog.IsErrorEnabled; 
+			    case LogLevel.Warning:
+					return m_NLogLog.IsWarnEnabled;
+				case LogLevel.Info:
+					return m_NLogLog.IsInfoEnabled; 
+			    case LogLevel.Debug:
+					 return m_NLogLog.IsDebugEnabled;
+				case LogLevel.Trace:
+					return m_NLogLog.IsTraceEnabled;
+				default:
+				    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
+		    }
+	    }
+
 
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, int indent, Exception ex)
         {

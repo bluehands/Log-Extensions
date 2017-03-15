@@ -21,7 +21,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public Log(Type messageCreator)
         {
-            m_LogMessageWriter = new LogMessageWriter(messageCreator);
+            m_LogMessageWriter = new NLogMessageWriter(messageCreator);
         }
 
         public static Log For(Type type)

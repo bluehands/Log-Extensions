@@ -70,15 +70,10 @@ namespace Bluehands.Repository.Diagnostics.Log
 
             var typeOfMessageCreator = method.DeclaringType?.FullName;
             var classNameOfMessageCreator = method.DeclaringType?.Name;
-
             var methodNameOfMessageCreator = method.Name;
-
-	        string threadIdofMessageCreator = Thread.CurrentThread.ManagedThreadId.ToString();
+	        var threadIdofMessageCreator = Thread.CurrentThread.ManagedThreadId.ToString();
             
-            var callerInfo = new CallerInfo(typeOfMessageCreator, classNameOfMessageCreator,
-                methodNameOfMessageCreator, threadIdofMessageCreator);
-
-            return callerInfo;
+            return new CallerInfo(typeOfMessageCreator, classNameOfMessageCreator, methodNameOfMessageCreator, threadIdofMessageCreator);
         }
     }
 }

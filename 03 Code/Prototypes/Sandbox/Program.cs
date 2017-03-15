@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Bluehands.Repository.Diagnostics.Log;
 
 namespace Sandbox
@@ -9,27 +10,28 @@ namespace Sandbox
 
         private static void Main()
         {
-
-            using (log.AutoTrace("Nachricht von AutoTrace"))
+            using (log.AutoTrace("AutoTrace active:"))
             {
-                //Hier kommen jetzt Methoden
-                log.Debug("Log von Main über AutoTrace");
-            }
-            Test();
-            using (log.AutoTrace("Nachricht von AutoTrace"))
-            {
-                //Hier kommen jetzt Methoden
-                log.Debug("Log von Main über AutoTrace");
-            }
+				log.Debug("Creating threads...");
+	            for (var i = 0; i < 2; i++)
+	            {
+		            var newThread = new Thread(Test);
+		            newThread.Name = i.ToString();
+					newThread.Start();
+	            }
+                //Test();
+			}
+            
         }
 
         private static void Test()
         {
             using (log.AutoTrace("Nachricht von AutoTrace"))
             {
-                //Hier kommen jetzt Methoden
-                log.Debug("yyyyyyyyyyyy");
-            }
+				log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
+				log.Debug($"Log entry 2, Thread {Thread.CurrentThread.ManagedThreadId}.");
+				log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
+			}
 
             //var exeption = new NotImplementedException();
 

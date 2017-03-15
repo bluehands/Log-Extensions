@@ -43,6 +43,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
             logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
             logEventInfo.Properties["methodOfMessageCreator"] = callerInfo.MethodNameOfMessageCreator;
+	        logEventInfo.Properties["threadIdOfMessageCreator"] = callerInfo.ThreadIdOfMessageCreator;
         }
 
 
@@ -50,35 +51,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             var whiteSpaces = "";
 
-            switch (indent)
-            {
-                case 1:
-                    return " ";
-                case 2:
-                    return "  ";
-                case 3:
-                    return "   ";
-                case 4:
-                    return "    ";
-                case 5:
-                    return "     ";
-                case 6:
-                    return "      ";
-                case 7:
-                    return "       ";
-                case 8:
-                    return "        ";
-                case 9:
-                    return "         ";
-                case 10:
-                    return "          ";
-                default:
-                    for (var i = 0; i < indent; i++)
-                    {
-                        whiteSpaces += " ";
-                    }
-                    return whiteSpaces;
-            }
+	        for (var i = 0; i < indent; i++)
+	        {
+		        whiteSpaces += "\t";
+	        }
+
+	        return whiteSpaces;
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

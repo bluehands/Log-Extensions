@@ -17,18 +17,18 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             m_Log = logger;
             m_Message = message;
-			Indent++;
+			
 			m_Log.Trace(m_Message + " Enter");
             m_StopWatchStarted = stopWatch.Elapsed;
-            
+            Log.Indent++;
         }
 
         public void Dispose()
         {
-            Indent--;
+            Log.Indent--;
             var formatedMiliseconds = GetFormatedMillisecondsString();
 
-            m_Log.Trace(m_Message + $" Leave {formatedMiliseconds} ms");
+            m_Log.Trace(m_Message + $" Took {formatedMiliseconds}ms. Leave");
         }
 
         private string GetFormatedMillisecondsString()

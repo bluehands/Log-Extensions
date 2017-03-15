@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
@@ -71,9 +72,11 @@ namespace Bluehands.Repository.Diagnostics.Log
             var classNameOfMessageCreator = method.DeclaringType?.Name;
 
             var methodNameOfMessageCreator = method.Name;
+
+	        string threadIdofMessageCreator = Thread.CurrentThread.ManagedThreadId.ToString();
             
             var callerInfo = new CallerInfo(typeOfMessageCreator, classNameOfMessageCreator,
-                methodNameOfMessageCreator);
+                methodNameOfMessageCreator, threadIdofMessageCreator);
 
             return callerInfo;
         }

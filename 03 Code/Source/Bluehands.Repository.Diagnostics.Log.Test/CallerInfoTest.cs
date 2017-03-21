@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management.Instrumentation;
-using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTest
+namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 	[TestClass]
 	public class CallerInfoTest

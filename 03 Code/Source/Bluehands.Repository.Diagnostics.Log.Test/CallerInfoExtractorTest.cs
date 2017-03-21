@@ -1,8 +1,7 @@
 ﻿using System;
-using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTest
+namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 
     [TestClass]

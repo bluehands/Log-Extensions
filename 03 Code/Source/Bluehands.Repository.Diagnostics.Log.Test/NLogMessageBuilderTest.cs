@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Threading;
-using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
 
-namespace UnitTest
+namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 	[TestClass]
 	public class NLogMessageBuilderTest

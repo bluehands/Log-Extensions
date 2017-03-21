@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class CallerInfo
+    internal class CallerInfo
     {
         public string TypeOfMessageCreator { get; private set; }
         public string ClassOfMessageCreator { get; private set; }

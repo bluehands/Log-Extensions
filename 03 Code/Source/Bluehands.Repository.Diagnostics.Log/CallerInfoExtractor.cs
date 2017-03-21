@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class CallerInfoExtractor
+    internal class CallerInfoExtractor
     {
         private readonly Type m_MessageCreator;
 

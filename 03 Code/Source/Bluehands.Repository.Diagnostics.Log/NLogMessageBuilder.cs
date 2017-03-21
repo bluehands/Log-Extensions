@@ -3,21 +3,18 @@ using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public sealed class NLogMessageBuilder
+    internal sealed class NLogMessageBuilder
     {
-        //private readonly MethodNameExtracter m_MethodNameExtracter;
         private readonly string m_LoggerName;
 
         public NLogMessageBuilder(string loggerName)
         {
-            if (loggerName != null)
-            {
-                m_LoggerName = loggerName;
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
+	        if (string.IsNullOrEmpty(loggerName))
+	        {
+		        throw new ArgumentNullException(nameof(loggerName));
+	        }
+
+	        m_LoggerName = loggerName;
         }
 
         public LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent)
@@ -38,11 +35,15 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
+        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
-            logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
+	        if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
+	        if (callerInfo == null) throw new ArgumentNullException(nameof(callerInfo));
+
+			logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
             logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
             logEventInfo.Properties["methodOfMessageCreator"] = callerInfo.MethodNameOfMessageCreator;
+	        logEventInfo.Properties["threadIdOfMessageCreator"] = callerInfo.ThreadIdOfMessageCreator;
         }
 
 
@@ -50,35 +51,12 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             var whiteSpaces = "";
 
-            switch (indent)
-            {
-                case 1:
-                    return " ";
-                case 2:
-                    return "  ";
-                case 3:
-                    return "   ";
-                case 4:
-                    return "    ";
-                case 5:
-                    return "     ";
-                case 6:
-                    return "      ";
-                case 7:
-                    return "       ";
-                case 8:
-                    return "        ";
-                case 9:
-                    return "         ";
-                case 10:
-                    return "          ";
-                default:
-                    for (var i = 0; i < indent; i++)
-                    {
-                        whiteSpaces += " ";
-                    }
-                    return whiteSpaces;
-            }
+	        for (var i = 0; i < indent; i++)
+	        {
+		        whiteSpaces += "\t";
+	        }
+
+	        return whiteSpaces;
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

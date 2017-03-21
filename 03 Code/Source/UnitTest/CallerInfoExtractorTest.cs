@@ -15,7 +15,7 @@ namespace UnitTest
 			//Given
 
 			//When
-			var nameExtractor = new CallerInfoExtractor(null);
+			new CallerInfoExtractor(null);
 
 			//Then
 		}

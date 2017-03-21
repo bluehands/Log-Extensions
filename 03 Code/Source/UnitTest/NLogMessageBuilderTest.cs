@@ -18,7 +18,7 @@ namespace UnitTest
 			//Given
 
 			//When
-			var messageBuilder = new NLogMessageBuilder(null);
+			new NLogMessageBuilder(null);
 
 			//Then
 		}

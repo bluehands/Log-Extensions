@@ -54,7 +54,7 @@
     <Compile Include="LogLevel.cs" />
     <Compile Include="NLogMessageBuilder.cs" />
     <Compile Include="LogMessageWriter.cs" />
-    <Compile Include="MethodNameExtracter.cs" />
+    <Compile Include="CallerInfoExtractor.cs" />
     <Compile Include="NotUsedClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

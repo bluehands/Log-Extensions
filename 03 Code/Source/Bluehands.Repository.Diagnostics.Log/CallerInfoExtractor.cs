@@ -6,11 +6,11 @@ using System.Threading;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class MethodNameExtracter
+    public class CallerInfoExtractor
     {
         private readonly Type m_MessageCreator;
 
-        public MethodNameExtracter(Type messageCreator)
+        public CallerInfoExtractor(Type messageCreator)
         {
             if (messageCreator == null)
             {

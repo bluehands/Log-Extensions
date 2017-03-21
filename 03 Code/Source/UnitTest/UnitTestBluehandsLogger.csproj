@@ -57,11 +57,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CallerInfoTest.cs" />
-    <Compile Include="MethodNameExtractorTest.cs" />
+    <Compile Include="CallerInfoExtractorTest.cs" />
     <Compile Include="NLogMessageBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LogMessageWriterTest.cs" />
-    <Compile Include="LogTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bluehands.Repository.Diagnostics.Log\Bluehands.Repository.Diagnostics.Log.csproj">

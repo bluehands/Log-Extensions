@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Bluehands.Repository.Diagnostics.Log;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LogLevel = Bluehands.Repository.Diagnostics.Log.LogLevel;
@@ -14,7 +15,7 @@ namespace UnitTest
         public void GetLogEventInfosTestWithoutExeption()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
             //Act
             var logEventInfo = sut.BuildNLogEventInfo(LogLevel.Fatal, "Log: bla bla bla", null, callerInfo, m_Indent);
@@ -33,7 +34,7 @@ namespace UnitTest
         public void GetLogEventInfosTestWithExeption()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
             var exeption = new NotImplementedException();
 
@@ -54,7 +55,7 @@ namespace UnitTest
         public void CheckLogEventInfoIsNotNull()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
             //var MessageCreator = typeof(NLogMessageBuilderTest);
 
@@ -77,7 +78,7 @@ namespace UnitTest
         public void CheckLogLevelFatal()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -91,7 +92,7 @@ namespace UnitTest
         public void CheckLogLevelError()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -105,7 +106,7 @@ namespace UnitTest
         public void CheckLogLevelWarning()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -119,7 +120,7 @@ namespace UnitTest
         public void CheckLogLevelInfo()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -133,7 +134,7 @@ namespace UnitTest
         public void CheckLogLevelDebug()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -147,7 +148,7 @@ namespace UnitTest
         public void CheckLogLevelTrace()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act
@@ -162,7 +163,7 @@ namespace UnitTest
         public void CheckLogLevelDefault()
         {
             //Arrage
-            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen");
+            var callerInfo = new CallerInfo("Aydin", "Laura", "Liwen", Thread.CurrentThread.Name);
             var sut = new NLogMessageBuilder("Marcel");
 
             //Act

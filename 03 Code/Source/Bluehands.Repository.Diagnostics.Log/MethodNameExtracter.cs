@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    internal class MethodNameExtracter
+    public class MethodNameExtracter
     {
         private readonly Type m_MessageCreator;
 

@@ -9,14 +9,12 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public NLogMessageBuilder(string loggerName)
         {
-            if (loggerName != null)
-            {
-                m_LoggerName = loggerName;
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
+	        if (string.IsNullOrEmpty(loggerName))
+	        {
+		        throw new ArgumentNullException(nameof(loggerName));
+	        }
+
+	        m_LoggerName = loggerName;
         }
 
         public LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent)
@@ -37,9 +35,12 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
+        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
-            logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
+	        if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
+	        if (callerInfo == null) throw new ArgumentNullException(nameof(callerInfo));
+
+			logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
             logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
             logEventInfo.Properties["methodOfMessageCreator"] = callerInfo.MethodNameOfMessageCreator;
 	        logEventInfo.Properties["threadIdOfMessageCreator"] = callerInfo.ThreadIdOfMessageCreator;

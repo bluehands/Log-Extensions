@@ -1,18 +1,30 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>Bluehands.Repository.Diagnostics.Log</id>
+    <version>1.0.0.0</version>
+    <title>Bluehands.Repository.Diagnostics.Log</title>
+    <authors>bluehands GmbH</authors>
+    <owners>bluehands GmbH</owners>
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
     <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <description>test description</description>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2017</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags></tags>
+
+    <dependencies>
+        <dependency id="NLog" version="4.4.4" />
+    </dependencies>
+
   </metadata>
+  <files>
+        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" />
+        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
+
+        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" target="lib\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" />
+        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" />
+    </files>
 </package>

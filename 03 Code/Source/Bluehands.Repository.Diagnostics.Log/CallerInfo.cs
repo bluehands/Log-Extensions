@@ -24,8 +24,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 	    public CallerInfo(IEnumerable<StackFrame> frames, Type messageCreator)
 	    {
-		    if (frames == null || !frames.Any()) throw new ArgumentNullException(nameof(frames));
-		    if (messageCreator == null) throw new ArgumentNullException(nameof(messageCreator));
+		    if (frames == null || !frames.Any()) { throw new ArgumentNullException(nameof(frames)); }
+		    if (messageCreator == null) { throw new ArgumentNullException(nameof(messageCreator)); }
 
 			foreach (var frame in frames)
 			{

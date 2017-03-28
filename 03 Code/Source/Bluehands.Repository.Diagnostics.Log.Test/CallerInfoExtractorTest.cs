@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 
     [TestClass]
+	[ExcludeFromCodeCoverage]
     public class CallerInfoExtractorTest
     {
 		[TestMethod]

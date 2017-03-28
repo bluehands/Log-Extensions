@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Management.Instrumentation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 	[TestClass]
+	[ExcludeFromCodeCoverage]
 	public class CallerInfoTest
 	{
 		[TestMethod]

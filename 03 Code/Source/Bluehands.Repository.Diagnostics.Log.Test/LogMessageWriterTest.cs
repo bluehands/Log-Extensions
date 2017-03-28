@@ -1,44 +1,46 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 	[TestClass]
+	[ExcludeFromCodeCoverage]
 	public class LogMessageWriterTest
 	{
-		private readonly LogMessageWriter m_Sut = new LogMessageWriter(typeof(LogMessageWriterTest));
+		private readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
 		private const string LogFilePath = "./Logs/test.log";
+		private const string TestMessage = "Test message.";
 
 
 		[TestMethod]
-		public void Given_LogFileMissing_When_LogLevelIsDebugAndMessageIsNull_Then_LogFileMissing()
+		public void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
 		{
 			Given_LogFileMissing();
 
 			//When
-			m_Sut.WriteLogEntry(LogLevel.Debug, null);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, null);
 
 			//Then
 			Assert.IsFalse(File.Exists(LogFilePath));
 		}
 
 		[TestMethod]
-		public void Given_LogFileMissing_When_MessageIsGivenAndLogLevelDebugEnabled_Then_LogFileIsWritten()
+		public void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
 		{
 			Given_LogFileMissing();
 
 			//When
-			const string expectedMessage = "Test message.";
-			m_Sut.WriteLogEntry(LogLevel.Debug, expectedMessage);
+
+			var expectedException = new ArgumentNullException();
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage,expectedException);
 
 			//Then
-			Assert.IsTrue(File.Exists(LogFilePath));
-			var logText = File.ReadAllText(LogFilePath);
-			char[] separator = {'\t'};
-			var logColumns = logText.Split(separator, StringSplitOptions.None);
-			Assert.AreEqual(LogLevel.Debug.ToString().ToUpper() + ":", logColumns[9]);
-			Assert.AreEqual(expectedMessage, logColumns[13]);
+			var logColumns = Then_FileExistsExtractLogText();
+			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[9]);
+			Assert.AreEqual(TestMessage, logColumns[13]);
+			Assert.AreEqual(expectedException.ToString(), logColumns[14].TrimEnd());
 
 		}
 
@@ -48,6 +50,14 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			{
 				File.Delete(LogFilePath);
 			}
+		}
+
+		private static string[] Then_FileExistsExtractLogText()
+		{
+			Assert.IsTrue(File.Exists(LogFilePath));
+			var logText = File.ReadAllText(LogFilePath);
+			char[] separator = { '\t' };
+			return logText.Split(separator, StringSplitOptions.None);
 		}
 	}
 }

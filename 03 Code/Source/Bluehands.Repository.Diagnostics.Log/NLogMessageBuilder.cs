@@ -37,8 +37,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
         {
-	        if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
-	        if (callerInfo == null) throw new ArgumentNullException(nameof(callerInfo));
+	        if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
+	        if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
 
 			logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
             logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;

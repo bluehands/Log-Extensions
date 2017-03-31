@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
+	[ExcludeFromCodeCoverage]
 	public class Log<T> : Log
 	{
 		public Log()
@@ -12,6 +14,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 		}
 	}
 
+	[ExcludeFromCodeCoverage]
 	public class Log
     {
         private readonly LogMessageWriter m_LogMessageWriter;

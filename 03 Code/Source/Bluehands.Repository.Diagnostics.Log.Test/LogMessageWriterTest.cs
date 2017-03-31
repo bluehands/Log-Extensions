@@ -15,7 +15,15 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 
 		[TestMethod]
-		public void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
+		public void SequentialTestingDependingTestMethods()
+		{
+			Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing();
+
+			Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException
+				();
+		}
+
+		private void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
 		{
 			Given_LogFileMissing();
 
@@ -26,8 +34,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Assert.IsFalse(File.Exists(LogFilePath));
 		}
 
-		[TestMethod]
-		public void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
+		private void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
 		{
 			Given_LogFileMissing();
 
@@ -38,9 +45,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			//Then
 			var logColumns = Then_FileExistsExtractLogText();
-			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[9]);
-			Assert.AreEqual(TestMessage, logColumns[13]);
-			Assert.AreEqual(expectedException.ToString(), logColumns[14].TrimEnd());
+			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[2]);
+			Assert.AreEqual(TestMessage, logColumns[6]);
+			Assert.AreEqual(expectedException.ToString(), logColumns[7].TrimEnd());
 
 		}
 

@@ -5,13 +5,15 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     public class LogMessageWriter
     {
-        private readonly MethodNameExtracter m_MethodNameExtracter;
+        private readonly CallerInfoExtractor m_CallerInfoExtractor;
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
-        
-        public LogMessageWriter(Type messageCreator)
+
+		[ThreadStatic] public static int Indent;
+
+		public LogMessageWriter(Type messageCreator)
         {
-            m_MethodNameExtracter = new MethodNameExtracter(messageCreator);
+            m_CallerInfoExtractor = new CallerInfoExtractor(messageCreator);
             m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
             m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
         }
@@ -23,21 +25,21 @@ namespace Bluehands.Repository.Diagnostics.Log
 		public bool IsTraceEnabled { get { return m_NLogLog.IsTraceEnabled; } }
 		public bool IsDebugEnabled { get { return m_NLogLog.IsDebugEnabled; } }
 
-	    public void WriteLogEntry(LogLevel logLevel, string message, int indent)
-        {
-            WriteLogEntry(logLevel, message, indent, null);
-        }
+	    public void WriteLogEntry(LogLevel logLevel, string message)
+	    {
+			WriteLogEntry(logLevel, message, null);
+		}
 
-        public void WriteLogEntry(LogLevel logLevel, string message, int indent, Exception ex)
+        public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)
         {
             try
             {
-                if (message != null)
-                {
-                    var logEventInfo = GetLogEventInfo(logLevel, message, indent, ex);
+	            if (message != null && IsLogLevelEnabled(logLevel))
+	            {
+					var logEventInfo = GetLogEventInfo(logLevel, message, Indent, ex);
 
-                    m_NLogLog.Log(logEventInfo);
-                }
+					m_NLogLog.Log(logEventInfo);
+	            }
             }
             catch (Exception exx)
             {
@@ -45,9 +47,31 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
         }
 
+	    private bool IsLogLevelEnabled(LogLevel logLevel)
+	    {
+		    switch (logLevel)
+		    {
+				case LogLevel.Fatal:
+					return m_NLogLog.IsFatalEnabled;
+				case LogLevel.Error:
+					return m_NLogLog.IsErrorEnabled; 
+			    case LogLevel.Warning:
+					return m_NLogLog.IsWarnEnabled;
+				case LogLevel.Info:
+					return m_NLogLog.IsInfoEnabled; 
+			    case LogLevel.Debug:
+					 return m_NLogLog.IsDebugEnabled;
+				case LogLevel.Trace:
+					return m_NLogLog.IsTraceEnabled;
+				default:
+				    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
+		    }
+	    }
+
+
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, int indent, Exception ex)
         {
-            var callerInfo = m_MethodNameExtracter.ExtractCallerInfoFromStackTrace();
+            var callerInfo = m_CallerInfoExtractor.ExtractCallerInfoFromStackTrace();
 
             var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, callerInfo, indent);
             return logEventInfo;

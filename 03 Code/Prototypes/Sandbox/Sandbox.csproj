@@ -61,16 +61,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bluehands.Repository.Diagnostics.Log, Version=1.0.0.75, Culture=neutral, PublicKeyToken=fb10376696e98528, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.75-ci-20170405-071143\lib\Release\net45\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
+    <Reference Include="Bluehands.Repository.Diagnostics.Log, Version=1.0.0.78, Culture=neutral, PublicKeyToken=fb10376696e98528, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.78-ci-20170405-080110\lib\net40\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\NLog.4.4.4\lib\net40\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\NLog.5.0.0-beta06\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +90,7 @@
     <None Include="App.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

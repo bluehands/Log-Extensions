@@ -24,7 +24,6 @@
     </contentFiles>
   </metadata>
   <files>
-    <file src="contentFiles\**" target="contentFiles" />
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
 

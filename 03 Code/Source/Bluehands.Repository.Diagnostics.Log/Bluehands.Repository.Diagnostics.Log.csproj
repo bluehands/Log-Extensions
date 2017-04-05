@@ -90,8 +90,8 @@
     <Copy SourceFiles="$(PackageDir)\$(AssemblyName).%(OutputAssemblyInfo.Version).nupkg;$(PackageDir)\$(AssemblyName).%(OutputAssemblyInfo.Version).symbols.nupkg" DestinationFolder="C:\Users\danz\Source\Repos\bluehands logging\03 Code\Source\packages" />
   </Target>
   <ItemGroup>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.5.0.0-beta06\lib\net40\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.5\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

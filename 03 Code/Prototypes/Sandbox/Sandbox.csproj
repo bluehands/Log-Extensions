@@ -65,8 +65,8 @@
       <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.78-ci-20170405-080110\lib\net40\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\NLog.5.0.0-beta06\lib\net40\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\NLog.4.4.5\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

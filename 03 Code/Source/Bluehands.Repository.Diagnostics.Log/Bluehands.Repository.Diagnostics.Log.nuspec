@@ -21,10 +21,10 @@
 
   </metadata>
   <files>
-        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" />
-        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
+        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />
+        <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
 
-        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" target="lib\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" />
-        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" />
+        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net40\Bluehands.Repository.Diagnostics.Log.dll" />
+        <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net40\Bluehands.Repository.Diagnostics.Log.pdb" />
     </files>
 </package>

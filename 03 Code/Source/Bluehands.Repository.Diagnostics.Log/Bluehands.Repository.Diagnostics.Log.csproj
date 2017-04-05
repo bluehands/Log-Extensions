@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bluehands.snk" />
+    <None Include="content\NLog.config.sample" />
     <None Include="packages.config" />
     <None Include="Properties\.gitignore" />
   </ItemGroup>

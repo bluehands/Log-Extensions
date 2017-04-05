@@ -61,8 +61,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bluehands.Repository.Diagnostics.Log, Version=1.0.0.87, Culture=neutral, PublicKeyToken=fb10376696e98528, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.87\lib\net40\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
+    <Reference Include="Bluehands.Repository.Diagnostics.Log, Version=1.0.0.88, Culture=neutral, PublicKeyToken=fb10376696e98528, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.88-ci-20170405-095813\lib\net40\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">

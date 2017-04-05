@@ -19,6 +19,9 @@
         <dependency id="NLog" version="4.4.5" />
     </dependencies>
 
+    <contentFiles>
+        <files include="NLog.config.sample" buildAction="None" />
+    </contentFiles>
   </metadata>
   <files>
         <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />

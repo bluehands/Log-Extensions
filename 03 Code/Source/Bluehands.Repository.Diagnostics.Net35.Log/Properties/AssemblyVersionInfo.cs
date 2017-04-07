@@ -10,7 +10,6 @@
 
 [assembly: System.Reflection.AssemblyVersion("1.0.0.92")]
 [assembly: System.Reflection.AssemblyFileVersion("1.0.0.92")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/project_to_net45_only-72c7e0c32210d94859f1204096bc5014e540dfe6-20170407-1" +
-    "23851")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/net35_port-9c0586b92a2aae47d46b380b5fde25a9e4b70b2d-20170407-105233")]
 
 

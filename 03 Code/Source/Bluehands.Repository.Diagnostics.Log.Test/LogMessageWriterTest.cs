@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
@@ -10,61 +12,39 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	public class LogMessageWriterTest
 	{
 		private readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
-		private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
-
 		[TestMethod]
-		public void SequentialTestingDependingTestMethods()
+		public void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
 		{
-			Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing();
-
-			Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException
-				();
-		}
-
-		private void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
-		{
-			Given_LogFileMissing();
+			var writer = new StringWriter();
+			Console.SetOut(writer);
 
 			//When
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, null);
+			var logString = writer.ToString();
 
 			//Then
-			Assert.IsFalse(File.Exists(LogFilePath));
+			Assert.IsTrue(string.IsNullOrEmpty(logString));
 		}
 
-		private void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
+		[TestMethod]
+		public void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
 		{
-			Given_LogFileMissing();
+			var writer = new StringWriter();
+			Console.SetOut(writer);
 
 			//When
-
 			var expectedException = new ArgumentNullException();
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage,expectedException);
+			var logString = writer.ToString();
 
 			//Then
-			var logColumns = Then_FileExistsExtractLogText();
+			var logColumns = logString.Split('|');
 			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[2]);
 			Assert.AreEqual(TestMessage, logColumns[6]);
 			Assert.AreEqual(expectedException.ToString(), logColumns[7].TrimEnd());
 
-		}
-
-		private static void Given_LogFileMissing()
-		{
-			if (File.Exists(LogFilePath))
-			{
-				File.Delete(LogFilePath);
-			}
-		}
-
-		private static string[] Then_FileExistsExtractLogText()
-		{
-			Assert.IsTrue(File.Exists(LogFilePath));
-			var logText = File.ReadAllText(LogFilePath);
-			char[] separator = { '\t' };
-			return logText.Split(separator, StringSplitOptions.None);
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
@@ -39,6 +40,31 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Assert.IsTrue(traceEntries.Any());
 		}
 
+	}
+
+	[TestClass]
+	public class AutoTraceWithAsyncTest
+	{
+		private readonly Log m_Log = new Log<AutoTraceWithAsyncTest>();
+
+		public async Task FirstLevelAsyncMethod()
+		{
+			m_Log.Info($"Entered {nameof(FirstLevelAsyncMethod)}");
+
+			using (m_Log.AutoTrace(""))
+			{
+				await Task.Delay(200).ConfigureAwait(false);
+				m_Log.Info("Hallo in auto traced section");
+			}
+
+			m_Log.Info("Hallo after traced section");
+		}
+
+		[TestMethod]
+		public async Task AsynAutoTraceTest()
+		{
+			await FirstLevelAsyncMethod();
+		}
 	}
 
 }

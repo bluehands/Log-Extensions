@@ -8,9 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.92")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.92")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/project_to_net45_only-72c7e0c32210d94859f1204096bc5014e540dfe6-20170407-1" +
-    "23851")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.95")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.95")]
+[assembly: System.Reflection.AssemblyInformationalVersion("develop-8f9d1d1a0e6582cc76ba8a67312efa8091ac7efe-20170410-112648")]
 
 

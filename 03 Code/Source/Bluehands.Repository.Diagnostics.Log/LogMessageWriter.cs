@@ -25,18 +25,18 @@ namespace Bluehands.Repository.Diagnostics.Log
 		public bool IsTraceEnabled { get { return m_NLogLog.IsTraceEnabled; } }
 		public bool IsDebugEnabled { get { return m_NLogLog.IsDebugEnabled; } }
 
-	    public void WriteLogEntry(LogLevel logLevel, string message)
+	    public void WriteLogEntry(LogLevel logLevel, string caller, string message)
 	    {
-			WriteLogEntry(logLevel, message, null);
+			WriteLogEntry(logLevel, caller, message, null);
 		}
 
-        public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)
+        public void WriteLogEntry(LogLevel logLevel, string caller, string message, Exception ex)
         {
             try
             {
-	            if (message != null && IsLogLevelEnabled(logLevel))
+	            if (!string.IsNullOrEmpty(caller) && message != null && IsLogLevelEnabled(logLevel))
 	            {
-					var logEventInfo = GetLogEventInfo(logLevel, message, Indent, ex);
+					var logEventInfo = GetLogEventInfo(logLevel, caller, message, Indent, ex);
 
 					m_NLogLog.Log(logEventInfo);
 	            }
@@ -69,9 +69,9 @@ namespace Bluehands.Repository.Diagnostics.Log
 	    }
 
 
-        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, int indent, Exception ex)
+        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string caller, string message, int indent, Exception ex)
         {
-            var callerInfo = m_CallerInfoExtractor.ExtractCallerInfoFromStackTrace();
+	        var callerInfo = m_CallerInfoExtractor.ExtractCallerInfoFromImmutableContextStack(caller);//ExtractCallerInfoFromStackTrace();
 
             var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, callerInfo, indent);
             return logEventInfo;

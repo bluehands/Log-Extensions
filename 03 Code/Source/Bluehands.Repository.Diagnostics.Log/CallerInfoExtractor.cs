@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 
@@ -25,6 +26,13 @@ namespace Bluehands.Repository.Diagnostics.Log
             var callerInfo = new CallerInfo(frames, m_MessageCreator);
             return callerInfo;
         }
+
+	    public CallerInfo ExtractCallerInfoFromImmutableContextStack(string caller)
+	    {
+		    var currentContext = ImmutableContextStack.CurrentContext;
+		    var currentStack = currentContext.Single(c => c.Contains(caller));
+		    return new CallerInfo(currentStack);
+	    }
 
         private static IEnumerable<StackFrame> GetStackTraceFrames()
         {

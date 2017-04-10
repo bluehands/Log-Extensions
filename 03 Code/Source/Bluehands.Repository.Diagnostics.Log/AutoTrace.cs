@@ -1,33 +1,42 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class AutoTrace : AutoTraceBase, IDisposable
+    public class AutoTrace : IDisposable
     {
-		private static readonly Stopwatch StopWatch = Stopwatch.StartNew();
-		private readonly TimeSpan m_StopWatchStarted;
+		private readonly Log m_Log;
+		private readonly string m_Message;
+	    private readonly IDisposable m_StackFrame;
 
-		public AutoTrace(LogMessageWriter logWriter, string message) : base(logWriter, message)
-        {
-			LogWriter.WriteLogEntry(LogLevel.Trace, Message + " Enter");
+		private readonly Stopwatch m_StopWatch;
+
+		public AutoTrace(Log log, string caller, string message)
+		{
+			if (log == null) { throw new ArgumentNullException(nameof(log));}
+			if (caller == null) { throw new ArgumentNullException(nameof(caller));}
+
+			m_Log = log;
+			m_Message = message;
+			m_StopWatch = Stopwatch.StartNew();
+
+			var guid = Guid.NewGuid().ToString("N");
+			var methodId = $"{caller}_{guid.Substring(0, 8)}";
+			m_StackFrame = ImmutableContextStack.Push(methodId);
+
+			m_Message = $"{ImmutableContextStack.CurrentStack}{(string.IsNullOrEmpty(m_Message) ? m_Message : ": " + m_Message)}";
+			m_Log.Trace(m_Message + " Enter", methodId);
 			LogMessageWriter.Indent++;
-			m_StopWatchStarted = StopWatch.Elapsed;
 		}
 
-		public void Dispose()
+	    public void Dispose()
 		{
+			m_StopWatch.Stop();
 			LogMessageWriter.Indent--;
-			LogWriter.WriteLogEntry(LogLevel.Trace, Message + $" Took {GetFormatedMillisecondsString()}ms. Leave");
-		}
-
-		private string GetFormatedMillisecondsString()
-		{
-			var end = StopWatch.Elapsed - m_StopWatchStarted;
-			var miliseconds = end.TotalMilliseconds;
-
-			return $"{miliseconds:0.000}";
+			m_Log.Trace(m_Message + $" [{ m_StopWatch.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms Leave]");
+			m_StackFrame.Dispose();
 		}
 
 	}

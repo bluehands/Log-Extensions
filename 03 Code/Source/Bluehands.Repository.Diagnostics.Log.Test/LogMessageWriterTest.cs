@@ -21,7 +21,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, null);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, System.Reflection.MethodBase.GetCurrentMethod().Name, null);
 			var logString = writer.ToString();
 
 			//Then
@@ -36,13 +36,13 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			//When
 			var expectedException = new ArgumentNullException();
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage,expectedException);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, System.Reflection.MethodBase.GetCurrentMethod().Name, TestMessage, expectedException);
 			var logString = writer.ToString();
 
 			//Then
 			var logColumns = logString.Split('|');
-			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[2]);
-			Assert.AreEqual(TestMessage, logColumns[6]);
+			Assert.AreEqual(LogLevel.Error.ToString().ToUpper() + ":", logColumns[2].Trim());
+			Assert.AreEqual(TestMessage, logColumns[6].Trim());
 			Assert.AreEqual(expectedException.ToString(), logColumns[7].TrimEnd());
 
 		}

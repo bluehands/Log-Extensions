@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,7 +14,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceTest
 	{
-		private readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceTest));
+		private readonly Log m_Log = new Log<AutoTraceTest>();
 		//private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
@@ -25,12 +26,12 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			using (var trace = new AutoTrace(m_LogMessageWriter, TestMessage))
+			using (new AutoTrace(m_Log, nameof(Given_LogFileMissingAndLogMessageWriterAndTestMessage_When_AutoTraceCreated_Then_LogFileContainsStartEndTraceEntries), TestMessage))
 			{
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, "Warning test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Info, "Info test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, "Fatal test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, "Debug test.");
+				m_Log.Warning("Warning test.");
+				m_Log.Info("Info test.");
+				m_Log.Fatal("Fatal test.");
+				m_Log.Debug("Debug test.");
 			}
 			var logString = writer.ToString();
 
@@ -45,25 +46,39 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[TestClass]
 	public class AutoTraceWithAsyncTest
 	{
-		private readonly Log m_Log = new Log<AutoTraceWithAsyncTest>();
+		private static readonly Log m_Log = new Log<AutoTraceWithAsyncTest>();
 
 		public async Task FirstLevelAsyncMethod()
 		{
 			m_Log.Info($"Entered {nameof(FirstLevelAsyncMethod)}");
 
-			using (m_Log.AutoTrace(""))
+			using (m_Log.AutoTrace("FirstLevelMessage"))
 			{
-				await Task.Delay(200).ConfigureAwait(false);
+				await SecondLevelAsyncMethod();
 				m_Log.Info("Hallo in auto traced section");
 			}
 
 			m_Log.Info("Hallo after traced section");
 		}
 
+		private static ConfiguredTaskAwaitable SecondLevelAsyncMethod()
+		{
+			using (m_Log.AutoTrace("SecondLevelMessage"))
+			{
+				return Task.Delay(200).ConfigureAwait(false);
+			}
+			
+		}
+
 		[TestMethod]
 		public async Task AsynAutoTraceTest()
 		{
+			var writer = new StringWriter();
+			Console.SetOut(writer);
+
 			await FirstLevelAsyncMethod();
+
+			var logString = writer.ToString();
 		}
 	}
 

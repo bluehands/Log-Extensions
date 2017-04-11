@@ -51,7 +51,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 		public async Task FirstLevelAsyncMethod()
 		{
-			m_Log.Info($"Entered {nameof(FirstLevelAsyncMethod)}");
+			m_Log.Info($"In {nameof(FirstLevelAsyncMethod)}");
 
 			using (m_Log.AutoTrace("FirstLevelMessage"))
 			{
@@ -73,14 +73,41 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		}
 
 		[TestMethod]
-		public async Task AsynAutoTraceTest()
+		public async Task Given_AsyncMethodWithAutoTrace_When_RunAsyncMethod_Then_LogStringMatchesExpectations()
 		{
+			//Given
 			var writer = new StringWriter();
 			Console.SetOut(writer);
 
+			const int expectedEnterNum = 3;
+			const int expectedLeaveNum = 3;
+			const int expectedMaxIndent = 1;
+
+			//When
 			await FirstLevelAsyncMethod();
 
+
+			//Then
 			var logString = writer.ToString();
+			var logRows = logString.Split('\r');
+
+			var enterCounter = 0;
+			var leaveCounter = 0;
+			var maxIndent = 0;
+
+			foreach (var row in logRows)
+			{
+				if (row.Contains("Enter")) { enterCounter++; }
+				if (row.Contains("Leave")) { leaveCounter++; }
+
+				var rowIndent = row.ToCharArray().Count(chr => chr == '\t');
+				maxIndent = Math.Max(rowIndent, maxIndent);
+			}
+
+			Assert.AreEqual(expectedEnterNum, enterCounter);
+			Assert.AreEqual(expectedLeaveNum, leaveCounter);
+			Assert.AreEqual(expectedMaxIndent, maxIndent);
+
 		}
 	}
 

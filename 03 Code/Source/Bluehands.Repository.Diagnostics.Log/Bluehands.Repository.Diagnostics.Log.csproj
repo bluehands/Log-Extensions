@@ -64,12 +64,11 @@
   <ItemGroup>
     <Compile Include="CallerInfo.cs" />
     <Compile Include="AutoTrace.cs" />
-    <Compile Include="ImmutableContextStack.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogicalCallContextData.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="NLogMessageBuilder.cs" />
     <Compile Include="LogMessageWriter.cs" />
-    <Compile Include="CallerInfoExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
   </ItemGroup>

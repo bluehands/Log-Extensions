@@ -12,15 +12,15 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public string TypeOfMessageCreator { get; private set; }
         public string ClassOfMessageCreator { get; private set; }
-        public string MethodNameOfMessageCreator { get; private set; }
-		public string ThreadIdOfMessageCreator { get; private set; }
+        public string CallerMethodName { get; private set; }
+		public string CallerContextId { get; private set; }
         
-        public CallerInfo(string typeOfMessageCreator, string classOfMessageCreator, string methodNameOfMessageCreator, string threadIdOfMessageCreator)
+        public CallerInfo(string typeOfMessageCreator, string classOfMessageCreator, string callerCallerMethodName, string callerContextId)
         {
             TypeOfMessageCreator = typeOfMessageCreator;
             ClassOfMessageCreator = classOfMessageCreator;
-            MethodNameOfMessageCreator = methodNameOfMessageCreator;
-	        ThreadIdOfMessageCreator = threadIdOfMessageCreator;
+            CallerMethodName = callerCallerMethodName;
+	        CallerContextId = callerContextId;
         }
 
 	    public CallerInfo(IEnumerable<StackFrame> frames, Type messageCreator)
@@ -42,7 +42,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public CallerInfo(string currentStack)
 		{
-			MethodNameOfMessageCreator = currentStack;
+			CallerMethodName = currentStack;
 		}
 
 		private static Type GetDeclaringTypeOf(StackFrame frame)
@@ -58,8 +58,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 			TypeOfMessageCreator = method.DeclaringType?.FullName;
 			ClassOfMessageCreator = method.DeclaringType?.Name;
-			MethodNameOfMessageCreator = method.Name;
-			ThreadIdOfMessageCreator = Thread.CurrentThread.ManagedThreadId.ToString();
+			CallerMethodName = method.Name;
+			CallerContextId = Thread.CurrentThread.ManagedThreadId.ToString();
 		}
 	}
 }

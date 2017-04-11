@@ -33,7 +33,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
         {
-            return new AutoTrace(this, caller, message);
+            return new AutoTrace(this, message);
         }
 
         public void Fatal(string message, [CallerMemberName] string caller = "")

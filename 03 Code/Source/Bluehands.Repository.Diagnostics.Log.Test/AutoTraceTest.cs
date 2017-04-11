@@ -26,7 +26,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			using (new AutoTrace(m_Log, nameof(Given_LogFileMissingAndLogMessageWriterAndTestMessage_When_AutoTraceCreated_Then_LogFileContainsStartEndTraceEntries), TestMessage))
+			using (new AutoTrace(m_Log, TestMessage))
 			{
 				m_Log.Warning("Warning test.");
 				m_Log.Info("Info test.");
@@ -56,6 +56,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			{
 				await SecondLevelAsyncMethod();
 				m_Log.Info("Hallo in auto traced section");
+				await SecondLevelAsyncMethod();
 			}
 
 			m_Log.Info("Hallo after traced section");

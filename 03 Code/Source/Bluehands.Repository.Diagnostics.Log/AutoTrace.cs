@@ -11,8 +11,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 		private readonly string m_Message;
 	    private readonly Stopwatch m_StopWatch;
 
-		private string m_MethodId;
-
 		public AutoTrace(Log log, string message)
 		{
 			if (log == null) { throw new ArgumentNullException(nameof(log));}

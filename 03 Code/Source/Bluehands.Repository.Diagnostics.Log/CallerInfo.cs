@@ -23,43 +23,5 @@ namespace Bluehands.Repository.Diagnostics.Log
 	        CallerContextId = callerContextId;
         }
 
-	    public CallerInfo(IEnumerable<StackFrame> frames, Type messageCreator)
-	    {
-		    if (frames == null || !frames.Any()) { throw new ArgumentNullException(nameof(frames)); }
-		    if (messageCreator == null) { throw new ArgumentNullException(nameof(messageCreator)); }
-
-			foreach (var frame in frames)
-			{
-				if (messageCreator == GetDeclaringTypeOf(frame))
-				{
-						InitializeFrom(frame);
-						return;
-				}
-			}
-
-			throw new InstanceNotFoundException("Message creator with type: " + messageCreator + "not found in StackFrames.");
-	    }
-
-		public CallerInfo(string currentStack)
-		{
-			CallerMethodName = currentStack;
-		}
-
-		private static Type GetDeclaringTypeOf(StackFrame frame)
-		{
-			var method = frame.GetMethod();
-			var declaringType = method.DeclaringType;
-			return declaringType;
-		}
-
-		private void InitializeFrom(StackFrame frame)
-		{
-			var method = frame.GetMethod();
-
-			TypeOfMessageCreator = method.DeclaringType?.FullName;
-			ClassOfMessageCreator = method.DeclaringType?.Name;
-			CallerMethodName = method.Name;
-			CallerContextId = Thread.CurrentThread.ManagedThreadId.ToString();
-		}
 	}
 }

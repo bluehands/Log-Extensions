@@ -44,6 +44,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	}
 
 	[TestClass]
+	[ExcludeFromCodeCoverage]
 	public class AutoTraceWithAsyncTest
 	{
 		private static readonly Log m_Log = new Log<AutoTraceWithAsyncTest>();

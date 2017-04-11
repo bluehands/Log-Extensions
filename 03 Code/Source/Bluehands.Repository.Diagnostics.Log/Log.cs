@@ -18,7 +18,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 	[ExcludeFromCodeCoverage]
 	public class Log
     {
-        private readonly LogMessageWriter m_LogMessageWriter;
+        private readonly ILogMessageWriter m_LogMessageWriter;
 
         public Log(Type messageCreator)
         {

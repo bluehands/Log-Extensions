@@ -20,13 +20,13 @@ namespace Bluehands.Repository.Diagnostics.Log
 			m_StopWatch = Stopwatch.StartNew();
 
 			m_Log.Trace("Enter");
-			LogMessageWriter.Indent++;
+			LogMessageWriterBase.Indent++;
 		}
 
 	    public void Dispose()
 		{
 			m_StopWatch.Stop();
-			LogMessageWriter.Indent--;
+			LogMessageWriterBase.Indent--;
 			m_Log.Trace(m_Message + $" [{ m_StopWatch.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms Leave]");
 		}
 	}

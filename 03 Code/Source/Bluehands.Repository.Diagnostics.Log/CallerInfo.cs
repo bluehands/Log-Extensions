@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Threading;
-
-namespace Bluehands.Repository.Diagnostics.Log
+﻿namespace Bluehands.Repository.Diagnostics.Log
 {
     internal class CallerInfo
     {

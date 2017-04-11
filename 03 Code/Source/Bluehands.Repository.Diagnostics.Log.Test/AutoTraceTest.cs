@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -47,25 +45,25 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceWithAsyncTest
 	{
-		private static readonly Log m_Log = new Log<AutoTraceWithAsyncTest>();
+		private static readonly Log s_Log = new Log<AutoTraceWithAsyncTest>();
 
 		public async Task FirstLevelAsyncMethod()
 		{
-			m_Log.Info($"In {nameof(FirstLevelAsyncMethod)}");
+			s_Log.Info($"In {nameof(FirstLevelAsyncMethod)}");
 
-			using (m_Log.AutoTrace("FirstLevelMessage"))
+			using (s_Log.AutoTrace("FirstLevelMessage"))
 			{
 				await SecondLevelAsyncMethod();
-				m_Log.Info("Hallo in auto traced section");
+				s_Log.Info("Hallo in auto traced section");
 				await SecondLevelAsyncMethod();
 			}
 
-			m_Log.Info("Hallo after traced section");
+			s_Log.Info("Hallo after traced section");
 		}
 
 		private static ConfiguredTaskAwaitable SecondLevelAsyncMethod()
 		{
-			using (m_Log.AutoTrace("SecondLevelMessage"))
+			using (s_Log.AutoTrace("SecondLevelMessage"))
 			{
 				return Task.Delay(200).ConfigureAwait(false);
 			}

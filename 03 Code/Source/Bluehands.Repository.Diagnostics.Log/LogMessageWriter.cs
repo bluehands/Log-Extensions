@@ -1,12 +1,11 @@
 ﻿using System;
-using System.CodeDom;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Permissions;
 using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class LogMessageWriter
+    internal class LogMessageWriter
     {
 	    private const string ContextDataKey = "feec7c1e-fd19-40d4-a7ac-195df21c6063";
 

@@ -15,7 +15,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
-		public void Given_LogFileMissing_When_LogLevelDebugAndNullMessageToWriteLogEntry_Then_LogFileMissing()
+		public void Given_NullMessage_When_WriteLogEntryWithLogLevelDebugAndCallerMethodName_Then_LogStringEmpty()
 		{
 			var writer = new StringWriter();
 			Console.SetOut(writer);
@@ -29,7 +29,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		}
 
 		[TestMethod]
-		public void Given_LogFileMissing_When_MessageAndLogLevelErrorAndArgumentNullExceptionToWriteLogEntry_Then_LogFileExistsAndLogLevelIsErrorAndMessageAsExpectedAndExceptionIsArgumentNullException()
+		public void Given_ArgumentNullExceptionArgument_When_WriteLogEntryWithLogLevelErrorAndCallerName_Then_LogStringContainsErrorAndTestMessageAndArgumentNullException()
 		{
 			var writer = new StringWriter();
 			Console.SetOut(writer);

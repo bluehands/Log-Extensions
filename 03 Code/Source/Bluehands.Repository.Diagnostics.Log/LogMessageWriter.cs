@@ -20,13 +20,13 @@ namespace Bluehands.Repository.Diagnostics.Log
 			[PermissionSet(SecurityAction.LinkDemand)]
 		    get
 		    {
-			    var contextData = (LogicalCallContextData)CallContext.GetData(ContextDataKey);
+			    var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 			    return contextData?.Indent ?? 0;
 		    }
 			[PermissionSet(SecurityAction.LinkDemand)]
 			set
 		    {
-				var contextData = (LogicalCallContextData)CallContext.GetData(ContextDataKey);
+				var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 				if (contextData == null)
 				{
 					contextData = new LogicalCallContextData(CreateNewGuid());
@@ -41,7 +41,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 			[PermissionSet(SecurityAction.LinkDemand)]
 			get
 		    {
-				var contextData = (LogicalCallContextData)CallContext.GetData(ContextDataKey);
+				var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 			    if (contextData != null)
 			    {
 				    return contextData.ContextId;

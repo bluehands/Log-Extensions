@@ -19,7 +19,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
-		public void Given_LogFileMissingAndLogMessageWriterAndTestMessage_When_AutoTraceCreated_Then_LogFileContainsStartEndTraceEntries()
+		public void Given_TestMessageAndLogger_When_AutoTraceCreated_Then_LogFileContainsStartEndTraceEntries()
 		{
 			//Given
 			var writer = new StringWriter();
@@ -38,7 +38,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			//Then
 			var logColumns = logString.Split('|');
 			var traceEntries = logColumns.Where(c => !c.Contains("TRACE:"));
-			Assert.IsTrue(traceEntries.Any());
+			Assert.IsTrue(traceEntries.Count() >= 2);
 		}
 
 	}

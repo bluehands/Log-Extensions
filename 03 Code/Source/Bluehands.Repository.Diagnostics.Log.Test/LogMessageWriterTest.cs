@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,6 +37,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			var expectedException = new ArgumentNullException();
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, System.Reflection.MethodBase.GetCurrentMethod().Name, TestMessage, expectedException);
 			var logString = writer.ToString();
+			Debug.WriteLine(logString);
 
 			//Then
 			var logColumns = logString.Split('|');

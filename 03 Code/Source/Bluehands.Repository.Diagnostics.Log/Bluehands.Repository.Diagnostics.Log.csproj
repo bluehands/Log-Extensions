@@ -66,6 +66,7 @@
     <Compile Include="AutoTrace.cs" />
     <Compile Include="ILogMessageWriter.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogConfiguration.cs" />
     <Compile Include="LogicalCallContextData.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="LogMessageWriterBase.cs" />

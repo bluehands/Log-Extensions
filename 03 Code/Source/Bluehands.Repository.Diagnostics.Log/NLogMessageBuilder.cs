@@ -17,7 +17,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 	        m_LoggerName = loggerName;
         }
 
-        public LogEventInfo BuildNLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent)
+        public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent)
         {
             var logEventInfo = new LogEventInfo
             {
@@ -42,8 +42,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 			logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
             logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
-            logEventInfo.Properties["methodOfMessageCreator"] = callerInfo.MethodNameOfMessageCreator;
-	        logEventInfo.Properties["threadIdOfMessageCreator"] = callerInfo.ThreadIdOfMessageCreator;
+            logEventInfo.Properties["callerMethodName"] = callerInfo.CallerMethodName;
+	        logEventInfo.Properties["callerContextId"] = callerInfo.CallerContextId;
         }
 
 

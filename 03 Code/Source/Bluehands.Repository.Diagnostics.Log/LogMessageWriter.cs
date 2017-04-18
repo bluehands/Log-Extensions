@@ -1,42 +1,37 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Permissions;
 using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class LogMessageWriter
+    internal class LogMessageWriter : LogMessageWriterBase
     {
-        private readonly CallerInfoExtractor m_CallerInfoExtractor;
+
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
 
-		[ThreadStatic] public static int Indent;
-
-		public LogMessageWriter(Type messageCreator)
-        {
-            m_CallerInfoExtractor = new CallerInfoExtractor(messageCreator);
-            m_NLogMessageBuilder = new NLogMessageBuilder(messageCreator.FullName);
+	    public LogMessageWriter(Type messageCreator) : base(messageCreator)
+	    {
+            m_NLogMessageBuilder = new NLogMessageBuilder(MessageCreator.FullName);
             m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
         }
 
-	    public bool IsFatalEnabled { get { return m_NLogLog.IsFatalEnabled; } }
-		public bool IsErrorEnabled { get { return m_NLogLog.IsErrorEnabled; } }
-		public bool IsWarningEnabled { get { return m_NLogLog.IsWarnEnabled; } }
-		public bool IsInfoEnabled { get { return m_NLogLog.IsInfoEnabled; } }
-		public bool IsTraceEnabled { get { return m_NLogLog.IsTraceEnabled; } }
-		public bool IsDebugEnabled { get { return m_NLogLog.IsDebugEnabled; } }
+	    public override bool IsFatalEnabled => m_NLogLog.IsFatalEnabled;
+	    public override bool IsErrorEnabled => m_NLogLog.IsErrorEnabled;
+	    public override bool IsWarningEnabled => m_NLogLog.IsWarnEnabled;
+	    public override bool IsInfoEnabled => m_NLogLog.IsInfoEnabled;
+	    public override bool IsTraceEnabled => m_NLogLog.IsTraceEnabled;
+	    public override bool IsDebugEnabled => m_NLogLog.IsDebugEnabled;
 
-	    public void WriteLogEntry(LogLevel logLevel, string message)
-	    {
-			WriteLogEntry(logLevel, message, null);
-		}
 
-        public void WriteLogEntry(LogLevel logLevel, string message, Exception ex)
+        public override void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message, Exception ex)
         {
             try
             {
-	            if (message != null && IsLogLevelEnabled(logLevel))
+	            if (!string.IsNullOrEmpty(callerMethodName) && message != null && IsLogLevelEnabled(logLevel))
 	            {
-					var logEventInfo = GetLogEventInfo(logLevel, message, Indent, ex);
+					var logEventInfo = GetLogEventInfo(logLevel, callerMethodName, message, Indent, ex);
 
 					m_NLogLog.Log(logEventInfo);
 	            }
@@ -47,33 +42,32 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
         }
 
-	    private bool IsLogLevelEnabled(LogLevel logLevel)
-	    {
-		    switch (logLevel)
-		    {
+	    protected override bool IsLogLevelEnabled(LogLevel logLevel)
+		{
+			switch (logLevel)
+			{
 				case LogLevel.Fatal:
 					return m_NLogLog.IsFatalEnabled;
 				case LogLevel.Error:
-					return m_NLogLog.IsErrorEnabled; 
-			    case LogLevel.Warning:
+					return m_NLogLog.IsErrorEnabled;
+				case LogLevel.Warning:
 					return m_NLogLog.IsWarnEnabled;
 				case LogLevel.Info:
-					return m_NLogLog.IsInfoEnabled; 
-			    case LogLevel.Debug:
-					 return m_NLogLog.IsDebugEnabled;
+					return m_NLogLog.IsInfoEnabled;
+				case LogLevel.Debug:
+					return m_NLogLog.IsDebugEnabled;
 				case LogLevel.Trace:
 					return m_NLogLog.IsTraceEnabled;
 				default:
-				    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
-		    }
-	    }
+					throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
+			}
+		}
 
-
-        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string message, int indent, Exception ex)
+		private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, string message, int indent, Exception ex)
         {
-            var callerInfo = m_CallerInfoExtractor.ExtractCallerInfoFromStackTrace();
+	        var callerInfo = new CallerInfo(MessageCreator.FullName, MessageCreator.Name, callerMethodName, ContextId);
 
-            var logEventInfo = m_NLogMessageBuilder.BuildNLogEventInfo(logLevel, message, ex, callerInfo, indent);
+            var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, message, ex, callerInfo, indent);
             return logEventInfo;
         }
     }

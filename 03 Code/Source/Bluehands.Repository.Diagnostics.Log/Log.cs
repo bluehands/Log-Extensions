@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
@@ -17,7 +18,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 	[ExcludeFromCodeCoverage]
 	public class Log
     {
-        private readonly LogMessageWriter m_LogMessageWriter;
+        private readonly ILogMessageWriter m_LogMessageWriter;
 
         public Log(Type messageCreator)
         {
@@ -30,83 +31,81 @@ namespace Bluehands.Repository.Diagnostics.Log
         }
 
 
-
-
-        public AutoTrace AutoTrace(string message)
+        public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
         {
-            return new AutoTrace(m_LogMessageWriter, message);
+            return new AutoTrace(this, message);
         }
 
-        public void Fatal(string message)
+        public void Fatal(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, message);
         }
 
-        public void Fatal(Exception ex, string message)
+        public void Fatal(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, message, ex);
         }
 
-		public bool IsFatalEnabled { get { return m_LogMessageWriter.IsFatalEnabled; } }
+		public bool IsFatalEnabled => m_LogMessageWriter.IsFatalEnabled;
 
-        public void Error(string message)
+	    public void Error(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, message);
         }
 
-        public void Error(Exception ex, string message)
+        public void Error(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, message, ex);
         }
 
-		public bool IsErrorEnabled { get { return m_LogMessageWriter.IsErrorEnabled; } }
+		public bool IsErrorEnabled => m_LogMessageWriter.IsErrorEnabled;
 
-        public void Warning(string message)
+	    public void Warning(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, message);
         }
 
-        public void Warning(Exception ex, string message)
+        public void Warning(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, message, ex);
         }
 
-		public bool IsWarningEnabled { get { return m_LogMessageWriter.IsWarningEnabled; } }
+		public bool IsWarningEnabled => m_LogMessageWriter.IsWarningEnabled;
 
-        public void Info(Exception ex, string message)
+	    public void Info(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, message, ex);
         }
 
-        public void Info(string message)
+        public void Info(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, message);
         }
 
-		public bool IsInfoEnabled { get { return m_LogMessageWriter.IsInfoEnabled; } }
+		public bool IsInfoEnabled => m_LogMessageWriter.IsInfoEnabled;
 
-        public void Debug(string message)
+	    public void Debug(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, message);
         }
 
-        public void Debug(Exception ex, string message)
+        public void Debug(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, message, ex);
         }
 
-		public bool IsDebugEnabled { get { return m_LogMessageWriter.IsDebugEnabled; } }
+		public bool IsDebugEnabled => m_LogMessageWriter.IsDebugEnabled;
 
-        public void Trace(string message)
+	    public void Trace(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, message);
         }
 
-        public void Trace(Exception ex, string message)
+        public void Trace(Exception ex, string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, message, ex);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, message, ex);
         }
 
-		public bool IsTraceEnabled { get { return m_LogMessageWriter.IsTraceEnabled; } }
+		public bool IsTraceEnabled => m_LogMessageWriter.IsTraceEnabled;
     }
 }

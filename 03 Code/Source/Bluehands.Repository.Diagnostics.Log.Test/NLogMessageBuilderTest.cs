@@ -8,7 +8,6 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class NLogMessageBuilderTest
 	{
-		//int m_Indent = 0;
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]

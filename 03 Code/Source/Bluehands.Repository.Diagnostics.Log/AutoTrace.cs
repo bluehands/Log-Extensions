@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    public class AutoTrace : AutoTraceBase, IDisposable
+    public class AutoTrace : IDisposable
     {
-		private static readonly Stopwatch StopWatch = Stopwatch.StartNew();
-		private readonly TimeSpan m_StopWatchStarted;
+		private readonly Log m_Log;
+		private readonly string m_Message;
+	    private readonly Stopwatch m_StopWatch;
 
-		public AutoTrace(LogMessageWriter logWriter, string message) : base(logWriter, message)
-        {
-			LogWriter.WriteLogEntry(LogLevel.Trace, Message + " Enter");
-			LogMessageWriter.Indent++;
-			m_StopWatchStarted = StopWatch.Elapsed;
-		}
-
-		public void Dispose()
+		public AutoTrace(Log log, string message)
 		{
-			LogMessageWriter.Indent--;
-			LogWriter.WriteLogEntry(LogLevel.Trace, Message + $" Took {GetFormatedMillisecondsString()}ms. Leave");
+			if (log == null) { throw new ArgumentNullException(nameof(log));}
+
+			m_Log = log;
+			m_Message = message;
+			m_StopWatch = Stopwatch.StartNew();
+
+			m_Log.Trace("Enter");
+			LogMessageWriterBase.Indent++;
 		}
 
-		private string GetFormatedMillisecondsString()
+	    public void Dispose()
 		{
-			var end = StopWatch.Elapsed - m_StopWatchStarted;
-			var miliseconds = end.TotalMilliseconds;
-
-			return $"{miliseconds:0.000}";
+			m_StopWatch.Stop();
+			LogMessageWriterBase.Indent--;
+			m_Log.Trace(m_Message + $" [{ m_StopWatch.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms Leave]");
 		}
-
 	}
 }

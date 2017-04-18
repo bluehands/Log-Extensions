@@ -55,19 +55,30 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			{
 				await SecondLevelAsyncMethod();
 				s_Log.Info("Hallo in auto traced section");
-				await SecondLevelAsyncMethod();
+				await ThirdLevelAsyncMethod();
 			}
 
 			s_Log.Info("Hallo after traced section");
 		}
 
-		private static ConfiguredTaskAwaitable SecondLevelAsyncMethod()
+		private static async Task SecondLevelAsyncMethod()
 		{
 			using (s_Log.AutoTrace("SecondLevelMessage"))
 			{
-				return Task.Delay(200).ConfigureAwait(false);
+				s_Log.Info("Hallo in auto traced section");
+				await ThirdLevelAsyncMethod();
+				await Task.Delay(200).ConfigureAwait(false);
 			}
 			
+		}
+
+		private static async Task ThirdLevelAsyncMethod()
+		{
+			using (s_Log.AutoTrace("ThirdLevelMessage"))
+			{
+				s_Log.Info("Hallo in auto traced section");
+				await Task.Delay(200).ConfigureAwait(false);
+			}
 		}
 
 		[TestMethod]
@@ -77,9 +88,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			var writer = new StringWriter();
 			Console.SetOut(writer);
 
-			const int expectedEnterNum = 3;
-			const int expectedLeaveNum = 3;
-			const int expectedMaxIndent = 1;
+			const int expectedEnterNum = 4;
+			const int expectedLeaveNum = 4;
+			const int expectedMaxIndent = 3;
 
 			//When
 			await FirstLevelAsyncMethod();

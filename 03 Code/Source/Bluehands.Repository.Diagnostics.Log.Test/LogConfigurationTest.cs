@@ -9,9 +9,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class LogConfigurationTest
 	{
-		private readonly Log<LogConfigurationTest> m_Log = new Log<LogConfigurationTest>();
-
 		//Asserts that LogConfiguration is successfully set and used. But distracts other Tests running in parallel (all have the same target because of NLog).
+
+		//private readonly Log<LogConfigurationTest> m_Log = new Log<LogConfigurationTest>();
 
 		//[TestMethod]
 		//public void Given_logFilePathAndLogFileMissingAndNewConfigFile_When_SetNewConfigFileAndLogTestMessage_Then_LogFileExists()

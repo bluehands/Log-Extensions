@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluehands.Repository.Diagno
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "..\Prototypes\Sandbox\Sandbox.csproj", "{8B59AD40-BE80-4144-905A-01F871552DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluehands.Repository.Diagnostics.Log.Test", "Bluehands.Repository.Diagnostics.Log.Test\Bluehands.Repository.Diagnostics.Log.Test.csproj", "{E334AAA5-CED9-48C1-B2B7-0181374FADD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluehands.Repository.Diagnostics.Log.Test", "..\..\05 Test\Unit Testing\Bluehands.Repository.Diagnostics.Log.Test\Bluehands.Repository.Diagnostics.Log.Test.csproj", "{E334AAA5-CED9-48C1-B2B7-0181374FADD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

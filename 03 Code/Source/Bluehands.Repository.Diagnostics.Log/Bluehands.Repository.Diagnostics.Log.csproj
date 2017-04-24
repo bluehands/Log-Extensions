@@ -79,6 +79,7 @@
     <None Include="bluehands.snk" />
     <None Include="content\NLog.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\.gitignore" />

@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.116")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.116")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/log_file_target_dir-f66b5f095da2bf9da734837ba1646e108868fb52-20170424-113" +
-    "410")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.117")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.117")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/Better_Names_For_Log_Columns-6d73e359ed0193b59d24f9fb4a64b6c61e533cdf-201" +
+    "70424-114448")]
 
 

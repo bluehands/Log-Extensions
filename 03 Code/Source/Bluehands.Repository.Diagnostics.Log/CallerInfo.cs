@@ -3,17 +3,17 @@
     internal class CallerInfo
     {
 
-		public string TypeOfMessageCreator { get; private set; }
-        public string ClassOfMessageCreator { get; private set; }
-        public string CallerMethodName { get; private set; }
-		public string CallerContextId { get; private set; }
+		public string Type { get; private set; }
+        public string Class { get; private set; }
+        public string Method { get; private set; }
+		public string CallContext { get; private set; }
         
-        public CallerInfo(string typeOfMessageCreator, string classOfMessageCreator, string callerCallerMethodName, string callerContextId)
+        public CallerInfo(string creatorType, string creatorClass, string method, string callContext)
         {
-            TypeOfMessageCreator = typeOfMessageCreator;
-            ClassOfMessageCreator = classOfMessageCreator;
-            CallerMethodName = callerCallerMethodName;
-	        CallerContextId = callerContextId;
+            Type = creatorType;
+            Class = creatorClass;
+            Method = method;
+	        CallContext = callContext;
         }
 
 	}

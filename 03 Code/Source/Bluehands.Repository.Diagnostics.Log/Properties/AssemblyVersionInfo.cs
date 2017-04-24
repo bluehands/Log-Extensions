@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.115")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.115")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Lambda_Log_Messages-fca9853bb22f2a71a6ecfe1f989da6715fa2f622-20170424-104" +
-    "146")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.116")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.116")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/log_file_target_dir-f66b5f095da2bf9da734837ba1646e108868fb52-20170424-113" +
+    "410")]
 
 

@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bluehands.snk" />
-    <None Include="content\NLog.config">
+    <None Include="contentFiles\NLog.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

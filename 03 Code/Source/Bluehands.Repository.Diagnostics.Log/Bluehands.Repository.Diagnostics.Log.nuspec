@@ -20,7 +20,7 @@
     </dependencies>
 
     <contentFiles>
-        <files include="**/NLog.config.sample" buildAction="None" copyToOutput="true" />
+        <files include="any\any\NLog.config" buildAction="None" copyToOutput="true" />
     </contentFiles>
   </metadata>
   <files>

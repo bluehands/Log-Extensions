@@ -33,78 +33,143 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
         {
-            return new AutoTrace(this, message);
+            return AutoTrace(() => message, caller);
         }
+
+	    public IDisposable AutoTrace(Func<string> messageFactory, [CallerMemberName] string caller = "")
+	    {
+		    return new AutoTrace(this, messageFactory, caller);
+	    }
 
         public void Fatal(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, message);
+            Fatal(() => message, null, caller);
         }
 
-        public void Fatal(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Fatal(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Fatal(messageFactory, null, caller);
+		}
+
+		public void Fatal(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, message, ex);
+            Fatal(() => message, ex, caller);
         }
+
+		public void Fatal(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, messageFactory, ex);
+		}
 
 		public bool IsFatalEnabled => m_LogMessageWriter.IsFatalEnabled;
 
 	    public void Error(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, message);
+            Error(() => message, null, caller);
         }
 
-        public void Error(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Error(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Error(messageFactory, null, caller);
+		}
+
+		public void Error(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, message, ex);
+            Error(() => message, ex, caller);
         }
+
+		public void Error(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, messageFactory, ex);
+		}
 
 		public bool IsErrorEnabled => m_LogMessageWriter.IsErrorEnabled;
 
 	    public void Warning(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, message);
+            Warning(() => message, null, caller);
         }
 
-        public void Warning(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Warning(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Warning(messageFactory, null, caller);
+		}
+
+		public void Warning(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, message, ex);
+            Warning(() => message, ex, caller);
         }
+
+		public void Warning(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, messageFactory, ex);
+		}
 
 		public bool IsWarningEnabled => m_LogMessageWriter.IsWarningEnabled;
 
-	    public void Info(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Info(string message, [CallerMemberName] string caller = "")
+		{
+			Info(() => message, null, caller);
+		}
+
+		public void Info(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Info(messageFactory, null, caller);
+		}
+
+		public void Info(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, message, ex);
+           Info(() => message, ex, caller);
         }
 
-        public void Info(string message, [CallerMemberName] string caller = "")
-        {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, message);
-        }
+		public void Info(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, messageFactory, ex);
+		}
 
 		public bool IsInfoEnabled => m_LogMessageWriter.IsInfoEnabled;
 
 	    public void Debug(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, message);
+			Debug(() => message, null, caller);
         }
 
-        public void Debug(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Debug(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Debug(messageFactory, null, caller);
+		}
+
+		public void Debug(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, message, ex);
+            Debug(() => message, ex, caller);
         }
+
+		public void Debug(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, messageFactory, ex);
+		}
 
 		public bool IsDebugEnabled => m_LogMessageWriter.IsDebugEnabled;
 
 	    public void Trace(string message, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, message);
+           Trace(() => message, null, caller);
         }
 
-        public void Trace(Exception ex, string message, [CallerMemberName] string caller = "")
+		public void Trace(Func<string> messageFactory, [CallerMemberName] string caller = "")
+		{
+			Trace(messageFactory, null, caller);
+		}
+
+		public void Trace(string message, Exception ex, [CallerMemberName] string caller = "")
         {
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, message, ex);
+            Trace(() => message, ex, caller);
         }
+
+		public void Trace(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
+		{
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, messageFactory, ex);
+		}
 
 		public bool IsTraceEnabled => m_LogMessageWriter.IsTraceEnabled;
     }

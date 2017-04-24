@@ -24,7 +24,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			using (new AutoTrace(m_Log, TestMessage))
+			using (new AutoTrace(m_Log, () => TestMessage))
 			{
 				m_Log.Warning("Warning test.");
 				m_Log.Info("Info test.");

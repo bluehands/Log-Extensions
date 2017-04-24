@@ -15,8 +15,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 		bool IsTraceEnabled { get; }
 		bool IsDebugEnabled { get; }
 
-		void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message);
-		void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message, Exception ex);
+		void WriteLogEntry(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex);
 
 	}
 }

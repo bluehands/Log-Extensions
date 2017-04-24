@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.114")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.114")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Move_TestProject-2dfee007fc9f9392c99159ca12a73e235f98f6a0-20170424-093200" +
-    "")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.115")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.115")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/Lambda_Log_Messages-fca9853bb22f2a71a6ecfe1f989da6715fa2f622-20170424-104" +
+    "146")]
 
 

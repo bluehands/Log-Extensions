@@ -24,23 +24,24 @@ namespace Bluehands.Repository.Diagnostics.Log
 	    public override bool IsTraceEnabled => m_NLogLog.IsTraceEnabled;
 	    public override bool IsDebugEnabled => m_NLogLog.IsDebugEnabled;
 
+	    public override void WriteLogEntry(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex)
+	    {
+		    try
+			{
+				if (string.IsNullOrEmpty(callerMethodName)) { throw new ArgumentNullException(nameof(callerMethodName)); }
+				if (messageFactory == null) { throw new ArgumentNullException(nameof(messageFactory)); }
 
-        public override void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message, Exception ex)
-        {
-            try
-            {
-	            if (!string.IsNullOrEmpty(callerMethodName) && message != null && IsLogLevelEnabled(logLevel))
-	            {
-					var logEventInfo = GetLogEventInfo(logLevel, callerMethodName, message, Indent, ex);
-
+				if (IsLogLevelEnabled(logLevel))
+				{
+					var logEventInfo = GetLogEventInfo(logLevel, callerMethodName, messageFactory, Indent, ex);
 					m_NLogLog.Log(logEventInfo);
-	            }
-            }
-            catch (Exception exx)
-            {
-                Console.WriteLine(exx);
-            }
-        }
+				}
+			}
+			catch (Exception exx)
+			{
+				Console.WriteLine(exx + exx.StackTrace);
+			}
+	    }
 
 	    protected override bool IsLogLevelEnabled(LogLevel logLevel)
 		{
@@ -63,11 +64,11 @@ namespace Bluehands.Repository.Diagnostics.Log
 			}
 		}
 
-		private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, string message, int indent, Exception ex)
+		private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, int indent, Exception ex)
         {
 	        var callerInfo = new CallerInfo(MessageCreator.FullName, MessageCreator.Name, callerMethodName, ContextId);
 
-            var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, message, ex, callerInfo, indent);
+            var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, indent);
             return logEventInfo;
         }
     }

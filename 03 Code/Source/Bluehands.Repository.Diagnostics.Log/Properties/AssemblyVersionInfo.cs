@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.117")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.117")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Better_Names_For_Log_Columns-6d73e359ed0193b59d24f9fb4a64b6c61e533cdf-201" +
-    "70424-114448")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.119")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.119")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/auto_add_default_config_on_nuget_install-c711c4b350571a2431a7681a2619d97d" +
+    "9b964d56-20170424-122837")]
 
 

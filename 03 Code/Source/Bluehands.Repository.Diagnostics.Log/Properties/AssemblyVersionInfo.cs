@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.119")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.119")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/auto_add_default_config_on_nuget_install-c711c4b350571a2431a7681a2619d97d" +
-    "9b964d56-20170424-122837")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.122")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.122")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/auto_add_default_config_on_nuget_install-19db215fc7b81eb39ff148a0ab6b8472" +
+    "04b0f522-20170427-134619")]
 
 

@@ -38,7 +38,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 	    public IDisposable AutoTrace(Func<string> messageFactory, [CallerMemberName] string caller = "")
 	    {
-		    return new AutoTrace(this, messageFactory, caller);
+		    return new AutoTrace(m_LogMessageWriter, messageFactory, caller);
 	    }
 
         public void Fatal(string message, [CallerMemberName] string caller = "")
@@ -58,7 +58,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Fatal(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, messageFactory, caller, ex);
 		}
 
 		public bool IsFatalEnabled => m_LogMessageWriter.IsFatalEnabled;
@@ -80,7 +80,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Error(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, messageFactory, caller, ex);
 		}
 
 		public bool IsErrorEnabled => m_LogMessageWriter.IsErrorEnabled;
@@ -102,7 +102,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Warning(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, messageFactory, caller, ex);
 		}
 
 		public bool IsWarningEnabled => m_LogMessageWriter.IsWarningEnabled;
@@ -124,7 +124,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Info(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Info, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Info, messageFactory, caller, ex);
 		}
 
 		public bool IsInfoEnabled => m_LogMessageWriter.IsInfoEnabled;
@@ -146,7 +146,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Debug(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, messageFactory, caller, ex);
 		}
 
 		public bool IsDebugEnabled => m_LogMessageWriter.IsDebugEnabled;
@@ -168,7 +168,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		public void Trace(Func<string> messageFactory, Exception ex, [CallerMemberName] string caller = "")
 		{
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, caller, messageFactory, ex);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, messageFactory, caller, ex);
 		}
 
 		public bool IsTraceEnabled => m_LogMessageWriter.IsTraceEnabled;

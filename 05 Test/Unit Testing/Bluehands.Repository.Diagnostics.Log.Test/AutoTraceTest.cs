@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceTest
 	{
-		private readonly Log m_Log = new Log<AutoTraceTest>();
+		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceTest));
 		//private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
@@ -24,12 +25,12 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			using (new AutoTrace(m_Log, () => TestMessage))
+			using (new AutoTrace(m_LogMessageWriter, () => TestMessage))
 			{
-				m_Log.Warning("Warning test.");
-				m_Log.Info("Info test.");
-				m_Log.Fatal("Fatal test.");
-				m_Log.Debug("Debug test.");
+				m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
+				m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
+				m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
+				m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
 			}
 			var logString = writer.ToString();
 

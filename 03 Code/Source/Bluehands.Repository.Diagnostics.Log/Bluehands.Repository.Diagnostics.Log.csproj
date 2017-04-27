@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\LogExceptionAttribute.cs" />
     <Compile Include="CallerInfo.cs" />
     <Compile Include="AutoTrace.cs" />
     <Compile Include="ILogMessageWriter.cs" />

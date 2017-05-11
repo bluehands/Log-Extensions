@@ -10,8 +10,9 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
 		private readonly ILogMessageWriter m_LogMessageWriter;
 		private readonly Func<string> m_Message;
-	    private readonly Stopwatch m_StopWatch;
-	    private readonly string m_Caller;
+		private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
+	    private readonly TimeSpan m_StartTime;
+		private readonly string m_Caller;
 
 	    public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "")
 	    {
@@ -21,7 +22,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 			m_LogMessageWriter = logWriter;
 			m_Message = messageFactory;
-			m_StopWatch = Stopwatch.StartNew();
+		    m_StartTime = s_StopWatch.Elapsed;
 			m_Caller = caller;
 
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + " Enter", m_Caller);
@@ -30,9 +31,9 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 	    public void Dispose()
 		{
-			m_StopWatch.Stop();
+			var end = s_StopWatch.Elapsed - m_StartTime;
 			LogMessageWriterBase.Indent--;
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{ m_StopWatch.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{ end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
 		}
 	}
 }

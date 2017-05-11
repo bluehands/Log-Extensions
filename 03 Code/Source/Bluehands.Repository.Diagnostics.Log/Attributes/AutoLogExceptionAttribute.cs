@@ -24,7 +24,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
 		{
 			base.CompileTimeInitialize(method, aspectInfo);
-			CreateLogOnCompileTime(method);
+			m_Factory = LogFactoryBase.Create(method);
 		}
 
 		public override bool CompileTimeValidate(MethodBase method)
@@ -57,9 +57,5 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 			return m_Factory.GetLog(instance, args);
 		}
 
-		protected virtual void CreateLogOnCompileTime(MethodBase method)
-		{
-			m_Factory = LogFactoryBase.Create(method);
-		}
 	}
 }

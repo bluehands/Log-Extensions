@@ -20,7 +20,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, System.Reflection.MethodBase.GetCurrentMethod().Name, null, null);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, null, System.Reflection.MethodBase.GetCurrentMethod().Name, null);
 			var logString = writer.ToString();
 
 			//Then
@@ -35,7 +35,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			//When
 			var expectedException = new ArgumentNullException();
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, System.Reflection.MethodBase.GetCurrentMethod().Name, TestMessage, expectedException);
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage, System.Reflection.MethodBase.GetCurrentMethod().Name, expectedException);
 			var logString = writer.ToString();
 			Debug.WriteLine(logString);
 

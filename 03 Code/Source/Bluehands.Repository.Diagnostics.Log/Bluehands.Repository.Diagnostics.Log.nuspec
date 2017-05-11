@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package >
-  <metadata>
+  <metadata minClientVersion="3.3.0">
     <id>Bluehands.Repository.Diagnostics.Log</id>
     <version>1.0.0.0</version>
     <title>Bluehands.Repository.Diagnostics.Log</title>
@@ -18,17 +18,10 @@
     <dependencies>
         <dependency id="NLog" version="4.4.5" />
     </dependencies>
-
-    <contentFiles>
-        <files include="**/NLog.config.sample" buildAction="None" copyToOutput="true" />
-    </contentFiles>
   </metadata>
   <files>
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
-
-    <!-- Add other .net framework version dll here. Target is lib\netXXX\*.dll -->
-    <!-- <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net40\Bluehands.Repository.Diagnostics.Log.dll" />
-    <file src="bin\Release\net40\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net40\Bluehands.Repository.Diagnostics.Log.pdb" /> -->
+    <file src="Content\NLog.config" target="Content\NLog.config" />
     </files>
 </package>

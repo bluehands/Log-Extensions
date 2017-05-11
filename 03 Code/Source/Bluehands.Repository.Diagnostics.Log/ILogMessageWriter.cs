@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 		bool IsTraceEnabled { get; }
 		bool IsDebugEnabled { get; }
 
-		void WriteLogEntry(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex);
+		void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, [CallerMemberName] string callerMethodName = null, Exception ex = null);
 
 	}
 }

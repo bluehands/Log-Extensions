@@ -24,7 +24,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 	    public override bool IsTraceEnabled => m_NLogLog.IsTraceEnabled;
 	    public override bool IsDebugEnabled => m_NLogLog.IsDebugEnabled;
 
-	    public override void WriteLogEntry(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex)
+	    public override void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null)
 	    {
 		    try
 			{

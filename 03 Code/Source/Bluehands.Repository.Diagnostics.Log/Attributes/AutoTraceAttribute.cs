@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bluehands.Repository.Diagnostics.Log.Attributes
 {
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-	public class LogExceptionAttribute : Attribute 
+	public class AutoTraceAttribute
 	{
 	}
 }

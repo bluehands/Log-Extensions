@@ -20,20 +20,26 @@ namespace Bluehands.Repository.Diagnostics.Log
 		    if (messageFactory == null) throw new ArgumentNullException(nameof(messageFactory));
 		    if (string.IsNullOrEmpty(caller)) { throw new ArgumentNullException(nameof(caller)); }
 
-			m_LogMessageWriter = logWriter;
-			m_Message = messageFactory;
-		    m_StartTime = s_StopWatch.Elapsed;
-			m_Caller = caller;
+		    if (logWriter.IsTraceEnabled)
+		    {
+			    m_LogMessageWriter = logWriter;
+			    m_Message = messageFactory;
+			    m_StartTime = s_StopWatch.Elapsed;
+			    m_Caller = caller;
 
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + " Enter", m_Caller);
-			LogMessageWriterBase.Indent++;
-		}
+			    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + " Enter", m_Caller);
+			    LogMessageWriterBase.Indent++;
+		    }
+	    }
 
 	    public void Dispose()
 		{
-			var end = s_StopWatch.Elapsed - m_StartTime;
-			LogMessageWriterBase.Indent--;
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{ end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+			if (m_LogMessageWriter.IsTraceEnabled)
+			{
+				var end = s_StopWatch.Elapsed - m_StartTime;
+				LogMessageWriterBase.Indent--;
+				m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+			}
 		}
 	}
 }

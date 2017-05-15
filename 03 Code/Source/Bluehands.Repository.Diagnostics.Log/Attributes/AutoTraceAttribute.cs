@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,14 +17,21 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 	public class AutoTraceAttribute : OnMethodBoundaryAspect
 	{
 		private LogFactoryBase m_Factory;
-		private string m_Message;
+		private readonly Func<string> m_Message;
+		private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
+		private string m_Caller;
 
 		public AutoTraceAttribute()
 		{
 		}
 		public AutoTraceAttribute(string message)
 		{
-			m_Message = message;
+			m_Message = () => message;
+		}
+
+		public AutoTraceAttribute(Func<string> messageFactory)
+		{
+			m_Message = messageFactory;
 		}
 
 		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
@@ -33,43 +42,45 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 
 		public sealed override void OnEntry(MethodExecutionArgs args)
 		{
-			//try
-			//{
-			//	Log log = GetLog(args.Instance, args.Arguments);
-			//	if (log != null)
-			//	{
-			//		args.MethodExecutionTag = s_StopWatch.Elapsed;
-			//		log.TraceAspectEnter(m_StackTrace, m_Message);
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Log<AutoTraceAttribute> log = new Log<AutoTraceAttribute>();
-			//	log.Error("Unexpected error. Please contact your Administrator", ex);
-			//}
+			try
+			{
+				m_Caller = args.Method.ToString();
+				var log = GetLog(args.Instance, args.Arguments);
+				if (log != null && log.IsTraceEnabled)
+				{
+					args.MethodExecutionTag = s_StopWatch.Elapsed;
+					log.Trace(() => m_Message() + " Enter", m_Caller);
+				}
+			}
+			catch (Exception ex)
+			{
+				var log = new Log<AutoTraceAttribute>();
+				log.Error("Unexpected error. Please contact your Administrator", ex);
+			}
 		}
 
 		public sealed override void OnExit(MethodExecutionArgs args)
 		{
-			//try
-			//{
-			//	Log log = GetLog();
-			//	if (log != null)
-			//	{
-			//		var tag = args.MethodExecutionTag;
-			//		if (tag != null)
-			//		{
-			//			var begin = (TimeSpan)tag;
-			//			var end = s_StopWatch.Elapsed - begin;
-			//			log.TraceAspectExit(m_StackTrace, m_Message, end);
-			//		}
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Log<AutoTraceAttribute> log = new Log<AutoTraceAttribute>();
-			//	log.Error("Unexpected error. Please contact your Administrator", ex);
-			//}
+			try
+			{
+				Log log = GetLog(args.Instance, args.Arguments);
+				if (log != null && log.IsTraceEnabled)
+				{
+					var tag = args.MethodExecutionTag;
+					if (tag != null)
+					{
+						var begin = (TimeSpan)tag;
+						var end = s_StopWatch.Elapsed - begin;
+						LogMessageWriterBase.Indent--;
+						log.Trace(() => m_Message() + $" [{ end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log<AutoTraceAttribute> log = new Log<AutoTraceAttribute>();
+				log.Error("Unexpected error. Please contact your Administrator", ex);
+			}
 		}
 
 		protected virtual Log GetLog(object instance, Arguments args)

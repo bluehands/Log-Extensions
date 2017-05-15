@@ -83,6 +83,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		}
 
 		[TestMethod]
+		[ExcludeFromCodeCoverage]
 		public async Task Given_AsyncMethodWithAutoTrace_When_RunAsyncMethod_Then_LogStringMatchesExpectations()
 		{
 			//Given

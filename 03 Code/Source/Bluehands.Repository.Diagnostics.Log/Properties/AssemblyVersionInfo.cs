@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.125")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.125")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Attribute_Auto_Exception_Logging-84ba231827e35992309b5b49b3dd970ecbf92a22" +
-    "-20170511-164334")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.127")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.127")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/Attribute_Auto_Exception_Logging-e9a69f44f53f1e5a9319c24bdf4fd18e5822ca1c" +
+    "-20170515-095455")]
 
 

@@ -19,18 +19,11 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 	public class AutoLogExceptionAttribute : OnExceptionAspect
 	{
 		private LogFactoryBase m_Factory;
-		//protected Type m_TypeOnAspect;
 
 		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
 		{
 			base.CompileTimeInitialize(method, aspectInfo);
 			m_Factory = LogFactoryBase.Create(method);
-		}
-
-		public override bool CompileTimeValidate(MethodBase method)
-		{
-			//m_TypeOnAspect = method.DeclaringType;
-			return base.CompileTimeValidate(method);
 		}
 
 		public sealed override void OnException(MethodExecutionArgs args)

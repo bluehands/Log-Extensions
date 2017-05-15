@@ -14,7 +14,6 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	public class AutoTraceTest
 	{
 		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceTest));
-		//private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]

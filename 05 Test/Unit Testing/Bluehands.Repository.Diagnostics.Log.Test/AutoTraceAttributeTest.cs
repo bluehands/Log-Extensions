@@ -13,7 +13,6 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	public class AutoTraceAttributeTest
 	{
 		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceAttributeTest));
-		//private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
@@ -25,13 +24,11 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			//using (new AutoTrace(m_LogMessageWriter, () => TestMessage))
-			//{
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
-			//}
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
+			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
+
 			var logString = writer.ToString();
 
 			//Then
@@ -53,12 +50,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		{
 			s_Log.Info($"In {nameof(FirstLevelAsyncMethod)}");
 
-			//using (s_Log.AutoTrace("FirstLevelMessage"))
-			//{
-				await SecondLevelAsyncMethod();
-				s_Log.Info("Hallo in auto traced section");
-				await ThirdLevelAsyncMethod();
-			//}
+			await SecondLevelAsyncMethod();
+			s_Log.Info("Hallo in auto traced section");
+			await ThirdLevelAsyncMethod();
 
 			s_Log.Info("Hallo after traced section");
 		}
@@ -66,23 +60,16 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 		[AutoTrace("SecondLevelMessage")]
 		private static async Task SecondLevelAsyncMethod()
 		{
-			//using (s_Log.AutoTrace("SecondLevelMessage"))
-			//{
-				s_Log.Info("Hallo in auto traced section");
-				await ThirdLevelAsyncMethod();
-				await Task.Delay(200).ConfigureAwait(false);
-			//}
-
+			s_Log.Info("Hallo in auto traced section");
+			await ThirdLevelAsyncMethod();
+			await Task.Delay(200).ConfigureAwait(false);
 		}
 
 		[AutoTrace("ThirdLevelMessage")]
 		private static async Task ThirdLevelAsyncMethod()
 		{
-			//using (s_Log.AutoTrace("ThirdLevelMessage"))
-			//{
-				s_Log.Info("Hallo in auto traced section");
-				await Task.Delay(200).ConfigureAwait(false);
-			//}
+			s_Log.Info("Hallo in auto traced section");
+			await Task.Delay(200).ConfigureAwait(false);
 		}
 
 		[TestMethod]

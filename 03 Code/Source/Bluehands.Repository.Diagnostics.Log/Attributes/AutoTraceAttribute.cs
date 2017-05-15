@@ -29,11 +29,6 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 			m_Message = message;
 		}
 
-		public AutoTraceAttribute(Func<string> messageFactory)
-		{
-			m_Message = messageFactory();
-		}
-
 		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
 		{
 			base.CompileTimeInitialize(method, aspectInfo);

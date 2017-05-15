@@ -8,9 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.130")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.130")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Attribute_Auto_Exception_Logging-6ec34ef67c1419c7ae1c5019f230c7f427058dba" +
-    "-20170515-105057")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.132")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.132")]
+[assembly: System.Reflection.AssemblyInformationalVersion("develop-66e07af5b5d845b76c8b31c43dad4fe8c1925bb6-20170515-110501")]
 
 

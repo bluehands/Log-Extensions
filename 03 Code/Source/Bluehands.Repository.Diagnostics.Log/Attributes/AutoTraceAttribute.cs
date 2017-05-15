@@ -17,7 +17,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 	public class AutoTraceAttribute : OnMethodBoundaryAspect
 	{
 		private LogFactoryBase m_Factory;
-		private string m_Message;
+		private readonly string m_Message;
 		private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
 		private string m_Caller;
 

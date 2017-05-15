@@ -1,23 +1,23 @@
 ﻿using System;
-using System.CodeDom;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Bluehands.Repository.Diagnostics.Log.Attributes;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
-	public class AutoTraceTest
+	public class AutoTraceAttributeTest
 	{
-		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceTest));
+		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceAttributeTest));
 		//private const string LogFilePath = "./Logs/test.log";
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
+		[AutoTrace(TestMessage)]
 		public void Given_TestMessageAndLogger_When_AutoTraceCreated_Then_LogFileContainsStartEndTraceEntries()
 		{
 			//Given
@@ -25,13 +25,13 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			using (new AutoTrace(m_LogMessageWriter, () => TestMessage))
-			{
+			//using (new AutoTrace(m_LogMessageWriter, () => TestMessage))
+			//{
 				m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
 				m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
 				m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
 				m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
-			}
+			//}
 			var logString = writer.ToString();
 
 			//Then
@@ -44,42 +44,45 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 	[TestClass]
 	[ExcludeFromCodeCoverage]
-	public class AutoTraceWithAsyncTest
+	public class AutoTraceAttributeWithAsyncTest
 	{
-		private static readonly Log s_Log = new Log<AutoTraceWithAsyncTest>();
+		private static readonly Log s_Log = new Log<AutoTraceAttributeWithAsyncTest>();
 
+		[AutoTrace("FirstLevelMessage")]
 		public async Task FirstLevelAsyncMethod()
 		{
 			s_Log.Info($"In {nameof(FirstLevelAsyncMethod)}");
 
-			using (s_Log.AutoTrace("FirstLevelMessage"))
-			{
+			//using (s_Log.AutoTrace("FirstLevelMessage"))
+			//{
 				await SecondLevelAsyncMethod();
 				s_Log.Info("Hallo in auto traced section");
 				await ThirdLevelAsyncMethod();
-			}
+			//}
 
 			s_Log.Info("Hallo after traced section");
 		}
 
+		[AutoTrace("SecondLevelMessage")]
 		private static async Task SecondLevelAsyncMethod()
 		{
-			using (s_Log.AutoTrace("SecondLevelMessage"))
-			{
+			//using (s_Log.AutoTrace("SecondLevelMessage"))
+			//{
 				s_Log.Info("Hallo in auto traced section");
 				await ThirdLevelAsyncMethod();
 				await Task.Delay(200).ConfigureAwait(false);
-			}
-			
+			//}
+
 		}
 
+		[AutoTrace("ThirdLevelMessage")]
 		private static async Task ThirdLevelAsyncMethod()
 		{
-			using (s_Log.AutoTrace("ThirdLevelMessage"))
-			{
+			//using (s_Log.AutoTrace("ThirdLevelMessage"))
+			//{
 				s_Log.Info("Hallo in auto traced section");
 				await Task.Delay(200).ConfigureAwait(false);
-			}
+			//}
 		}
 
 		[TestMethod]
@@ -121,5 +124,4 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 		}
 	}
-
 }

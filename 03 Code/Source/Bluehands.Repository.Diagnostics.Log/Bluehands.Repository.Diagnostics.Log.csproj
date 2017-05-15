@@ -14,6 +14,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,10 @@
       <HintPath>..\packages\NLog.4.4.5\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PostSharp, Version=4.3.32.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.4.3.32\lib\net35-client\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -62,10 +67,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\LogExceptionAttribute.cs" />
+    <Compile Include="Attributes\AutoLogExceptionAttribute.cs" />
+    <Compile Include="Attributes\AutoTraceAttribute.cs" />
+    <Compile Include="Attributes\LogFactoryBase.cs" />
+    <Compile Include="Attributes\LogFactoryFromLog.cs" />
+    <Compile Include="Attributes\LogFactoryFromType.cs" />
     <Compile Include="CallerInfo.cs" />
     <Compile Include="AutoTrace.cs" />
     <Compile Include="ILogMessageWriter.cs" />
+    <Compile Include="Internal\MemberInfoExtension.cs" />
+    <Compile Include="Internal\TypeExtension.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogConfiguration.cs" />
     <Compile Include="LogicalCallContextData.cs" />
@@ -99,6 +110,11 @@
     <Error Condition="!Exists('..\packages\Bluehands.Versioning.1.1.1\build\Bluehands.Versioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Bluehands.Versioning.1.1.1\build\Bluehands.Versioning.targets'))" />
   </Target>
   <Import Project="..\packages\Bluehands.Versioning.1.1.1\build\Bluehands.Versioning.targets" Condition="Exists('..\packages\Bluehands.Versioning.1.1.1\build\Bluehands.Versioning.targets')" />
+  <Import Project="..\packages\PostSharp.4.3.32\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.3.32\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\packages\PostSharp.4.3.32\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.4.3.32\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

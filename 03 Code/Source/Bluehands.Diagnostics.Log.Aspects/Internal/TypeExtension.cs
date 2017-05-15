@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using PostSharp.Reflection;
 
-namespace Bluehands.Repository.Diagnostics.Log.Internal
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.Internal
 {
 	internal static class TypeExtension	//todo revisit this.
 	{

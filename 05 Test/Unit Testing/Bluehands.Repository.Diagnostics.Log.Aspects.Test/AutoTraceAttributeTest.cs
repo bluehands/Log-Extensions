@@ -3,16 +3,17 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Bluehands.Repository.Diagnostics.Log.Aspects.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Bluehands.Repository.Diagnostics.Log.Attributes;
 
-namespace Bluehands.Repository.Diagnostics.Log.Test
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceAttributeTest
 	{
-		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceAttributeTest));
+		//private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceAttributeTest));
+		private readonly Log m_LogMessageWriter = new Log<AutoTraceAttributeTest>();
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
@@ -24,10 +25,14 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Console.SetOut(writer);
 
 			//When
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
-			m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
+			//m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
+			//m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
+			//m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
+			//m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
+			m_LogMessageWriter.Warning(() => "Warning test.");
+			m_LogMessageWriter.Info(() => "Info test.");
+			m_LogMessageWriter.Fatal(() => "Fatal test.");
+			m_LogMessageWriter.Debug(() => "Debug test.");
 
 			var logString = writer.ToString();
 

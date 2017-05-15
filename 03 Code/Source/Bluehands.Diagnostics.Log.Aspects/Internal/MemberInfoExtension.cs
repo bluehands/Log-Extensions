@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Bluehands.Repository.Diagnostics.Log.Internal
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.Internal
 {
 	[DebuggerNonUserCode]
 	public static class MemberInfoExtension

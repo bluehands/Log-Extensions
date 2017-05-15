@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using PostSharp.Aspects;
 using PostSharp.Reflection;
 
-namespace Bluehands.Repository.Diagnostics.Log.Attributes
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory
 {
 	[Serializable]
 	[DebuggerNonUserCode]
@@ -19,9 +15,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
                 {
 		}
 
-		protected sealed override Log CreateLog(object instance, Arguments args)
+		protected sealed override Repository.Diagnostics.Log.Log CreateLog(object instance, Arguments args)
 		{
-			return new Log(LogType);
+			return new Repository.Diagnostics.Log.Log(LogType);
 		}
 	}
 }

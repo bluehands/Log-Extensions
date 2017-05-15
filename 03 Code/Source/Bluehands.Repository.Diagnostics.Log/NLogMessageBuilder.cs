@@ -53,7 +53,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 	        for (var i = 0; i < indent; i++)
 	        {
-		        whiteSpaces += "\t";
+		        whiteSpaces += "  ";
 	        }
 
 	        return whiteSpaces;

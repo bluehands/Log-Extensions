@@ -91,7 +91,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			const int expectedEnterNum = 4;
 			const int expectedLeaveNum = 4;
-			const int expectedMaxIndent = 3;
+			const int expectedMaxIndent = 6;
 
 			//When
 			await FirstLevelAsyncMethod();
@@ -110,7 +110,8 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 				if (row.Contains("Enter")) { enterCounter++; }
 				if (row.Contains("Leave")) { leaveCounter++; }
 
-				var rowIndent = row.ToCharArray().Count(chr => chr == '\t');
+				var rowIndent = row.ToCharArray().Count(chr => chr == ' ');
+				rowIndent /= 2;
 				maxIndent = Math.Max(rowIndent, maxIndent);
 			}
 

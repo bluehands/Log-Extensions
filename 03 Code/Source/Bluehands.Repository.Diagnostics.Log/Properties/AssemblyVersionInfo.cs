@@ -8,8 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.132")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.132")]
-[assembly: System.Reflection.AssemblyInformationalVersion("develop-66e07af5b5d845b76c8b31c43dad4fe8c1925bb6-20170515-110501")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.133")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.133")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/tab_to_whitespace_indent-a5d5e4fc6cb06e9e7e37692268b93ef4d31f18ce-2017051" +
+    "5-111803")]
 
 

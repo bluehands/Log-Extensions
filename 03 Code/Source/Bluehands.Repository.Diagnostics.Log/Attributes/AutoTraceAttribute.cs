@@ -17,7 +17,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 	public class AutoTraceAttribute : OnMethodBoundaryAspect
 	{
 		private LogFactoryBase m_Factory;
-		private readonly Func<string> m_Message;
+		private string m_Message;
 		private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
 		private string m_Caller;
 
@@ -26,12 +26,12 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 		}
 		public AutoTraceAttribute(string message)
 		{
-			m_Message = () => message;
+			m_Message = message;
 		}
 
 		public AutoTraceAttribute(Func<string> messageFactory)
 		{
-			m_Message = messageFactory;
+			m_Message = messageFactory();
 		}
 
 		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
@@ -49,7 +49,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 				if (log != null && log.IsTraceEnabled)
 				{
 					args.MethodExecutionTag = s_StopWatch.Elapsed;
-					log.Trace(() => m_Message() + " Enter", m_Caller);
+					log.Trace(m_Message + " Enter", m_Caller);
 					LogMessageWriterBase.Indent++;
 				}
 			}
@@ -73,7 +73,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 						var begin = (TimeSpan)tag;
 						var end = s_StopWatch.Elapsed - begin;
 						LogMessageWriterBase.Indent--;
-						log.Trace(() => m_Message() + $" [{ end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+						log.Trace(m_Message + $" [{ end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
 					}
 				}
 			}

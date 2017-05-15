@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Bluehands.Repository.Diagnostics.Log;
+using Bluehands.Repository.Diagnostics.Log.Attributes;
 
 namespace Sandbox
 {
@@ -7,17 +8,18 @@ namespace Sandbox
     {
         private static readonly Log Log = new Log<Program>();
 
+		[AutoTrace("AutoTrace active:")]
         private static void Main()
         {
-            using (Log.AutoTrace("AutoTrace active:"))
-            {
+            //using (Log.AutoTrace("AutoTrace active:"))
+            //{
 				Log.Debug("Creating threads...");
 	            for (var i = 0; i < 2; i++)
 	            {
 		            var newThread = new Thread(Test) {Name = i.ToString()};
 		            newThread.Start();
 	            }
-			}
+			//}
             
         }
 

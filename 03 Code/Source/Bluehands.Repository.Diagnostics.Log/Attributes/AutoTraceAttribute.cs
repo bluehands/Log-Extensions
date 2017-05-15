@@ -50,6 +50,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 				{
 					args.MethodExecutionTag = s_StopWatch.Elapsed;
 					log.Trace(() => m_Message() + " Enter", m_Caller);
+					LogMessageWriterBase.Indent++;
 				}
 			}
 			catch (Exception ex)

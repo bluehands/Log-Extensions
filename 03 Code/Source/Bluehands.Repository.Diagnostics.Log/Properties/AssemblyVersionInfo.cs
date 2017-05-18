@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.138")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.138")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/Extract_Attributes_to_Package-cc83b75307c64c451383dd83442346607149bf3d-20" +
-    "170518-140206")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.149")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.149")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/case_catching_in_trace_attributes-2af64d7c3b4bf364efee050ce27b19970716962" +
+    "f-20170518-162355")]
 
 

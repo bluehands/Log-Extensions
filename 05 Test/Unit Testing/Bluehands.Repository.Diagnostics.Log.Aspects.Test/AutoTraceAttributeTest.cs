@@ -58,7 +58,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 		}
 
 		[AutoTrace("SecondLevelMessage")]
-		private static async Task SecondLevelAsyncMethod()
+		private async Task SecondLevelAsyncMethod()
 		{
 			s_Log.Info("Hallo in auto traced section");
 			await ThirdLevelAsyncMethod();
@@ -66,7 +66,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 		}
 
 		[AutoTrace("ThirdLevelMessage")]
-		private static async Task ThirdLevelAsyncMethod()
+		private async Task ThirdLevelAsyncMethod()
 		{
 			s_Log.Info("Hallo in auto traced section");
 			await Task.Delay(200).ConfigureAwait(false);

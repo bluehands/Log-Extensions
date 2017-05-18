@@ -2,9 +2,13 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using Bluehands.Repository.Diagnostics.Log.Aspects.Internal;
 using Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory;
 using PostSharp.Aspects;
 using PostSharp.Extensibility;
+using PostSharp.Reflection;
+
 
 namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 {
@@ -30,6 +34,47 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 		{
 			base.CompileTimeInitialize(method, aspectInfo);
 			m_Factory = LogFactoryBase.Create(method);
+		}
+
+		public override bool CompileTimeValidate(MethodBase method)
+		{
+			if (method.MemberType == MemberTypes.Property)
+			{
+				return false;
+			}
+
+			string methodName = method.Name;
+			if (methodName.StartsWith("get_") || methodName.StartsWith("set_"))
+			{
+				return false;
+			}
+			if (method.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Length > 0)
+			{
+				return false;
+			}
+			if (method.IsStatic)
+			{
+				Message.Write(SeverityType.Warning, "TA001", $"{method.DeclaringType.Name}:{method.Name} is excluded from tracing, because it is static. Please use [Trace(AttributeExclude = true)] or make the method non static.", method);
+				return false;
+			}
+
+			var logMember = method.DeclaringType.GetFieldFromType<Log>();
+			if (logMember != null)
+			{
+				var logLocationInfo = new LocationInfo(logMember);
+				if (logLocationInfo.LocationType.ContainsGenericParameters)
+				{
+					Message.Write(SeverityType.Warning, "TA002", $"Type {method.DeclaringType.Name} contains a log from a type with generic parameters. This log cannot be reused, and the method is excluded from tracing.", method);
+					return false;
+				}
+			}
+			if (method.DeclaringType != null && method.DeclaringType.ContainsGenericParameters)
+			{
+				Message.Write(SeverityType.Warning, "TA003", $"Type {method.DeclaringType.Name} contains a log from a type with generic parameters. This log cannot be reused, , and the method is excluded from tracing.", method);
+				return false;
+			}
+
+			return base.CompileTimeValidate(method);
 		}
 
 		public sealed override void OnEntry(MethodExecutionArgs args)

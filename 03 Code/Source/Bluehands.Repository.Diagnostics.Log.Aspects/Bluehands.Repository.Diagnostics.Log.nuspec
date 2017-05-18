@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata minClientVersion="3.3.0">
-    <id>Bluehands.Repository.Diagnostics.Log.Aspcets</id>
+    <id>Bluehands.Logging.Aspcets</id>
     <version>1.0.0.0</version>
     <title>Bluehands.Logging.Aspects</title>
     <authors>Bluehands GmbH &amp; C.ommunication KG</authors>

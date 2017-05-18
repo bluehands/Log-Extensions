@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using Bluehands.Repository.Diagnostics.Log;
-using Bluehands.Repository.Diagnostics.Log.Attributes;
+using Bluehands.Repository.Diagnostics.Log.Aspects.Attributes;
 
 namespace Sandbox
 {

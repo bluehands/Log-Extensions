@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory;
 using PostSharp.Aspects;
-using PostSharp.Aspects.Advices;
 using PostSharp.Extensibility;
-using PostSharp.Reflection;
 
-namespace Bluehands.Repository.Diagnostics.Log.Attributes
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 {
 	[Serializable]
 	[DebuggerNonUserCode]
@@ -45,7 +40,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 			args.FlowBehavior = FlowBehavior.RethrowException;
 		}
 
-		protected virtual Log GetLog(object instance, Arguments args)
+		protected virtual Repository.Diagnostics.Log.Log GetLog(object instance, Arguments args)
 		{
 			return m_Factory.GetLog(instance, args);
 		}

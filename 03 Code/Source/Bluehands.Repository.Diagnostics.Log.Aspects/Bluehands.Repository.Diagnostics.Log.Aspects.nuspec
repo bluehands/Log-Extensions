@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <package >
   <metadata minClientVersion="3.3.0">
-    <id>Bluehands.Logging</id>
+    <id>Bluehands.Logging.Aspcets</id>
     <version>1.0.0.0</version>
-    <title>Bluehands.Logging</title>
+    <title>Bluehands.Logging.Aspects</title>
     <authors>Bluehands GmbH &amp; C.ommunication KG</authors>
     <owners>Bluehands GmbH &amp; C.ommunication KG</owners><!-- 
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
     <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A Logging Engine from Bluehands GmbH &amp; C.ommunication KG</description>
+    <description>An extension for the Logging Engine from Bluehands GmbH &amp; C.ommunication KG. Adds Attribute for AutoTrace and AutoExceptionLogging.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags></tags>
 
     <dependencies>
         <dependency id="NLog" version="4.4.5" />
+        <dependency id="Bluehands.Repository.Diagnostics.Log" version="1.0.0.120" />
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />
-    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
-    <file src="Content\NLog.config" target="Content\NLog.config" />
+    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.Aspects.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.Aspects.dll" />
+    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.Aspects.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.Aspects.pdb" />
     </files>
 </package>

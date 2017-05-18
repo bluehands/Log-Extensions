@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory;
 using PostSharp.Aspects;
 using PostSharp.Extensibility;
 
-namespace Bluehands.Repository.Diagnostics.Log.Attributes
+namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 {
 	[Serializable]
 	[MulticastAttributeUsage(MulticastTargets.Method | MulticastTargets.InstanceConstructor | MulticastTargets.StaticConstructor, Inheritance = MulticastInheritance.None)]
@@ -74,7 +71,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Attributes
 			}
 			catch (Exception ex)
 			{
-				Log<AutoTraceAttribute> log = new Log<AutoTraceAttribute>();
+				var log = new Log<AutoTraceAttribute>();
 				log.Error("Unexpected error. Please contact your Administrator", ex);
 			}
 		}

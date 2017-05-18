@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="3.3.0">
+    <id>Bluehands.Repository.Diagnostics.Log.Aspcets</id>
+    <version>1.0.0.0</version>
+    <title>Bluehands.Repository.Diagnostics.Log.Aspects</title>
+    <authors>Bluehands GmbH &amp; C.ommunication KG</authors>
+    <owners>Bluehands GmbH &amp; C.ommunication KG</owners><!-- 
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An extension for the Logging Engine from Bluehands GmbH &amp; C.ommunication KG. Adds Attribute for AutoTrace and AutoExceptionLogging.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags></tags>
+
+    <dependencies>
+        <dependency id="NLog" version="4.4.5" />
+        <dependency id="Bluehands.Repository.Diagnostics.Log" version="1.0.0.120" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.Aspects.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.Aspects.dll" />
+    <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.Aspects.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.Aspects.pdb" />
+    </files>
+</package>

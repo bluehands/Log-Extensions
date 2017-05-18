@@ -76,7 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\03 Code\Source\Bluehands.Diagnostics.Log.Aspects\Bluehands.Repository.Diagnostics.Log.Aspects.csproj">
+    <ProjectReference Include="..\..\..\03 Code\Source\Bluehands.Repository.Diagnostics.Log.Aspects\Bluehands.Repository.Diagnostics.Log.Aspects.csproj">
       <Project>{5bc048fe-3a73-44d9-944d-60b98b9d4df2}</Project>
       <Name>Bluehands.Repository.Diagnostics.Log.Aspects</Name>
     </ProjectReference>

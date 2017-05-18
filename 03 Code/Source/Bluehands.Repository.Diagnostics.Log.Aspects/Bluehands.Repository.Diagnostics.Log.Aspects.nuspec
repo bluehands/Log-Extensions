@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata minClientVersion="3.3.0">
-    <id>Bluehands.Repository.Diagnostics.Log.Aspcets</id>
+    <id>Bluehands.Logging.Aspcets</id>
     <version>1.0.0.0</version>
-    <title>Bluehands.Repository.Diagnostics.Log.Aspects</title>
+    <title>Bluehands.Logging.Aspects</title>
     <authors>Bluehands GmbH &amp; C.ommunication KG</authors>
     <owners>Bluehands GmbH &amp; C.ommunication KG</owners><!-- 
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata minClientVersion="3.3.0">
-    <id>Bluehands.Repository.Diagnostics.Log</id>
+    <id>Bluehands.Logging</id>
     <version>1.0.0.0</version>
     <title>Bluehands.Logging</title>
     <authors>Bluehands GmbH &amp; C.ommunication KG</authors>

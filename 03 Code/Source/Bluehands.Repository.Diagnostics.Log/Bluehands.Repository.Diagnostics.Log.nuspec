@@ -22,6 +22,6 @@
   <files>
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.dll" target="lib\net45\Bluehands.Repository.Diagnostics.Log.dll" />
     <file src="bin\Release\net45\Bluehands.Repository.Diagnostics.Log.pdb" target="lib\net45\Bluehands.Repository.Diagnostics.Log.pdb" />
-    <file src="Content\NLog.config" target="Content\NLog.config" />
+    <file src="content\NLog.config" target="content\NLog.config" />
     </files>
 </package>

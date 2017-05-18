@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,12 +36,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bluehands.Repository.Diagnostics.Log, Version=1.0.0.95, Culture=neutral, PublicKeyToken=fb10376696e98528, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\Bluehands.Repository.Diagnostics.Log.1.0.0.95-ci-20170410-090347\lib\net45\Bluehands.Repository.Diagnostics.Log.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\Source\packages\NLog.4.4.5\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostSharp, Version=4.3.33.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\PostSharp.4.3.33\lib\net35-client\PostSharp.dll</HintPath>
+      <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -62,13 +64,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="NLog.config">
       <SubType>Designer</SubType>
-    </Content>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Bluehands.Repository.Diagnostics.Log.Aspects\Bluehands.Repository.Diagnostics.Log.Aspects.csproj">
+      <Project>{5bc048fe-3a73-44d9-944d-60b98b9d4df2}</Project>
+      <Name>Bluehands.Repository.Diagnostics.Log.Aspects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Bluehands.Repository.Diagnostics.Log\Bluehands.Repository.Diagnostics.Log.csproj">
+      <Project>{239b2ff4-010e-4e09-9ea5-18a5adbd0d9c}</Project>
+      <Name>Bluehands.Repository.Diagnostics.Log</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\Source\packages\PostSharp.4.3.33\tools\PostSharp.targets" Condition="Exists('..\..\Source\packages\PostSharp.4.3.33\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\..\Source\packages\PostSharp.4.3.33\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\..\Source\packages\PostSharp.4.3.33\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

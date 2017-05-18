@@ -64,12 +64,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 			}
 		}
 
-		public virtual void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message)
-		{
-			WriteLogEntry(logLevel, callerMethodName, message, null);
-		}
-
-		 public abstract void WriteLogEntry(LogLevel logLevel, string callerMethodName, string message, Exception ex);
+		public abstract void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null);
 
 		protected abstract bool IsLogLevelEnabled(LogLevel logLevel);
 

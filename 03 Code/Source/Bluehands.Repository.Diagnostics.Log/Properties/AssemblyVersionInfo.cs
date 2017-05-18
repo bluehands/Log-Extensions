@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.107")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.107")]
-[assembly: System.Reflection.AssemblyInformationalVersion("feature/nlog_configuration_via_code-e3e32a082a66dcf84b5ed3acffa60556f9c8dabd-2017" +
-    "0418-135520")]
+[assembly: System.Reflection.AssemblyVersion("1.0.0.138")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.138")]
+[assembly: System.Reflection.AssemblyInformationalVersion("feature/Extract_Attributes_to_Package-cc83b75307c64c451383dd83442346607149bf3d-20" +
+    "170518-140206")]
 
 

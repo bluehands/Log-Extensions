@@ -40,10 +40,10 @@ namespace Bluehands.Repository.Diagnostics.Log
 	        if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
 	        if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
 
-			logEventInfo.Properties["typeOfMessageCreator"] = callerInfo.TypeOfMessageCreator;
-            logEventInfo.Properties["classOfMessageCreator"] = callerInfo.ClassOfMessageCreator;
-            logEventInfo.Properties["callerMethodName"] = callerInfo.CallerMethodName;
-	        logEventInfo.Properties["callerContextId"] = callerInfo.CallerContextId;
+			logEventInfo.Properties["Type"] = callerInfo.Type;
+            logEventInfo.Properties["Class"] = callerInfo.Class;
+            logEventInfo.Properties["Method"] = callerInfo.Method;
+	        logEventInfo.Properties["CallContext"] = callerInfo.CallContext;
         }
 
 
@@ -53,7 +53,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 	        for (var i = 0; i < indent; i++)
 	        {
-		        whiteSpaces += "\t";
+		        whiteSpaces += "  ";
 	        }
 
 	        return whiteSpaces;

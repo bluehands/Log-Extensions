@@ -75,13 +75,16 @@
     <Compile Include="LogMessageWriterTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bluehands.Repository.Diagnostics.Log\Bluehands.Repository.Diagnostics.Log.csproj">
+    <ProjectReference Include="..\..\..\03 Code\Source\Bluehands.Repository.Diagnostics.Log\Bluehands.Repository.Diagnostics.Log.csproj">
       <Project>{239b2ff4-010e-4e09-9ea5-18a5adbd0d9c}</Project>
       <Name>Bluehands.Repository.Diagnostics.Log</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\NLog.config" />
+    <Content Include="assets\NLog.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="bluehands.snk" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

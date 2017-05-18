@@ -17,7 +17,8 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory
 
 		protected sealed override Repository.Diagnostics.Log.Log CreateLog(object instance, Arguments args)
 		{
-			return Member.GetValue(instance) as Repository.Diagnostics.Log.Log;
+			var member = Member.GetValue(instance) as Repository.Diagnostics.Log.Log;
+			return member;
 		}
 	}
 }

@@ -12,8 +12,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceAttributeTest
 	{
-		//private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceAttributeTest));
-		private readonly Log m_LogMessageWriter = new Log<AutoTraceAttributeTest>();
+		private readonly Log m_Log = new Log<AutoTraceAttributeTest>();
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]
@@ -25,14 +24,10 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 			Console.SetOut(writer);
 
 			//When
-			//m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, () => "Warning test.");
-			//m_LogMessageWriter.WriteLogEntry(LogLevel.Info, () => "Info test.");
-			//m_LogMessageWriter.WriteLogEntry(LogLevel.Fatal, () => "Fatal test.");
-			//m_LogMessageWriter.WriteLogEntry(LogLevel.Debug, () => "Debug test.");
-			m_LogMessageWriter.Warning(() => "Warning test.");
-			m_LogMessageWriter.Info(() => "Info test.");
-			m_LogMessageWriter.Fatal(() => "Fatal test.");
-			m_LogMessageWriter.Debug(() => "Debug test.");
+			m_Log.Warning(() => "Warning test.");
+			m_Log.Info(() => "Info test.");
+			m_Log.Fatal(() => "Fatal test.");
+			m_Log.Debug(() => "Debug test.");
 
 			var logString = writer.ToString();
 

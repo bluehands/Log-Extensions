@@ -6,30 +6,29 @@ namespace Sandbox
 {
     class Program
     {
-        private static readonly Log Log = new Log<Program>();
+        private static readonly Log s_Log = new Log<Program>();
 
-		[AutoTrace("AutoTrace active:")]
         private static void Main()
         {
-            //using (Log.AutoTrace("AutoTrace active:"))
-            //{
-				Log.Debug("Creating threads...");
-	            for (var i = 0; i < 2; i++)
-	            {
-		            var newThread = new Thread(Test) {Name = i.ToString()};
-		            newThread.Start();
-	            }
-			//}
-            
+            using (s_Log.AutoTrace("AutoTrace active:"))
+            {
+                s_Log.Debug("Creating threads...");
+                for (var i = 0; i < 2; i++)
+                {
+                    var newThread = new Thread(Test) { Name = i.ToString() };
+                    newThread.Start();
+                }
+            }
+
         }
 
         private static void Test()
         {
-            using (Log.AutoTrace("Nachricht von AutoTrace"))
+            using (s_Log.AutoTrace("Nachricht von AutoTrace"))
             {
-				Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
-				Log.Debug($"Log entry 2, Thread {Thread.CurrentThread.ManagedThreadId}.");
-				Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
+				s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
+				s_Log.Debug($"Log entry 2, Thread {Thread.CurrentThread.ManagedThreadId}.");
+				s_Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
 			}
 
             //var exeption = new NotImplementedException();

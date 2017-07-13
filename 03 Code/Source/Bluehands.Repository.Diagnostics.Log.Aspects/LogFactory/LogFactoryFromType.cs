@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using PostSharp.Aspects;
 using PostSharp.Reflection;
 
 namespace Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory
@@ -15,9 +14,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.LogFactory
                 {
 		}
 
-		protected sealed override Repository.Diagnostics.Log.Log CreateLog(object instance, Arguments args)
+		protected sealed override Log CreateLog(object instance)
 		{
-			return new Repository.Diagnostics.Log.Log(LogType);
+			return new Log(LogType);
 		}
 	}
 }

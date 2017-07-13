@@ -40,9 +40,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 			args.FlowBehavior = FlowBehavior.RethrowException;
 		}
 
-		protected virtual Repository.Diagnostics.Log.Log GetLog(object instance, Arguments args)
+		protected virtual Log GetLog(object instance, Arguments args)
 		{
-			return m_Factory.GetLog(instance, args);
+			return m_Factory.GetLog(instance);
 		}
 
 	}

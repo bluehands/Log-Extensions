@@ -28,7 +28,10 @@ namespace Bluehands.Repository.Diagnostics.Log
             return new Log(type);
         }
 
-
+        public IDisposable AutoTrace([CallerMemberName] string caller = "")
+        {
+            return AutoTrace(() => "", caller);
+        }
         public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
         {
             return AutoTrace(() => message, caller);

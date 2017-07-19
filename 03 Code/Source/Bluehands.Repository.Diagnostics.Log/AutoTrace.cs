@@ -10,7 +10,7 @@ namespace Bluehands.Repository.Diagnostics.Log
     {
         private readonly string m_Caller;
         private readonly ILogMessageWriter m_LogMessageWriter;
-        private readonly Func<string> m_Message;
+        private readonly string m_Message;
         private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
         private readonly TimeSpan m_StartTime;
 
@@ -25,10 +25,12 @@ namespace Bluehands.Repository.Diagnostics.Log
                 if (logWriter.IsTraceEnabled)
                 {
                     m_LogMessageWriter = logWriter;
-                    m_Message = messageFactory;
+                    m_Message = messageFactory.Invoke();
                     m_StartTime = s_StopWatch.Elapsed;
 
-                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + " Enter", m_Caller);
+
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + " Enter", m_Caller);
+
                     LogMessageWriterBase.Indent++;
                 }
             }
@@ -46,7 +48,7 @@ namespace Bluehands.Repository.Diagnostics.Log
                 {
                     var end = s_StopWatch.Elapsed - m_StartTime;
                     LogMessageWriterBase.Indent--;
-                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
                 }
             }
             catch (Exception ex)

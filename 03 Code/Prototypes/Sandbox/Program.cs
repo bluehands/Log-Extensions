@@ -10,7 +10,7 @@ namespace Sandbox
 
         private static void Main()
         {
-            using (s_Log.AutoTrace())
+            using (s_Log.AutoTrace(""))
             {
                 s_Log.Debug("Creating threads...");
                 for (var i = 0; i < 2; i++)

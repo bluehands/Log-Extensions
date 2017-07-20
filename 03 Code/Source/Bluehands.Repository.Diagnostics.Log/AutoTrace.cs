@@ -25,9 +25,8 @@ namespace Bluehands.Repository.Diagnostics.Log
                 if (logWriter.IsTraceEnabled)
                 {
                     m_LogMessageWriter = logWriter;
-                    m_Message = messageFactory.Invoke();
+                    m_Message = GetMessage(messageFactory);
                     m_StartTime = s_StopWatch.Elapsed;
-
 
                     m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + " Enter", m_Caller);
 
@@ -37,6 +36,19 @@ namespace Bluehands.Repository.Diagnostics.Log
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        private string GetMessage(Func<string> messageFactory)
+        {
+            try
+            {
+                return messageFactory.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return "---Could not get Message--";
             }
         }
 

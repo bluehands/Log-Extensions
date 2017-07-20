@@ -35,7 +35,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                Trace.WriteLine(ex);
             }
         }
 
@@ -47,13 +47,17 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Trace.WriteLine(ex.Message);
                 return "---Could not get Message--";
             }
         }
 
         public void Dispose()
         {
+            if (m_LogMessageWriter == null)
+            {
+                return;
+            }
             try
             {
                 if (m_LogMessageWriter.IsTraceEnabled)
@@ -65,7 +69,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                Trace.WriteLine(ex);
             }
         }
     }

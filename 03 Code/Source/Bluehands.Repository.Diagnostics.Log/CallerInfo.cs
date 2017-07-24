@@ -2,8 +2,7 @@
 {
     internal class CallerInfo
     {
-
-		public string Type { get; private set; }
+        public string Type { get; private set; }
         public string Class { get; private set; }
         public string Method { get; private set; }
 		public string CallContext { get; private set; }

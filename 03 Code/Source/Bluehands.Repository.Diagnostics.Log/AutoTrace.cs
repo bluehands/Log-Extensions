@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-    internal class AutoTrace : IDisposable
+    class AutoTrace : IDisposable
     {
-        private readonly string m_Caller;
-        private readonly ILogMessageWriter m_LogMessageWriter;
-        private readonly string m_Message;
-        private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
-        private readonly TimeSpan m_StartTime;
+        readonly string m_Caller;
+        readonly ILogMessageWriter m_LogMessageWriter;
+        readonly string m_Message;
+        static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
+        readonly TimeSpan m_StartTime;
+        readonly IDisposable m_TraceStackHandle;
 
         public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "")
         {
@@ -28,9 +28,9 @@ namespace Bluehands.Repository.Diagnostics.Log
                     m_Message = GetMessage(messageFactory);
                     m_StartTime = s_StopWatch.Elapsed;
 
-                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + " Enter", m_Caller);
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => LogFormatters.TraceEnter(m_Message), m_Caller);
 
-                    LogMessageWriterBase.Indent++;
+                    m_TraceStackHandle = TraceStack.Push(LogFormatters.ContextPart(m_Caller));
                 }
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
         }
 
-        private string GetMessage(Func<string> messageFactory)
+        string GetMessage(Func<string> messageFactory)
         {
             try
             {
@@ -63,8 +63,8 @@ namespace Bluehands.Repository.Diagnostics.Log
                 if (m_LogMessageWriter.IsTraceEnabled)
                 {
                     var end = s_StopWatch.Elapsed - m_StartTime;
-                    LogMessageWriterBase.Indent--;
-                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+                    m_TraceStackHandle.Dispose();
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => LogFormatters.TraceLeave(m_Message, end.TotalMilliseconds), m_Caller);
                 }
             }
             catch (Exception ex)

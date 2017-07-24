@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-	internal abstract class LogMessageWriterBase : ILogMessageWriter
+    abstract class LogMessageWriterBase : ILogMessageWriter
 	{
-
-		private const string ContextDataKey = "feec7c1e-fd19-40d4-a7ac-195df21c6063";
+	    const string ContextDataKey = "feec7c1e-fd19-40d4-a7ac-195df21c6063";
 
 		protected readonly Type m_MessageCreator;
 
@@ -32,7 +27,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 			[PermissionSet(SecurityAction.LinkDemand)]
 			get
 			{
-				var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
+                var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 				return contextData?.Indent ?? 0;
 			}
 			[PermissionSet(SecurityAction.LinkDemand)]
@@ -41,8 +36,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 				var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 				if (contextData == null)
 				{
-					contextData = new LogicalCallContextData(CreateNewGuid());
-					CallContext.SetData(ContextDataKey, contextData);
+                    contextData = new LogicalCallContextData(CreateNewGuid());
+                    CallContext.SetData(ContextDataKey, contextData);
 				}
 				contextData.Indent = value;
 			}
@@ -59,7 +54,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 					return contextData.ContextId;
 				}
 				contextData = new LogicalCallContextData(CreateNewGuid());
-				CallContext.SetData(ContextDataKey, contextData);
+                CallContext.SetData(ContextDataKey, contextData);
 				return contextData.ContextId;
 			}
 		}
@@ -68,7 +63,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		protected abstract bool IsLogLevelEnabled(LogLevel logLevel);
 
-		private static string CreateNewGuid()
+	    static string CreateNewGuid()
 		{
 			return Guid.NewGuid().ToString().Substring(0, 8);
 		}

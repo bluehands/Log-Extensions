@@ -112,4 +112,52 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Test
 
         }
     }
+
+    [TestClass]
+    [ExcludeFromCodeCoverage]
+    public class AutoTraceAttributeWithParallelAsyncTest
+    {
+        private static readonly Log s_Log = new Log<AutoTraceAttributeWithAsyncTest>();
+
+        [AutoTrace("FirstLevelMessage", ApplyToStateMachine = true)]
+        public async Task FirstLevelAsyncMethod()
+        {
+            s_Log.Info("Hallo first level");
+
+            await Task.WhenAll(SecondLevelAsyncMethod(), SecondLevelAsyncMethod());
+
+            s_Log.Info("Hallo after first after traced section");
+        }
+
+        [AutoTrace("SecondLevelMessage", ApplyToStateMachine = true)]
+        private async Task SecondLevelAsyncMethod()
+        {
+            s_Log.Info("Hallo second level");
+            await ThirdLevelAsyncMethod();
+            await Task.Delay(200).ConfigureAwait(false);
+        }
+
+        [AutoTrace("ThirdLevelMessage", ApplyToStateMachine = true)]
+        private async Task ThirdLevelAsyncMethod()
+        {
+            s_Log.Info("Hallo third level");
+            await Task.Delay(200).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        [ExcludeFromCodeCoverage]
+        public async Task Given_AsyncMethodWithAutoTrace_When_RunAsyncMethod_Then_LogStringMatchesExpectations()
+        {
+            //Given
+            var writer = new StringWriter();
+            Console.SetOut(writer);
+
+            //When
+            await Task.WhenAll(FirstLevelAsyncMethod(), FirstLevelAsyncMethod());
+
+            //Then
+            
+            //TODO: assertions
+        }
+    }
 }

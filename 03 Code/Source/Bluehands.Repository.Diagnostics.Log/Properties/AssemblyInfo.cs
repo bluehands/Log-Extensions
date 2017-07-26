@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Bluehands.Repository.Diagnostics.Log")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Logging extensions to NLog")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("bluehands GmbH & Co.mmunication KG")]
 [assembly: AssemblyProduct("Bluehands.Repository.Diagnostics.Log")]

@@ -8,38 +8,69 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     internal class AutoTrace : IDisposable
     {
-		private readonly ILogMessageWriter m_LogMessageWriter;
-		private readonly Func<string> m_Message;
-		private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
-	    private readonly TimeSpan m_StartTime;
-		private readonly string m_Caller;
+        private readonly string m_Caller;
+        private readonly ILogMessageWriter m_LogMessageWriter;
+        private readonly string m_Message;
+        private static readonly Stopwatch s_StopWatch = Stopwatch.StartNew();
+        private readonly TimeSpan m_StartTime;
 
-	    public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "")
-	    {
-			if (logWriter == null) { throw new ArgumentNullException(nameof(logWriter)); }
-		    if (messageFactory == null) throw new ArgumentNullException(nameof(messageFactory));
-		    if (string.IsNullOrEmpty(caller)) { throw new ArgumentNullException(nameof(caller)); }
+        public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "")
+        {
+            try
+            {
+                if (logWriter == null) { return; }
+                if (messageFactory == null) { return; }
+                if (string.IsNullOrEmpty(caller)) { return; }
+                m_Caller = caller;
+                if (logWriter.IsTraceEnabled)
+                {
+                    m_LogMessageWriter = logWriter;
+                    m_Message = GetMessage(messageFactory);
+                    m_StartTime = s_StopWatch.Elapsed;
 
-		    if (logWriter.IsTraceEnabled)
-		    {
-			    m_LogMessageWriter = logWriter;
-			    m_Message = messageFactory;
-			    m_StartTime = s_StopWatch.Elapsed;
-			    m_Caller = caller;
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + " Enter", m_Caller);
 
-			    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + " Enter", m_Caller);
-			    LogMessageWriterBase.Indent++;
-		    }
-	    }
+                    LogMessageWriterBase.Indent++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-	    public void Dispose()
-		{
-			if (m_LogMessageWriter.IsTraceEnabled)
-			{
-				var end = s_StopWatch.Elapsed - m_StartTime;
-				LogMessageWriterBase.Indent--;
-				m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message() + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
-			}
-		}
-	}
+        private string GetMessage(Func<string> messageFactory)
+        {
+            try
+            {
+                return messageFactory.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+                return "---Could not get Message--";
+            }
+        }
+
+        public void Dispose()
+        {
+            if (m_LogMessageWriter == null)
+            {
+                return;
+            }
+            try
+            {
+                if (m_LogMessageWriter.IsTraceEnabled)
+                {
+                    var end = s_StopWatch.Elapsed - m_StartTime;
+                    LogMessageWriterBase.Indent--;
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => m_Message + $" [{end.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)}ms] Leave", m_Caller);
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
+    }
 }

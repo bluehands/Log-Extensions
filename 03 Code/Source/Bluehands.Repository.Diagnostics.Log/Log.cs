@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
-	[ExcludeFromCodeCoverage]
 	public class Log<T> : Log
 	{
 		public Log()
@@ -15,7 +14,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 		}
 	}
 
-	[ExcludeFromCodeCoverage]
 	public class Log
     {
         private readonly ILogMessageWriter m_LogMessageWriter;
@@ -29,7 +27,6 @@ namespace Bluehands.Repository.Diagnostics.Log
         {
             return new Log(type);
         }
-
 
         public IDisposable AutoTrace(string message = "", [CallerMemberName] string caller = "")
         {

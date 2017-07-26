@@ -13,11 +13,11 @@ namespace Bluehands.Repository.Diagnostics.Log
 
 		private const string ContextDataKey = "feec7c1e-fd19-40d4-a7ac-195df21c6063";
 
-		protected readonly Type MessageCreator;
+		protected readonly Type m_MessageCreator;
 
 		protected LogMessageWriterBase(Type messageCreator)
 		{
-			MessageCreator = messageCreator;
+			m_MessageCreator = messageCreator;
 		}
 
 		public abstract bool IsFatalEnabled { get; }

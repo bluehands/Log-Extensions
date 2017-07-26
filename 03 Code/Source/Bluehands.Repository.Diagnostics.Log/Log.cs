@@ -31,7 +31,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         }
 
 
-        public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
+        public IDisposable AutoTrace(string message = "", [CallerMemberName] string caller = "")
         {
             return AutoTrace(() => message, caller);
         }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Permissions;
 using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
     internal class LogMessageWriter : LogMessageWriterBase
     {
-
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
 
@@ -74,7 +71,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, int indent, Exception ex)
         {
-            var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreator.Name, callerMethodName, ContextId);
+            var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreatorFriendlyName, callerMethodName, ContextId);
 
             var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, indent);
             return logEventInfo;

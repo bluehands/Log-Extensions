@@ -1,11 +1,11 @@
 ﻿using System;
-using System.CodeDom;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NLog;
+using NLog.Targets;
 
 namespace Bluehands.Repository.Diagnostics.Log.Test
 {
@@ -119,7 +119,8 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 			Assert.AreEqual(expectedLeaveNum, leaveCounter);
 			Assert.AreEqual(expectedMaxIndent, maxIndent);
 
+		    var contextTarget = LogManager.Configuration.FindTargetByName<MemoryTarget>("contextTarget");
+		    
 		}
 	}
-
 }

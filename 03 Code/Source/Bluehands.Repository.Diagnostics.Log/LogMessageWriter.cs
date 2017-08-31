@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using NLog;
 
@@ -30,7 +31,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         public override bool IsTraceEnabled => m_NLogLog.IsTraceEnabled;
         public override bool IsDebugEnabled => m_NLogLog.IsDebugEnabled;
 
-        public override void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null)
+        public override void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null, params KeyValuePair<string, string>[] customProperties)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
                 if (IsLogLevelEnabled(logLevel))
                 {
-                    var logEventInfo = GetLogEventInfo(logLevel, callerMethodName, messageFactory, ex);
+                    var logEventInfo = GetLogEventInfo(logLevel, callerMethodName, messageFactory, ex, customProperties);
                     m_NLogLog.Log(logEventInfo);
                 }
             }
@@ -70,10 +71,10 @@ namespace Bluehands.Repository.Diagnostics.Log
             }
         }
 
-        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex)
+        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex, KeyValuePair<string, string>[] customProperties)
         {
             var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreator.Name, callerMethodName, TraceStack.CurrentStack(LogFormatters.ContextPartSeparator));
-            var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, TraceStack.Indent);
+            var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, TraceStack.Indent, customProperties);
             return logEventInfo;
         }
     }

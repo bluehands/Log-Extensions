@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NLog;
 
 namespace Bluehands.Repository.Diagnostics.Log
@@ -17,7 +18,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 	        m_LoggerName = loggerName;
         }
 
-        public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent)
+        public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent, KeyValuePair<string, string>[] customProperties)
         {
             var logEventInfo = new LogEventInfo
             {
@@ -25,7 +26,7 @@ namespace Bluehands.Repository.Diagnostics.Log
                 Level = GetNLogLevel(logLevel),
                 LoggerName = m_LoggerName
             };
-            SetNLogProperties(logEventInfo, callerInfo);
+            SetNLogProperties(logEventInfo, callerInfo, customProperties);
             logEventInfo.Properties["indent"] = ConvertIndentToWhiteSpaces(indent);
 
             if (ex != null)
@@ -35,7 +36,7 @@ namespace Bluehands.Repository.Diagnostics.Log
             return logEventInfo;
         }
 
-        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo)
+        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo, KeyValuePair<string, string>[] customProperties)
         {
 	        if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
 	        if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
@@ -44,6 +45,11 @@ namespace Bluehands.Repository.Diagnostics.Log
             logEventInfo.Properties["Class"] = callerInfo.Class;
             logEventInfo.Properties["Method"] = callerInfo.Method;
 	        logEventInfo.Properties["CallContext"] = callerInfo.CallContext;
+
+            foreach (var customProperty in customProperties)
+            {
+                logEventInfo.Properties[customProperty.Key] = customProperty.Value;
+            }
         }
 
 

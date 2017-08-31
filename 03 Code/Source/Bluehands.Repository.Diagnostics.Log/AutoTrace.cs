@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -14,7 +15,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         readonly TimeSpan m_StartTime;
         readonly IDisposable m_TraceStackHandle;
 
-        public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "")
+        public AutoTrace(ILogMessageWriter logWriter, Func<string> messageFactory, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
         {
             try
             {
@@ -28,7 +29,7 @@ namespace Bluehands.Repository.Diagnostics.Log
                     m_Message = GetMessage(messageFactory);
                     m_StartTime = s_StopWatch.Elapsed;
 
-                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => LogFormatters.TraceEnter(m_Message), m_Caller);
+                    m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, () => LogFormatters.TraceEnter(m_Message), m_Caller, customProperties: customProperties);
 
                     m_TraceStackHandle = TraceStack.Push(LogFormatters.ContextPart(m_Caller));
                 }

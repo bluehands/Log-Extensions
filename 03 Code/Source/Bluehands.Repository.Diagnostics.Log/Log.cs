@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 
@@ -23,19 +23,25 @@ namespace Bluehands.Repository.Diagnostics.Log
             m_LogMessageWriter = new LogMessageWriter(messageCreator);
         }
 
+        public static Log For<T>()
+        {
+            return new Log<T>();
+        }
+
         public static Log For(Type type)
         {
             return new Log(type);
         }
-        
-        public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "")
+
+        // ReSharper disable ExplicitCallerInfoArgument
+        public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
         {
-            return AutoTrace(() => message, caller);
+            return AutoTrace(() => message, caller, customProperties);
         }
 
-	    public IDisposable AutoTrace(Func<string> messageFactory, [CallerMemberName] string caller = "")
+	    public IDisposable AutoTrace(Func<string> messageFactory, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
 	    {
-		    return new AutoTrace(m_LogMessageWriter, messageFactory, caller);
+		    return new AutoTrace(m_LogMessageWriter, messageFactory, caller, customProperties);
 	    }
 
         public void Fatal(string message, [CallerMemberName] string caller = "")
@@ -101,6 +107,11 @@ namespace Bluehands.Repository.Diagnostics.Log
 		{
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Warning, messageFactory, caller, ex);
 		}
+
+        public void Write(LogLevel logLevel, Func<string> messageFactory, Exception ex = null, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
+        {
+            m_LogMessageWriter.WriteLogEntry(logLevel, messageFactory, caller, ex, customProperties);
+        }
 
 		public bool IsWarningEnabled => m_LogMessageWriter.IsWarningEnabled;
 
@@ -168,6 +179,8 @@ namespace Bluehands.Repository.Diagnostics.Log
 			m_LogMessageWriter.WriteLogEntry(LogLevel.Trace, messageFactory, caller, ex);
 		}
 
-		public bool IsTraceEnabled => m_LogMessageWriter.IsTraceEnabled;
+        // ReSharper restore ExplicitCallerInfoArgument
+
+        public bool IsTraceEnabled => m_LogMessageWriter.IsTraceEnabled;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Permissions;
 
@@ -36,7 +37,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 				var contextData = CallContext.GetData(ContextDataKey) as LogicalCallContextData;
 				if (contextData == null)
 				{
-                    contextData = new LogicalCallContextData(CreateNewGuid());
+                    contextData = new LogicalCallContextData(CreateShortGuid());
                     CallContext.SetData(ContextDataKey, contextData);
 				}
 				contextData.Indent = value;
@@ -53,17 +54,17 @@ namespace Bluehands.Repository.Diagnostics.Log
 				{
 					return contextData.ContextId;
 				}
-				contextData = new LogicalCallContextData(CreateNewGuid());
+				contextData = new LogicalCallContextData(CreateShortGuid());
                 CallContext.SetData(ContextDataKey, contextData);
 				return contextData.ContextId;
 			}
 		}
 
-		public abstract void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null);
+		public abstract void WriteLogEntry(LogLevel logLevel, Func<string> messageFactory, string callerMethodName = null, Exception ex = null, params KeyValuePair<string, string>[] customProperties);
 
 		protected abstract bool IsLogLevelEnabled(LogLevel logLevel);
 
-	    static string CreateNewGuid()
+	    static string CreateShortGuid()
 		{
 			return Guid.NewGuid().ToString().Substring(0, 8);
 		}

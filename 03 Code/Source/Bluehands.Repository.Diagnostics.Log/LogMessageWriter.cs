@@ -7,7 +7,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 {
     internal class LogMessageWriter : LogMessageWriterBase
     {
-
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
 
@@ -73,7 +72,7 @@ namespace Bluehands.Repository.Diagnostics.Log
 
         private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex, KeyValuePair<string, string>[] customProperties)
         {
-            var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreator.Name, callerMethodName, TraceStack.CurrentStack(LogFormatters.ContextPartSeparator));
+            var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreatorFriendlyName, callerMethodName, TraceStack.CurrentStack(LogFormatters.ContextPartSeparator));
             var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, TraceStack.Indent, customProperties);
             return logEventInfo;
         }

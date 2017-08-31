@@ -10,7 +10,6 @@ namespace Bluehands.Repository.Diagnostics.Log
 		public Log()
 			: base(typeof(T))
 		{
-
 		}
 	}
 
@@ -34,7 +33,7 @@ namespace Bluehands.Repository.Diagnostics.Log
         }
 
         // ReSharper disable ExplicitCallerInfoArgument
-        public IDisposable AutoTrace(string message, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
+        public IDisposable AutoTrace(string message = "", [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
         {
             return AutoTrace(() => message, caller, customProperties);
         }

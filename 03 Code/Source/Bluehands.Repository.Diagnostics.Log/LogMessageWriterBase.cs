@@ -10,10 +10,12 @@ namespace Bluehands.Repository.Diagnostics.Log
 	    const string ContextDataKey = "feec7c1e-fd19-40d4-a7ac-195df21c6063";
 
 		protected readonly Type m_MessageCreator;
+	    protected readonly string m_MessageCreatorFriendlyName;
 
 		protected LogMessageWriterBase(Type messageCreator)
 		{
 			m_MessageCreator = messageCreator;
+		    m_MessageCreatorFriendlyName = messageCreator.GetFriendlyName();
 		}
 
 		public abstract bool IsFatalEnabled { get; }

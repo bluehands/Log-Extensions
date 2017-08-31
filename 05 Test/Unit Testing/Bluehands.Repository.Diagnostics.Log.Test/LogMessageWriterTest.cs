@@ -15,9 +15,8 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
     [ExcludeFromCodeCoverage]
     public class LogMessageWriterTest
     {
-        private readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
-        private static readonly Func<string> TestMessage = () => "Test message.";
-
+        readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
+        static readonly Func<string> TestMessage = () => "Test message.";
 
         [TestMethod]
         public void Given_ArgumentNullExceptionArgument_When_WriteLogEntryWithLogLevelErrorAndCallerName_Then_LogStringContainsErrorAndTestMessageAndArgumentNullException()
@@ -27,7 +26,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
             //When
             var expectedException = new ArgumentNullException();
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage, System.Reflection.MethodBase.GetCurrentMethod().Name, expectedException);
+            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage, MethodBase.GetCurrentMethod().Name, expectedException);
             var logString = writer.ToString();
             Debug.WriteLine(logString);
 
@@ -38,27 +37,45 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
             Assert.IsTrue(logColumns[7].Contains(expectedException.ToString()));
 
         }
-    }
-
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class CustomPropertiesTest
-    {
-        readonly Log<CustomPropertiesTest> m_Log = new Log<CustomPropertiesTest>();
 
         [TestMethod]
-        public void When_a_custom_property_is_passed_to_log_write_Then_the_property_can_be_written_to_a_log_target()
+        public void Given_TestLoggerNameWithGenericClassArguments_Then_LogClassNameShouldContainGenericTypes()
         {
-            const string customPropertyName = "myProperty";
+            var writer = new StringWriter();
+            Console.SetOut(writer);
 
-            var target = new MemoryTarget { Layout = $"${{event-properties:item={customPropertyName}}} ${{event-properties:item=Method}}", Name = "customPropertyTarget" };
-            LogManager.Configuration.AddTarget(target);
-            LogManager.Configuration.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Info, target.Name);
-            LogManager.Configuration.Reload();
+            //When
+            var messageWriter = new LogMessageWriter(typeof(MyGenericClass<string>));
+            messageWriter.WriteLogEntry(LogLevel.Debug, () => "test log", "TestLoggerNameWithGenericClassArguments");
+            var logString = writer.ToString();
+            Debug.WriteLine(logString);
 
-            m_Log.Write(LogLevel.Info, () => "Hallo Logger", customProperties: new KeyValuePair<string, string>(customPropertyName, "myPropertyValue"));
+            //Then
+            Assert.IsTrue(logString.Contains("MyGenericClass<string>|TestLoggerNameWithGenericClassArguments|test log"));
+        }
 
-            target.Logs[0].Should().Be($"myPropertyValue {MethodBase.GetCurrentMethod().Name}");
+        class MyGenericClass<T> { }
+
+        [TestClass]
+        [ExcludeFromCodeCoverage]
+        public class CustomPropertiesTest
+        {
+            readonly Log<CustomPropertiesTest> m_Log = new Log<CustomPropertiesTest>();
+
+            [TestMethod]
+            public void When_a_custom_property_is_passed_to_log_write_Then_the_property_can_be_written_to_a_log_target()
+            {
+                const string customPropertyName = "myProperty";
+
+                var target = new MemoryTarget { Layout = $"${{event-properties:item={customPropertyName}}} ${{event-properties:item=Method}}", Name = "customPropertyTarget" };
+                LogManager.Configuration.AddTarget(target);
+                LogManager.Configuration.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Info, target.Name);
+                LogManager.Configuration.Reload();
+
+                m_Log.Write(LogLevel.Info, () => "Hallo Logger", customProperties: new KeyValuePair<string, string>(customPropertyName, "myPropertyValue"));
+
+                target.Logs[0].Should().Be($"myPropertyValue {MethodBase.GetCurrentMethod().Name}");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Bluehands.Repository.Diagnostics.Log;
 using Bluehands.Repository.Diagnostics.Log.Aspects.Attributes;
 
@@ -20,6 +21,7 @@ namespace Sandbox
                 }
             }
 
+            Console.ReadLine();
         }
 
         private static void Test()

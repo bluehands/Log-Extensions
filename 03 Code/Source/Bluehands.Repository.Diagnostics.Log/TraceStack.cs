@@ -2,31 +2,18 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Threading;
 
 namespace Bluehands.Repository.Diagnostics.Log
 {
     public static class TraceStack
     {
-        static readonly string s_Name = Guid.NewGuid().ToString("N");
+        static readonly AsyncLocal<ImmutableStack<string>> s_AsyncLocalString = new AsyncLocal<ImmutableStack<string>>();
 
-        sealed class Wrapper : MarshalByRefObject
+        private static ImmutableStack<string> CurrentContext
         {
-            public ImmutableStack<string> Value { get; set; }
-        }
-
-        static ImmutableStack<string> CurrentContext
-        {
-            get
-            {
-                var ret = CallContext.LogicalGetData(s_Name) as Wrapper;
-                return ret == null ? ImmutableStack.Create<string>() : ret.Value;
-            }
-
-            set
-            {
-                CallContext.LogicalSetData(s_Name, new Wrapper { Value = value });
-            }
+            get => s_AsyncLocalString.Value ?? ImmutableStack.Create<string>();
+            set => s_AsyncLocalString.Value = value;
         }
 
         public static int Indent => CurrentContext.Count();

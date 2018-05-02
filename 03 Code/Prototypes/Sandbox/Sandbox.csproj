@@ -74,13 +74,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Bluehands.Repository.Diagnostics.Log.Aspects\Bluehands.Repository.Diagnostics.Log.Aspects.csproj">
-      <Project>{5bc048fe-3a73-44d9-944d-60b98b9d4df2}</Project>
-      <Name>Bluehands.Repository.Diagnostics.Log.Aspects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Bluehands.Repository.Diagnostics.Log\Bluehands.Repository.Diagnostics.Log.csproj">
-      <Project>{239b2ff4-010e-4e09-9ea5-18a5adbd0d9c}</Project>
-      <Name>Bluehands.Repository.Diagnostics.Log</Name>
+    <ProjectReference Include="..\..\Source\Bluehands.Diagnostics.LogExtensions\Bluehands.Diagnostics.LogExtensions.csproj">
+      <Project>{3910cec4-b62b-40d7-a572-f266f17feea0}</Project>
+      <Name>Bluehands.Diagnostics.LogExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

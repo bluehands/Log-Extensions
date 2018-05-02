@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="3.3.0">
+    <id>Bluehands.Diagnostics.LogExtensions</id>
+    <version>1.0.0.0</version>
+    <title>Bluehands logging extensions to NLog</title>
+    <authors>Bluehands GmbH &amp; C.ommunication KG</authors>
+    <owners>Bluehands GmbH &amp; C.ommunication KG</owners><!-- 
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A set of logging extensions for NLog</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags></tags>
+
+    <dependencies>
+        <dependency id="NLog" version="4.4.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\netstandard2.0\Bluehands.Diagnostics.LogExtensions.dll" target="lib\netstandard2.0\Bluehands.Diagnostics.LogExtensions.dll" />
+    <file src="bin\netstandard2.0\Bluehands.Diagnostics.LogExtensions.pdb" target="lib\netstandard2.0\Bluehands.Diagnostics.LogExtensions.pdb" />
+    <file src="content\NLog.config" target="content\NLog.config" />
+    </files>
+</package>

@@ -9,12 +9,17 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\Sandbox\Program.cs" Link="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.5.3" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>

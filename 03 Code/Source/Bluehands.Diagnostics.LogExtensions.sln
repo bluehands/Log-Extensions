@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluehands.Diagnostics.LogEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bluehands.Diagnostics.LogExtensions", "Bluehands.Diagnostics.LogExtensions\Bluehands.Diagnostics.LogExtensions.csproj", "{3910CEC4-B62B-40D7-A572-F266F17FEEA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox.Core", "..\Prototypes\Sandbox.Core\Sandbox.Core.csproj", "{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,22 +105,6 @@ Global
 		{3910CEC4-B62B-40D7-A572-F266F17FEEA0}.Release|x64.Build.0 = Release|Any CPU
 		{3910CEC4-B62B-40D7-A572-F266F17FEEA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{3910CEC4-B62B-40D7-A572-F266F17FEEA0}.Release|x86.Build.0 = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|ARM.Build.0 = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|x64.Build.0 = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Debug|x86.Build.0 = Debug|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|ARM.ActiveCfg = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|ARM.Build.0 = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|x64.ActiveCfg = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|x64.Build.0 = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|x86.ActiveCfg = Release|Any CPU
-		{DEF715DA-F5D4-4438-83D7-0CECB3D1CCC8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

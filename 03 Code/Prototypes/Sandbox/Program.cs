@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Bluehands.Repository.Diagnostics.Log;
-using Bluehands.Repository.Diagnostics.Log.Aspects.Attributes;
+using System.Threading.Tasks;
+using Bluehands.Diagnostics.LogExtensions;
 
 namespace Sandbox
 {
@@ -9,8 +9,9 @@ namespace Sandbox
     {
         private static readonly Log s_Log = new Log<Program>();
 
-        private static void Main()
+        public static async Task Main()
         {
+            s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace(""))
             {
                 s_Log.Debug("Creating threads...");
@@ -19,6 +20,29 @@ namespace Sandbox
                     var newThread = new Thread(Test) { Name = i.ToString() };
                     newThread.Start();
                 }
+
+                var t1 = Task.Run(
+                    () =>
+                    {
+                        using (s_Log.AutoTrace())
+                        {
+                            s_Log.Debug("Running from Task t1");
+                        }
+                    }
+
+                    );
+                var t2 = Task.Run(
+                    () =>
+                    {
+                        using (s_Log.AutoTrace())
+                        {
+                            s_Log.Debug("Running from Task t2");
+                        }
+                    }
+
+                );
+
+                await Task.WhenAll(t1, t2);
             }
 
             Console.ReadLine();
@@ -26,12 +50,13 @@ namespace Sandbox
 
         private static void Test()
         {
+            s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace("Nachricht von AutoTrace"))
             {
-				s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
-				s_Log.Debug($"Log entry 2, Thread {Thread.CurrentThread.ManagedThreadId}.");
-				s_Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
-			}
+                s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
+                s_Log.Debug($"Log entry 2, Thread {Thread.CurrentThread.ManagedThreadId}.");
+                s_Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
+            }
 
             //var exeption = new NotImplementedException();
 

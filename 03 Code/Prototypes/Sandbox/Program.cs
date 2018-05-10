@@ -11,6 +11,7 @@ namespace Sandbox
 
         public static async Task Main()
         {
+            s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace(""))
             {
                 s_Log.Debug("Creating threads...");
@@ -49,6 +50,7 @@ namespace Sandbox
 
         private static void Test()
         {
+            s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace("Nachricht von AutoTrace"))
             {
                 s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");

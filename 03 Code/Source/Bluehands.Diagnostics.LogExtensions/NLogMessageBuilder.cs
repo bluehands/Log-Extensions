@@ -45,6 +45,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             logEventInfo.Properties["Class"] = callerInfo.Class;
             logEventInfo.Properties["Method"] = callerInfo.Method;
 	        logEventInfo.Properties["CallContext"] = callerInfo.CallContext;
+            logEventInfo.Properties["Correlation"] = callerInfo.Correlation;
 
             foreach (var customProperty in customProperties)
             {

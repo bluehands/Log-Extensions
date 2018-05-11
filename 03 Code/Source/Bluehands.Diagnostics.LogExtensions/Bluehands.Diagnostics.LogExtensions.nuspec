@@ -16,7 +16,7 @@
     <tags></tags>
 
     <dependencies>
-        <dependency id="NLog" version="4.4.5" />
+        <dependency id="NLog" version="4.5.4" />
 		<dependency id="System.Collections.Immutable" version="1.4.0" />
     </dependencies>
   </metadata>

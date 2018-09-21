@@ -29,9 +29,10 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
         
         public AutoTraceAttribute()
         {
+            ApplyToStateMachine = true;
         }
 
-        public AutoTraceAttribute(string message)
+        public AutoTraceAttribute(string message) : this()
         {
             m_Message = message;
         }

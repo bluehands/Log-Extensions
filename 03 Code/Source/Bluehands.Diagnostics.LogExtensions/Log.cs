@@ -18,7 +18,7 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         public Log(Type messageCreator)
         {
-            m_LogMessageWriter = new LogMessageWriter(messageCreator);
+            m_LogMessageWriter = new NLogMessageWriter(messageCreator);
         }
 
         public static Log For<T>()
@@ -39,6 +39,8 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         public IDisposable AutoTrace(Func<string> messageFactory, [CallerMemberName] string caller = "", params KeyValuePair<string, string>[] customProperties)
         {
+            if (!IsTraceEnabled)
+                return DefaultDisposable.Instance;
             return new AutoTrace(m_LogMessageWriter, messageFactory, caller, customProperties);
         }
 
@@ -185,6 +187,19 @@ namespace Bluehands.Diagnostics.LogExtensions
         {
             get => TrackCorrelation.Correlation;
             set => TrackCorrelation.Correlation = value;
+        }
+    }
+
+    sealed class DefaultDisposable : IDisposable
+    {
+        public static readonly DefaultDisposable Instance = new DefaultDisposable();
+
+        DefaultDisposable()
+        {
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

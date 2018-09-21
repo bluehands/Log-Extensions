@@ -18,7 +18,7 @@ namespace Bluehands.Diagnostics.LogExtensions
 	        m_LoggerName = loggerName;
         }
 
-        public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent, KeyValuePair<string, string>[] customProperties)
+        public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent, IEnumerable<KeyValuePair<string, string>> customProperties)
         {
             var logEventInfo = new LogEventInfo
             {
@@ -36,7 +36,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             return logEventInfo;
         }
 
-        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo, KeyValuePair<string, string>[] customProperties)
+        private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo, IEnumerable<KeyValuePair<string, string>> customProperties)
         {
 	        if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
 	        if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
@@ -53,17 +53,35 @@ namespace Bluehands.Diagnostics.LogExtensions
             }
         }
 
-
         private static string ConvertIndentToWhiteSpaces(int indent)
         {
-            var whiteSpaces = "";
-
-	        for (var i = 0; i < indent; i++)
-	        {
-		        whiteSpaces += "  ";
-	        }
-
-	        return whiteSpaces;
+            if (indent <= 0)
+                return string.Empty;
+            switch (indent)
+            {
+                case 0:
+                    return "";
+                case 1:
+                    return " ";
+                case 2:
+                    return "  ";
+                case 3:
+                    return "   ";
+                case 4:
+                    return "    ";
+                case 5:
+                    return "     ";
+                case 6:
+                    return "      ";
+                case 7:
+                    return "       ";
+                case 8:
+                    return "        ";
+                case 9:
+                    return "         ";
+                default:
+                    return new string(' ', indent);
+            }
         }
 
         private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)

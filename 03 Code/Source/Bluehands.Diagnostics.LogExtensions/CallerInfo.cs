@@ -16,6 +16,5 @@
 	        CallContext = callContext;
             Correlation = correlation;
         }
-
 	}
 }

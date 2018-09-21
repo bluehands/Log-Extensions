@@ -151,7 +151,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
             }
         }
 
-        protected virtual Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
+        Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
         {
             return m_Factory.GetLog(instance);
         }

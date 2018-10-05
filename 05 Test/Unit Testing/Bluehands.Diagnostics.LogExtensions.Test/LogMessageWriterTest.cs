@@ -17,7 +17,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
     [ExcludeFromCodeCoverage]
     public class LogMessageWriterTest
     {
-        readonly LogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(LogMessageWriterTest));
+        readonly NLogMessageWriter m_NLogMessageWriter = new NLogMessageWriter(typeof(LogMessageWriterTest));
         static readonly Func<string> TestMessage = () => "Test message.";
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
             //When
             var expectedException = new ArgumentNullException();
-            m_LogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage, MethodBase.GetCurrentMethod().Name, expectedException);
+            m_NLogMessageWriter.WriteLogEntry(LogLevel.Error, TestMessage, MethodBase.GetCurrentMethod().Name, expectedException);
             var logString = writer.ToString();
             Debug.WriteLine(logString);
 
@@ -47,7 +47,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
             Console.SetOut(writer);
 
             //When
-            var messageWriter = new LogMessageWriter(typeof(MyGenericClass<string>));
+            var messageWriter = new NLogMessageWriter(typeof(MyGenericClass<string>));
             messageWriter.WriteLogEntry(LogLevel.Debug, () => "test log", "TestLoggerNameWithGenericClassArguments");
             var logString = writer.ToString();
             Debug.WriteLine(logString);

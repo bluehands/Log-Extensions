@@ -5,12 +5,12 @@ using NLog;
 
 namespace Bluehands.Diagnostics.LogExtensions
 {
-    internal class LogMessageWriter : LogMessageWriterBase
+    internal class NLogMessageWriter : LogMessageWriterBase
     {
         private readonly Logger m_NLogLog;
         private readonly NLogMessageBuilder m_NLogMessageBuilder;
 
-        public LogMessageWriter(Type messageCreator) : base(messageCreator)
+        public NLogMessageWriter(Type messageCreator) : base(messageCreator)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             }
         }
 
-        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex, KeyValuePair<string, string>[] customProperties)
+        private LogEventInfo GetLogEventInfo(LogLevel logLevel, string callerMethodName, Func<string> messageFactory, Exception ex, IEnumerable<KeyValuePair<string, string>> customProperties)
         {
             var callerInfo = new CallerInfo(m_MessageCreator.FullName, m_MessageCreatorFriendlyName, callerMethodName, TraceStack.CurrentStack(LogFormatters.ContextPartSeparator), TrackCorrelation.Correlation);
             var logEventInfo = m_NLogMessageBuilder.BuildLogEventInfo(logLevel, messageFactory(), ex, callerInfo, TraceStack.Indent, customProperties);

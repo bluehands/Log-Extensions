@@ -11,6 +11,5 @@ namespace Bluehands.Diagnostics.LogExtensions
             get => s_AsyncLocalString.Value ?? "";
             set => s_AsyncLocalString.Value = value;
         }
-
     }
 }

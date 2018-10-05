@@ -15,7 +15,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 	[ExcludeFromCodeCoverage]
 	public class AutoTraceTest
 	{
-		private readonly ILogMessageWriter m_LogMessageWriter = new LogMessageWriter(typeof(AutoTraceTest));
+		private readonly ILogMessageWriter m_LogMessageWriter = new NLogMessageWriter(typeof(AutoTraceTest));
 		private const string TestMessage = "Test message.";
 
 		[TestMethod]

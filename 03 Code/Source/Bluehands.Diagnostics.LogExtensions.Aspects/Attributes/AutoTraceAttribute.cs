@@ -29,9 +29,10 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
         
         public AutoTraceAttribute()
         {
+            ApplyToStateMachine = true;
         }
 
-        public AutoTraceAttribute(string message)
+        public AutoTraceAttribute(string message) : this()
         {
             m_Message = message;
         }
@@ -150,7 +151,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
             }
         }
 
-        protected virtual Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
+        Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
         {
             return m_Factory.GetLog(instance);
         }

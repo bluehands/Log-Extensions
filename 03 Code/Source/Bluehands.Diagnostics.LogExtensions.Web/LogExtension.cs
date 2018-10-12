@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Bluehands.Diagnostics.LogExtensions.Web
+namespace Bluehands.Diagnostics.LogExtensions
 {
     public static class LogExtension
     {

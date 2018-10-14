@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Bluehands.Diagnostics.LogExtensions;
@@ -45,6 +46,8 @@ namespace Sandbox
                 await Task.WhenAll(t1, t2);
             }
 
+            var myClass = new MyClass();
+            myClass.MyComposingMethod("Hello logging").Wait();
             Console.ReadLine();
         }
 
@@ -79,4 +82,58 @@ namespace Sandbox
             //log.Trace(exeption, "Log von Sandbox.Test");
         }
     }
+    public class MyClass
+    {
+        private readonly MyWorkerClass m_MyWorkerClass;
+        private readonly Log<MyClass> m_Log = new Log<MyClass>();
+
+        public MyClass()
+        {
+            m_MyWorkerClass = new MyWorkerClass();
+        }
+
+        public async Task<string> MyComposingMethod(string text)
+        {
+            m_Log.Correlation = Guid.NewGuid().ToString();
+            using (m_Log.AutoTrace(() => $"The text parameter is '{text}'"))
+            {
+                try
+                {
+                    await m_MyWorkerClass.MyAsyncWorkerMethod(text);
+                    m_MyWorkerClass.MySyncWorkerMethod(text);
+                    return text;
+                }
+                catch (Exception ex)
+                {
+                    m_Log.Error("Something goes wrong", ex);
+                    throw;
+                }
+            }
+        }
+
+    }
+
+    public class MyWorkerClass
+    {
+        private readonly Log<MyWorkerClass> m_Log = new Log<MyWorkerClass>();
+        public void MySyncWorkerMethod(string text)
+        {
+            using (m_Log.AutoTrace())
+            {
+                m_Log.Debug("Some debug messages");
+                File.WriteAllText("MyFile.txt", text);
+            }
+        }
+
+        public Task MyAsyncWorkerMethod(string text)
+        {
+            using (m_Log.AutoTrace())
+            {
+                m_Log.Info("Some information messages");
+                var t = Task.Run(() => File.WriteAllText("MyFile.txt", text));
+                return t;
+            }
+        }
+    }
 }
+

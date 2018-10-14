@@ -15,11 +15,13 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 	public class AutoLogExceptionAttribute : OnExceptionAspect
 	{
 		private LogFactoryBase m_Factory;
+	    private string m_CallerName;
 
-		public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
+	    public sealed override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
 		{
 			base.CompileTimeInitialize(method, aspectInfo);
 			m_Factory = LogFactoryBase.Create(method);
+		    m_CallerName = method.Name;
 		}
 
 		public sealed override void OnException(MethodExecutionArgs args)
@@ -31,7 +33,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 				{
 					throw new ArgumentNullException(nameof(log));
 				}
-				log.Error("Unhandled exception.", args.Exception);
+				log.Error("Unhandled exception.", args.Exception, m_CallerName);
 			}
 			catch (Exception ex)
 			{
@@ -41,10 +43,9 @@ namespace Bluehands.Repository.Diagnostics.Log.Aspects.Attributes
 			args.FlowBehavior = FlowBehavior.RethrowException;
 		}
 
-		protected virtual Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
+		Bluehands.Diagnostics.LogExtensions.Log GetLog(object instance, Arguments args)
 		{
-			return m_Factory.GetLog(instance);
+		    return m_Factory.GetLog(instance);
 		}
-
 	}
 }

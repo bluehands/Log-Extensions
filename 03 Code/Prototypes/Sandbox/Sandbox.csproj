@@ -86,9 +86,6 @@
     <None Include="App.User.config.Sample">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="App.User.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="App.config" />
     <None Include="NLog.config">
       <SubType>Designer</SubType>

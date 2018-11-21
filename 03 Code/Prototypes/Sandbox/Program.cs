@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Bluehands.Diagnostics.LogExtensions;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.NLogTarget;
+using NLog;
+using NLog.Targets.Syslog;
 
 namespace Sandbox
 {
@@ -12,8 +17,9 @@ namespace Sandbox
 
         public static async Task Main()
         {
+            ConfigureLogging();
             s_Log.Correlation = Guid.NewGuid().ToString();
-            using (s_Log.AutoTrace(""))
+            using (s_Log.AutoTrace())
             {
                 s_Log.Debug("Creating threads...");
                 for (var i = 0; i < 2; i++)
@@ -48,9 +54,9 @@ namespace Sandbox
 
             var myClass = new MyClass();
             myClass.MyComposingMethod("Hello logging").Wait();
+            myClass.MyThrowingExceptionMethod();
             Console.ReadLine();
         }
-
         private static void Test()
         {
             s_Log.Correlation = Guid.NewGuid().ToString();
@@ -81,6 +87,24 @@ namespace Sandbox
             //log.Trace("Log von Sandbox.Test");
             //log.Trace(exeption, "Log von Sandbox.Test");
         }
+        private static void ConfigureLogging()
+        {
+            if (LogManager.Configuration.FindTargetByName("syslog") is SyslogTarget syslogTarget)
+            {
+                var syslogServer = ConfigurationManager.AppSettings["Syslog.Server"];
+                var port = ConfigurationManager.AppSettings["Syslog.Port"];
+                syslogTarget.MessageSend.Tcp.Port = Convert.ToInt32(port);
+                syslogTarget.MessageSend.Tcp.Server = syslogServer;
+            }
+
+            if (LogManager.Configuration.FindTargetByName("ai") is ApplicationInsightsTarget aiTarget)
+            {
+                aiTarget.InstrumentationKey = ConfigurationManager.AppSettings["AI.InstrumentationKey"];
+            }
+
+
+            LogManager.ThrowExceptions = true;
+        }
     }
     public class MyClass
     {
@@ -108,6 +132,18 @@ namespace Sandbox
                     m_Log.Error("Something goes wrong", ex);
                     throw;
                 }
+            }
+        }
+
+        public void MyThrowingExceptionMethod()
+        {
+            try
+            {
+                throw new InvalidOperationException("Message of invalid operation");
+            }
+            catch (Exception ex)
+            {
+                m_Log.Error("Unexpected error", ex);
             }
         }
 

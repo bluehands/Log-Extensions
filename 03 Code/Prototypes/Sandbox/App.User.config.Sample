@@ -1,0 +1,5 @@
+﻿<appSettings >
+  <add key="Syslog.Server" value=""/>
+  <add key="Syslog.Port" value=""/>
+  <add key="AI.InstrumentationKey" value=""/>
+</appSettings>

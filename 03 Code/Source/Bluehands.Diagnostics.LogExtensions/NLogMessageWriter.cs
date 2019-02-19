@@ -15,7 +15,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             try
             {
                 m_NLogMessageBuilder = new NLogMessageBuilder(m_MessageCreator.FullName);
-                m_NLogLog = LogManager.GetLogger(Guid.NewGuid().ToString());
+                m_NLogLog = LogManager.GetLogger(m_MessageCreator.FullName);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,8 @@ namespace Bluehands.Diagnostics.LogExtensions
                 catch (Exception)
                 {
                     return false;
-                } }
+                }
+            }
         }
 
         public override bool IsInfoEnabled
@@ -78,7 +79,8 @@ namespace Bluehands.Diagnostics.LogExtensions
                 catch (Exception)
                 {
                     return false;
-                } }
+                }
+            }
         }
 
         public override bool IsTraceEnabled
@@ -104,7 +106,7 @@ namespace Bluehands.Diagnostics.LogExtensions
                 {
                     return m_NLogLog.IsDebugEnabled;
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     return false;
                 }
@@ -132,29 +134,22 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         protected override bool IsLogLevelEnabled(LogLevel logLevel)
         {
-            try
+            switch (logLevel)
             {
-                switch (logLevel)
-                {
-                    case LogLevel.Fatal:
-                        return m_NLogLog.IsFatalEnabled;
-                    case LogLevel.Error:
-                        return m_NLogLog.IsErrorEnabled;
-                    case LogLevel.Warning:
-                        return m_NLogLog.IsWarnEnabled;
-                    case LogLevel.Info:
-                        return m_NLogLog.IsInfoEnabled;
-                    case LogLevel.Debug:
-                        return m_NLogLog.IsDebugEnabled;
-                    case LogLevel.Trace:
-                        return m_NLogLog.IsTraceEnabled;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
-                }
-            }
-            catch (Exception)
-            {
-                return false;
+                case LogLevel.Fatal:
+                    return IsFatalEnabled;
+                case LogLevel.Error:
+                    return IsErrorEnabled;
+                case LogLevel.Warning:
+                    return IsWarningEnabled;
+                case LogLevel.Info:
+                    return IsInfoEnabled;
+                case LogLevel.Debug:
+                    return IsDebugEnabled;
+                case LogLevel.Trace:
+                    return IsTraceEnabled;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, "The requested LogLevel is not supported by NLog!");
             }
         }
 

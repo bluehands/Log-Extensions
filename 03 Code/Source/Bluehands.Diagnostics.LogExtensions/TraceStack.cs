@@ -22,16 +22,16 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         public static IDisposable Push(string context)
         {
-            Trace.WriteLine("Pushing");
+            //Trace.WriteLine("Pushing");
             CurrentContext = CurrentContext.Push(context);
             return new PopWhenDisposed();
         }
 
         static void Pop()
         {
-            Trace.WriteLine("Popping");
+            //Trace.WriteLine("Popping");
             CurrentContext = CurrentContext.Pop();
-            Trace.WriteLine("Popped");
+            //Trace.WriteLine("Popped");
         }
 
         sealed class PopWhenDisposed : IDisposable
@@ -40,20 +40,20 @@ namespace Bluehands.Diagnostics.LogExtensions
 
             public PopWhenDisposed()
             {
-                Trace.WriteLine($"Handle create: {GetHashCode()}");
+                //Trace.WriteLine($"Handle create: {GetHashCode()}");
             }
 
             public void Dispose()
             {
-                Trace.WriteLine($"Disposing {GetHashCode()}");
+                //Trace.WriteLine($"Disposing {GetHashCode()}");
                 if (m_Disposed)
                 {
-                    Trace.WriteLine($"Dispose {GetHashCode()} aborted");
+                    //Trace.WriteLine($"Dispose {GetHashCode()} aborted");
                     return;
                 }
                 Pop();
                 m_Disposed = true;
-                Trace.WriteLine($"Disposed {GetHashCode()}");
+                //Trace.WriteLine($"Disposed {GetHashCode()}");
             }
         }
     }

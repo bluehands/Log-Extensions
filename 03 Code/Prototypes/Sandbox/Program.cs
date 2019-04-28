@@ -17,7 +17,11 @@ namespace Sandbox
 
         public static async Task Main()
         {
-            ConfigureLogging();
+            Program.Test();
+            Console.ReadLine();
+            return;
+
+            //ConfigureLogging();
             s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace())
             {
@@ -59,7 +63,7 @@ namespace Sandbox
         }
         private static void Test()
         {
-            s_Log.Correlation = Guid.NewGuid().ToString();
+            //s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace("Nachricht von AutoTrace"))
             {
                 s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
@@ -67,25 +71,25 @@ namespace Sandbox
                 s_Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
             }
 
-            //var exeption = new NotImplementedException();
+            var exeption = new NotImplementedException();
 
-            //log.Fatal("Log von Sandbox.Test");
-            //log.Fatal(exeption, "Log von Sandbox.Test");
+            s_Log.Fatal("Log von Sandbox.Test");
+            s_Log.Fatal("Log von Sandbox.Test", exeption);
 
-            //log.Error("Log von Sandbox.Test");
-            //log.Error(exeption, "Log von Sandbox.Test");
+            s_Log.Error("Log von Sandbox.Test");
+            s_Log.Error("Log von Sandbox.Test", exeption);
 
-            //log.Warning("Log von Sandbox.Test");
-            //log.Warning(exeption, "Log von Sandbox.Test");
+            s_Log.Warning("Log von Sandbox.Test");
+            s_Log.Warning("Log von Sandbox.Test", exeption);
 
-            //log.Info("Log von Sandbox.Test");
-            //log.Info(exeption, "Log von Sandbox.Test");
+            s_Log.Info("Log von Sandbox.Test");
+            s_Log.Info("Log von Sandbox.Test", exeption);
 
-            //log.Debug("Log von Sandbox.Test");
-            //log.Debug(exeption, "Log von Sandbox.Test");
+            s_Log.Debug("Log von Sandbox.Test");
+            s_Log.Debug("Log von Sandbox.Test", exeption);
 
-            //log.Trace("Log von Sandbox.Test");
-            //log.Trace(exeption, "Log von Sandbox.Test");
+            s_Log.Trace("Log von Sandbox.Test");
+            s_Log.Trace("Log von Sandbox.Test", exeption);
         }
         private static void ConfigureLogging()
         {

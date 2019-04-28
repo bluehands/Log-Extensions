@@ -10,12 +10,12 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         public NLogMessageBuilder(string loggerName)
         {
-	        if (string.IsNullOrEmpty(loggerName))
-	        {
-		        throw new ArgumentNullException(nameof(loggerName));
-	        }
+            if (string.IsNullOrEmpty(loggerName))
+            {
+                throw new ArgumentNullException(nameof(loggerName));
+            }
 
-	        m_LoggerName = loggerName;
+            m_LoggerName = loggerName;
         }
 
         public LogEventInfo BuildLogEventInfo(LogLevel logLevel, string message, Exception ex, CallerInfo callerInfo, int indent, IEnumerable<KeyValuePair<string, string>> customProperties)
@@ -38,13 +38,13 @@ namespace Bluehands.Diagnostics.LogExtensions
 
         private static void SetNLogProperties(LogEventInfo logEventInfo, CallerInfo callerInfo, IEnumerable<KeyValuePair<string, string>> customProperties)
         {
-	        if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
-	        if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
+            if (logEventInfo == null) { throw new ArgumentNullException(nameof(logEventInfo)); }
+            if (callerInfo == null) { throw new ArgumentNullException(nameof(callerInfo)); }
 
-			logEventInfo.Properties["Type"] = callerInfo.Type;
+            logEventInfo.Properties["Type"] = callerInfo.Type;
             logEventInfo.Properties["Class"] = callerInfo.Class;
             logEventInfo.Properties["Method"] = callerInfo.Method;
-	        logEventInfo.Properties["CallContext"] = callerInfo.CallContext;
+            logEventInfo.Properties["CallContext"] = callerInfo.CallContext;
             logEventInfo.Properties["Correlation"] = callerInfo.Correlation;
 
             foreach (var customProperty in customProperties)

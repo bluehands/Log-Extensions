@@ -4,66 +4,60 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Bluehands.Diagnostics.LogExtensions;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights.NLogTarget;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NLog;
-using NLog.Targets.Syslog;
+using NLog.Extensions.Logging;
 
-namespace Sandbox
+
+namespace Sandbox.Example
 {
     class Program
     {
         private static readonly Log s_Log = new Log<Program>();
 
-        public static async Task Main()
+        public static void Main()
         {
-            Program.Test();
-            Console.ReadLine();
-            return;
-
-            //ConfigureLogging();
-            s_Log.Correlation = Guid.NewGuid().ToString();
-            using (s_Log.AutoTrace())
+            LogManager.ThrowExceptions = true;
+            var logger = LogManager.GetCurrentClassLogger();
+            try
             {
-                s_Log.Debug("Creating threads...");
-                for (var i = 0; i < 2; i++)
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(System.IO.Directory.GetCurrentDirectory()) //From NuGet Package Microsoft.Extensions.Configuration.Json
+                    .Build();
+
+                var servicesProvider = BuildDi(config);
+                using (servicesProvider as IDisposable)
                 {
-                    var newThread = new Thread(Test) { Name = i.ToString() };
-                    newThread.Start();
+                    var runner = servicesProvider.GetRequiredService<Runner>();
+                    runner.DoAction("Action1");
+
+
+                    //DoSomeLogs();
+
+                    Console.WriteLine("Press ANY key to exit");
+                    Console.ReadKey();
                 }
-
-                var t1 = Task.Run(
-                    () =>
-                    {
-                        using (s_Log.AutoTrace())
-                        {
-                            s_Log.Debug("Running from Task t1");
-                        }
-                    }
-
-                    );
-                var t2 = Task.Run(
-                    () =>
-                    {
-                        using (s_Log.AutoTrace())
-                        {
-                            s_Log.Debug("Running from Task t2");
-                        }
-                    }
-
-                );
-
-                await Task.WhenAll(t1, t2);
+            }
+            catch (Exception ex)
+            {
+                // NLog: catch any exception and log it.
+                logger.Error(ex, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                LogManager.Shutdown();
             }
 
-            var myClass = new MyClass();
-            myClass.MyComposingMethod("Hello logging").Wait();
-            myClass.MyThrowingExceptionMethod();
-            Console.ReadLine();
+
+
         }
-        private static void Test()
+
+        private static void DoSomeLogs()
         {
-            //s_Log.Correlation = Guid.NewGuid().ToString();
             using (s_Log.AutoTrace("Nachricht von AutoTrace"))
             {
                 s_Log.Debug($"Log entry 1, Thread {Thread.CurrentThread.ManagedThreadId}.");
@@ -71,43 +65,78 @@ namespace Sandbox
                 s_Log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
             }
 
-            var exeption = new NotImplementedException();
+            var exception = new NotImplementedException();
 
             s_Log.Fatal("Log von Sandbox.Test");
-            s_Log.Fatal("Log von Sandbox.Test", exeption);
+            s_Log.Fatal("Log von Sandbox.Test", exception);
 
             s_Log.Error("Log von Sandbox.Test");
-            s_Log.Error("Log von Sandbox.Test", exeption);
+            s_Log.Error("Log von Sandbox.Test", exception);
 
             s_Log.Warning("Log von Sandbox.Test");
-            s_Log.Warning("Log von Sandbox.Test", exeption);
+            s_Log.Warning("Log von Sandbox.Test", exception);
 
             s_Log.Info("Log von Sandbox.Test");
-            s_Log.Info("Log von Sandbox.Test", exeption);
+            s_Log.Info("Log von Sandbox.Test", exception);
 
             s_Log.Debug("Log von Sandbox.Test");
-            s_Log.Debug("Log von Sandbox.Test", exeption);
+            s_Log.Debug("Log von Sandbox.Test", exception);
 
             s_Log.Trace("Log von Sandbox.Test");
-            s_Log.Trace("Log von Sandbox.Test", exeption);
+            s_Log.Trace("Log von Sandbox.Test", exception);
         }
-        private static void ConfigureLogging()
+
+        private static IServiceProvider BuildDi(IConfiguration config)
         {
-            if (LogManager.Configuration.FindTargetByName("syslog") is SyslogTarget syslogTarget)
+            return new ServiceCollection()
+                .AddTransient<Runner>() // Runner is the custom class
+                
+                .AddLogging(loggingBuilder =>
+                {
+                    // configure Logging with NLog
+                    loggingBuilder.ClearProviders();
+                    loggingBuilder.AddFilter((c, l) =>
+                        {
+                            return true;
+                        }
+                    );
+                    loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    loggingBuilder.AddConsole(c =>
+                    {
+                        c.IncludeScopes = false;
+                    });
+                    loggingBuilder.AddLogEnhancementWithNLog();
+                    //loggingBuilder.AddNLog(config);
+                })
+                .BuildServiceProvider();
+        }
+
+    }
+    public class Runner
+    {
+        private readonly Microsoft.Extensions.Logging.ILogger<Runner> m_Logger;
+
+        public Runner(ILogger<Runner> logger)
+        {
+            m_Logger = logger;
+            m_Logger.SetCorrelation(Guid.NewGuid().ToString());
+        }
+
+        public void DoAction(string name)
+        {
+            using (m_Logger.AutoTrace())
             {
-                var syslogServer = ConfigurationManager.AppSettings["Syslog.Server"];
-                var port = ConfigurationManager.AppSettings["Syslog.Port"];
-                syslogTarget.MessageSend.Tcp.Port = Convert.ToInt32(port);
-                syslogTarget.MessageSend.Tcp.Server = syslogServer;
+                m_Logger.LogDebug(() => "MyClass log for debug");
+                m_Logger.LogInfo(() => "MyClass log for info");
+                m_Logger.LogError(() => "MyClass log for error", new ArgumentException("Error message", nameof(name)));
             }
 
-            if (LogManager.Configuration.FindTargetByName("ai") is ApplicationInsightsTarget aiTarget)
+            using (m_Logger.BeginScope("xxxx"))
             {
-                aiTarget.InstrumentationKey = ConfigurationManager.AppSettings["AI.InstrumentationKey"];
+                m_Logger.LogDebug(() => "MyClass log for debug in scope");
             }
 
-
-            LogManager.ThrowExceptions = true;
+            //m_Logger.LogDebug(20, "Doing hard work! {Action}", name);
         }
     }
     public class MyClass
@@ -152,7 +181,6 @@ namespace Sandbox
         }
 
     }
-
     public class MyWorkerClass
     {
         private readonly Log<MyWorkerClass> m_Log = new Log<MyWorkerClass>();

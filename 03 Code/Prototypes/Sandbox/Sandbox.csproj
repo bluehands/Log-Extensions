@@ -54,7 +54,7 @@
       <HintPath>..\..\Source\packages\Microsoft.ApplicationInsights.NLogTarget.2.8.1\lib\net45\Microsoft.ApplicationInsights.NLogTarget.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\NLog.4.5.4\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\Source\packages\NLog.4.5.5\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Targets.Syslog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=a15d6ba50060b73f, processorArchitecture=MSIL">
       <HintPath>..\..\Source\packages\NLog.Targets.Syslog.4.1.0\lib\net45\NLog.Targets.Syslog.dll</HintPath>

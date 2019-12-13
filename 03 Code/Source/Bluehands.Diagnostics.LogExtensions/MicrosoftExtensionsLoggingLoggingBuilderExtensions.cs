@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bluehands.Diagnostics.LogExtensions
 {
-    public static class LoggingBuilderExtensions
+    public static class MicrosoftExtensionsLoggingLoggingBuilderExtensions
     {
         public static ILoggingBuilder AddLogEnhancementWithNLog(this ILoggingBuilder builder)
         {

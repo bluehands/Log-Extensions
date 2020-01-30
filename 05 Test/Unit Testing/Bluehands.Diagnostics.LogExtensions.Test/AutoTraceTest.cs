@@ -93,7 +93,7 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			const int expectedEnterNum = 4;
 			const int expectedLeaveNum = 4;
-			const int expectedMaxIndent = 6;
+			
 
 			//When
 			await FirstLevelAsyncMethod();
@@ -105,23 +105,17 @@ namespace Bluehands.Repository.Diagnostics.Log.Test
 
 			var enterCounter = 0;
 			var leaveCounter = 0;
-			var maxIndent = 0;
 
 			foreach (var row in logRows)
 			{
 				if (row.Contains("Enter")) { enterCounter++; }
 				if (row.Contains("Leave")) { leaveCounter++; }
 
-				var rowIndent = row.ToCharArray().Count(chr => chr == ' ');
-				rowIndent /= 2;
-				maxIndent = Math.Max(rowIndent, maxIndent);
 			}
 
 			Assert.AreEqual(expectedEnterNum, enterCounter);
 			Assert.AreEqual(expectedLeaveNum, leaveCounter);
-			Assert.AreEqual(expectedMaxIndent, maxIndent);
 
-		    var contextTarget = LogManager.Configuration.FindTargetByName<MemoryTarget>("contextTarget");
 		    
 		}
 	}

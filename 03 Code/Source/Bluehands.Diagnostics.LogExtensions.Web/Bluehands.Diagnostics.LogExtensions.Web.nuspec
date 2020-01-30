@@ -12,11 +12,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A set of logging extensions for NLog</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2019</copyright>
     <tags></tags>
 
     <dependencies>
-        <dependency id="Bluehands.Diagnostics.LogExtensions" version="2.1.0" />		
+        <dependency id="Bluehands.Diagnostics.LogExtensions" version="2.4.0" />		
     </dependencies>
   </metadata>
   <files>

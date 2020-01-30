@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+
 
 namespace Bluehands.Diagnostics.LogExtensions
 {
     public class Log<T> : Log
     {
-        public Log()
-            : base(typeof(T))
+        public Log() : base(typeof(T))
         {
         }
     }
 
-    public class Log
+    public class Log : ILogger
     {
         private readonly ILogMessageWriter m_LogMessageWriter;
 
+        public Log(string messageCreatorName)
+        {
+            m_LogMessageWriter = new NLogMessageWriter(messageCreatorName);
+        }
         public Log(Type messageCreator)
         {
             m_LogMessageWriter = new NLogMessageWriter(messageCreator);
@@ -188,18 +194,51 @@ namespace Bluehands.Diagnostics.LogExtensions
             get => TrackCorrelation.Correlation;
             set => TrackCorrelation.Correlation = value;
         }
-    }
 
-    sealed class DefaultDisposable : IDisposable
-    {
-        public static readonly DefaultDisposable Instance = new DefaultDisposable();
 
-        DefaultDisposable()
+        void ILogger.Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
+            if (state is LogEventInfo logEventInfo)
+            {
+                m_LogMessageWriter.WriteLogEntry(logEventInfo, exception);
+            }
+            else
+            {
+                m_LogMessageWriter.WriteLogEntry(logLevel.ToLogExtensionsLogLevel(), () => formatter(state, exception));
+            }
         }
 
-        public void Dispose()
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
         {
+            switch (logLevel)
+            {
+                case Microsoft.Extensions.Logging.LogLevel.Trace:
+                    return m_LogMessageWriter.IsTraceEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.Debug:
+                    return m_LogMessageWriter.IsDebugEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.Information:
+                    return m_LogMessageWriter.IsInfoEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.Warning:
+                    return m_LogMessageWriter.IsWarningEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.Error:
+                    return m_LogMessageWriter.IsErrorEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.Critical:
+                    return m_LogMessageWriter.IsFatalEnabled;
+                case Microsoft.Extensions.Logging.LogLevel.None:
+                    return m_LogMessageWriter.IsDisabled;
+                default:
+                    return true;
+            }
         }
+
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            return AutoTrace(state.ToString());
+        }
+
+
+
+
+
     }
 }

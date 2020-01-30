@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace Bluehands.Diagnostics.LogExtensions
 {
-    internal class NLogMessageWriter : LogMessageWriterBase
+    internal class MicrosoftExtensionsLoggingLogMessageWriter<T> : LogMessageWriterBase
     {
-        private readonly Logger m_NLogLog;
+        private readonly ILogger<T> m_Logger;
 
-
-        public NLogMessageWriter(string messageCreatorFullName) : base(messageCreatorFullName)
+        public MicrosoftExtensionsLoggingLogMessageWriter(ILogger<T> logger) : base(typeof(T))
         {
             try
             {
-                m_NLogLog = LogManager.GetLogger(messageCreatorFullName);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
-
-        public NLogMessageWriter(Type messageCreator) : base(messageCreator)
-        {
-            try
-            {
-                m_NLogLog = LogManager.GetLogger(messageCreator.FullName);
+                m_Logger = logger;
             }
             catch (Exception ex)
             {
@@ -39,7 +26,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsFatalEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Critical);
                 }
                 catch (Exception)
                 {
@@ -54,7 +41,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsErrorEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Error);
                 }
                 catch (Exception)
                 {
@@ -69,7 +56,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsWarnEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
                 catch (Exception)
                 {
@@ -84,7 +71,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsInfoEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Information);
                 }
                 catch (Exception)
                 {
@@ -99,7 +86,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsTraceEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Trace);
                 }
                 catch (Exception)
                 {
@@ -114,7 +101,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsDebugEnabled;
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Debug);
                 }
                 catch (Exception)
                 {
@@ -129,7 +116,7 @@ namespace Bluehands.Diagnostics.LogExtensions
             {
                 try
                 {
-                    return m_NLogLog.IsEnabled(NLog.LogLevel.Off);
+                    return m_Logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.None);
                 }
                 catch (Exception)
                 {
@@ -138,12 +125,11 @@ namespace Bluehands.Diagnostics.LogExtensions
             }
         }
 
-        public override void WriteLogEntry(LogEventInfo logEventInfo, Exception ex)
+        public override void WriteLogEntry(LogEventInfo logEventInfo, Exception ex = null)
         {
             try
             {
-                var nlogEventInfo = logEventInfo.ToNLog(ex);
-                m_NLogLog.Log(nlogEventInfo);
+                m_Logger.Log(GetMicrosoftExtensionLoggingLogLevel(logEventInfo.Level), new EventId(0), logEventInfo, ex, DefaultFormatter);
             }
             catch (Exception exx)
             {
@@ -151,51 +137,30 @@ namespace Bluehands.Diagnostics.LogExtensions
             }
         }
 
-    }
-
-    internal static class LogEventInfoConversionExtension
-    {
-        public static NLog.LogEventInfo ToNLog(this LogEventInfo logEventInfo, Exception ex)
+        private static string DefaultFormatter(LogEventInfo logEventInfo, Exception ex)
         {
-            var nlogEventInfo = new NLog.LogEventInfo
-            {
-                Message = logEventInfo.MessageFactory(),
-                Level = GetNLogLevel(logEventInfo.Level),
-                LoggerName = logEventInfo.TypeName,
-                Exception = ex
-            };
-            nlogEventInfo.Properties["Type"] = logEventInfo.TypeName;
-            nlogEventInfo.Properties["Class"] = logEventInfo.ClassName;
-            nlogEventInfo.Properties["Method"] = logEventInfo.MethodName;
-            nlogEventInfo.Properties["CallContext"] = logEventInfo.CallContext;
-            nlogEventInfo.Properties["Correlation"] = logEventInfo.Correlation;
-
-            foreach (var customProperty in logEventInfo.CustomProperties)
-            {
-                nlogEventInfo.Properties[customProperty.Key] = customProperty.Value;
-            }
-
-            return nlogEventInfo;
+            var msg = $"{logEventInfo.Correlation} {logEventInfo.Indent} {logEventInfo.CallContext} {logEventInfo.TypeName} {logEventInfo.ClassName}:{logEventInfo.MethodName} {logEventInfo.MessageFactory()} {ex?.ToString()}";
+            return msg;
         }
 
-        private static NLog.LogLevel GetNLogLevel(LogLevel logLevel)
+        private static Microsoft.Extensions.Logging.LogLevel GetMicrosoftExtensionLoggingLogLevel(LogLevel logLevel)
         {
             switch (logLevel)
             {
                 case LogLevel.Fatal:
-                    return NLog.LogLevel.Fatal;
+                    return Microsoft.Extensions.Logging.LogLevel.Critical;
                 case LogLevel.Error:
-                    return NLog.LogLevel.Error;
+                    return Microsoft.Extensions.Logging.LogLevel.Error;
                 case LogLevel.Warning:
-                    return NLog.LogLevel.Warn;
+                    return Microsoft.Extensions.Logging.LogLevel.Warning;
                 case LogLevel.Info:
-                    return NLog.LogLevel.Info;
+                    return Microsoft.Extensions.Logging.LogLevel.Information;
                 case LogLevel.Debug:
-                    return NLog.LogLevel.Debug;
+                    return Microsoft.Extensions.Logging.LogLevel.Debug;
                 case LogLevel.Trace:
-                    return NLog.LogLevel.Trace;
+                    return Microsoft.Extensions.Logging.LogLevel.Trace;
                 default:
-                    return NLog.LogLevel.Trace;
+                    return Microsoft.Extensions.Logging.LogLevel.Trace;
             }
         }
     }

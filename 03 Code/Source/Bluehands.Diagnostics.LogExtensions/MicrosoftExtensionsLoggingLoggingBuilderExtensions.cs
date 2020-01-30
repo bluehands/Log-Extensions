@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Bluehands.Diagnostics.LogExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
-namespace Bluehands.Diagnostics.LogExtensions
+
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.Logging
 {
     public static class MicrosoftExtensionsLoggingLoggingBuilderExtensions
     {

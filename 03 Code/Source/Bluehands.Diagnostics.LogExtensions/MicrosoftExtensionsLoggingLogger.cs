@@ -100,12 +100,12 @@ namespace Microsoft.Extensions.Logging
     using Bluehands.Diagnostics.LogExtensions;
     public static class MicrosoftExtensionsLoggingLogger
     {
-        public static IDisposable AutoTrace<T>(this ILogger<T> logger, string message = "", [CallerMemberName] string caller = "")
+        public static IDisposable LogAutoTrace<T>(this ILogger<T> logger, string message = "", [CallerMemberName] string caller = "")
         {
             return logger.AutoTrace(() => message, caller);
         }
 
-        public static IDisposable AutoTrace<T>(this ILogger<T> logger, Func<string> messageFactory, [CallerMemberName] string caller = "")
+        public static IDisposable LogAutoTrace<T>(this ILogger<T> logger, Func<string> messageFactory, [CallerMemberName] string caller = "")
         {
             if (!logger.IsEnabled(LogLevel.Trace))
             {

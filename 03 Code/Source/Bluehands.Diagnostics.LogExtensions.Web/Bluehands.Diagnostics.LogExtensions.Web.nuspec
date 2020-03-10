@@ -16,7 +16,7 @@
     <tags></tags>
 
     <dependencies>
-        <dependency id="Bluehands.Diagnostics.LogExtensions" version="2.4.0" />		
+        <dependency id="Bluehands.Diagnostics.LogExtensions" version="2.5.0" />		
     </dependencies>
   </metadata>
   <files>

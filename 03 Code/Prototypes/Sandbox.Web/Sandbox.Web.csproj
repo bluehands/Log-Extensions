@@ -10,12 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="xxxNLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Bluehands.Diagnostics.LogExtensions" Version="2.5.0.221" />
     <PackageReference Include="Bluehands.Diagnostics.LogExtensions.Web" Version="2.5.0.221" />
     <PackageReference Include="NLog" Version="4.6.8" />

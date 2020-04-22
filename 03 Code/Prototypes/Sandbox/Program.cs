@@ -19,6 +19,7 @@ namespace Sandbox.Example
         {
             LogManager.ThrowExceptions = true;
             AppDomain.CurrentDomain.Load("NLog.Targets.Syslog");
+            AppDomain.CurrentDomain.Load("NLog.Extensions.AzureStorage");
             var config = new ConfigurationBuilder()
                 .SetBasePath(System.IO.Directory.GetCurrentDirectory()) //From NuGet Package Microsoft.Extensions.Configuration.Json
                 .Build();

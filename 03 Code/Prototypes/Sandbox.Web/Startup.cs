@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Bluehands.Diagnostics.LogExtensions;
+using NLog;
+using NLog.Extensions.Logging;
+
 namespace Sandbox.Web
 {
     public class Startup
@@ -42,9 +45,10 @@ namespace Sandbox.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            LogManager.Configuration = new NLogLoggingConfiguration(Configuration.GetSection("NLog"));
             var log=new Log<Startup>();
-            //app.UseLogCorrelation(log);
-            //app.UseRequestLogTracing(log);
+            app.UseLogCorrelation(log);
+            app.UseRequestLogTracing(log);
             app.UseHttpsRedirection();
 
             app.UseRouting();

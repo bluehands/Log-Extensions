@@ -14,7 +14,7 @@ namespace Sandbox.Web
     {
         public static void Main(string[] args)
         {
-            LogManager.ThrowConfigExceptions = true;
+            LogManager.ThrowExceptions = true;
             CreateHostBuilder(args).Build().Run();
         }
 

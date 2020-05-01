@@ -14,7 +14,7 @@ namespace Sandbox.Core
 
         public void DoAction(string name)
         {
-            using (m_Logger.AutoTrace("Scope1"))
+            using (m_Logger.LogScoped("Scope1"))
             {
                 m_Logger.LogDebug(() => "MyClass log for debug");
                 m_Logger.LogInfo(() => "MyClass log for info");

@@ -40,7 +40,7 @@ namespace Sandbox.Core
                 log.Debug($"Log entry 3, Thread {Thread.CurrentThread.ManagedThreadId}.");
             }
 
-            var exception = new NotImplementedException();
+            var exception = new Exception();
 
             log.Fatal("Log von Sandbox.Test");
             log.Fatal("Log von Sandbox.Test", exception);

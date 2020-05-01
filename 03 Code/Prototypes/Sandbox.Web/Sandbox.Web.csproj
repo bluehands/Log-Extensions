@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>df7ab530-ac78-4390-b065-015df0fc3949</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="xxxNLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bluehands.Diagnostics.LogExtensions" Version="2.5.0.221" />
+    <PackageReference Include="Bluehands.Diagnostics.LogExtensions.Web" Version="2.5.0.221" />
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="NLog.Extensions.AzureStorage" Version="1.1.4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.1" />
+    <PackageReference Include="NLog.Targets.Syslog" Version="6.0.0" />
+  </ItemGroup>
+
+
+</Project>

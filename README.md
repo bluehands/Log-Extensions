@@ -113,15 +113,16 @@ The call to *MyComposingMethod* in this example
 ```
 will produce this output.
 
-2018-10-14 17:59:11.3247 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e MyClass:MyComposingMethod The text parameter is 'Hello logging' [Enter]<br> 
-2018-10-14 17:59:11.3571 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;4da6 MyWorkerClass:MyAsyncWorkerMethod  [Enter]<br> 
-2018-10-14 17:59:11.4705 INFO&nbsp;&nbsp;  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;&nbsp;4da6_d20d MyWorkerClass:MyAsyncWorkerMethod Some information messages<br> 
-2018-10-14 17:59:11.5079 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;4da6 MyWorkerClass:MyAsyncWorkerMethod  [Leave 136.2438ms]<br> 
-2018-10-14 17:59:11.5079 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;4da6 MyWorkerClass:MySyncWorkerMethod  [Enter]<br> 
-2018-10-14 17:59:11.5400 DEBUG  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;&nbsp;4da6_2c08 MyWorkerClass:MySyncWorkerMethod Some debug messages<br> 
-2018-10-14 17:59:11.5784 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e &nbsp;4da6 MyWorkerClass:MySyncWorkerMethod  [Leave 36.0404ms]<br> 
-2018-10-14 17:59:11.6139 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e MyClass:MyComposingMethod The text parameter is 'Hello logging' [Leave 270.8393ms]<br> 
-
+```
+2018-10-14 17:59:11.3247 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e MyClass:MyComposingMethod The text parameter is 'Hello logging' [Enter] 
+2018-10-14 17:59:11.3571 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e  4da6 MyWorkerClass:MyAsyncWorkerMethod  [Enter] 
+2018-10-14 17:59:11.4705 INFO   3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e   4da6_d20d MyWorkerClass:MyAsyncWorkerMethod Some information messages 
+2018-10-14 17:59:11.5079 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e  4da6 MyWorkerClass:MyAsyncWorkerMethod  [Leave 136.2438ms] 
+2018-10-14 17:59:11.5079 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e  4da6 MyWorkerClass:MySyncWorkerMethod  [Enter] 
+2018-10-14 17:59:11.5400 DEBUG  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e   4da6_2c08 MyWorkerClass:MySyncWorkerMethod Some debug messages 
+2018-10-14 17:59:11.5784 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e 4da6 MyWorkerClass:MySyncWorkerMethod  [Leave 36.0404ms] 
+2018-10-14 17:59:11.6139 TRACE  3ccf6cf6-dc2b-4f26-aa91-6f4fb562d19e MyClass:MyComposingMethod The text parameter is 'Hello logging' [Leave 270.8393ms] 
+```
 # Ilogger support
 
 The logging methods exists for convenience in both namespaces: *Bluehands.Diagnostics.LogExtensions* and *Microsoft.Extensions.Logging*. They differs in naming, e.g. *log.Error* vs *log.LogError* or *log.AutoTrace* vs *log.LogScoped*. Internally they use the same structures and have the same functionality. If you do not want a dependency to the bluehands namespace use the Microsoft.Extensions.Logging methods.
